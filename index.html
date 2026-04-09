@@ -31,10 +31,11 @@
         const url = './models';
         // Para descriptores necesitas estos 4 modelos obligatoriamente
         await faceapi.nets.tinyFaceDetector.loadFromUri(url);///opcional solo para tiny
-        await faceapi.loadSsdMobilenetv1Model(url);
+        //await faceapi.loadSsdMobilenetv1Model(url);//pesado para telefonos
         await faceapi.loadFaceLandmarkModel(url); // Mejor usar el normal para descriptores
-        await faceapi.loadFaceRecognitionModel(url); // ¡Este es el que reconoce!
-        await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
+       // await faceapi.loadFaceRecognitionModel(url); // ¡Este es el que reconoce!
+       // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
+
 
         const foto = document.getElementById("foto");
         const c = document.getElementById("canva");
@@ -45,19 +46,19 @@
 
         // Definimos opciones: 0.3 significa que detectará caras aunque no esté tan seguro
         const opciones = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 });
-        // Luego usa esta configuración en la detección para mas precision 
-        const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 512, scoreThreshold: 0.5 });
+        // Luego usa esta configuración en la detección para mas precision  //512 multiplos de 32
+        const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
         const datos = await faceapi.detectAllFaces(foto,opcionesTiny)      
         .withFaceLandmarks()    
-        .withFaceDescriptors()
-        .withFaceExpressions(); 
+        //.withFaceDescriptors()
+       // .withFaceExpressions(); 
         // ¡ESTA LÍNEA ES LA CLAVE!
         const resizedDetections = faceapi.resizeResults(datos, displaySize);
-        
+
         console.log(datos);
         faceapi.draw.drawDetections(c,datos);
         faceapi.draw.drawFaceLandmarks(c, datos);
-        faceapi.draw.drawFaceExpressions(c, datos);
+       // faceapi.draw.drawFaceExpressions(c, datos);
         /*
         Las 7 expresiones detectadas:
         Neutral (Neutral)
