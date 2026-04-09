@@ -22,8 +22,11 @@
 </head>
 <body>
     <div class="contenedor">
-        <img src="caras.jpg"  id="foto">
+        <img src="caras.jpg"  id="foto" crossorigin="anonymous">
         <canvas   id="canva"></canvas>
+    </div>
+    <div class="menu">
+        <input type="file" id="subir-foto" accept="image/*">
     </div>
     <script>
     (async()=> {
@@ -37,9 +40,31 @@
        // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
 
 
-        const foto = document.getElementById("foto");
+        let foto = document.getElementById("foto");
         const c = document.getElementById("canva");
+        foto.addEventListener("load", proceso)
+        const selectorArchivos = document.getElementById("subir-foto");
 
+        selectorArchivos.addEventListener("change", (evento) => {
+            const archivo = evento.target.files[0]; // Obtenemos el archivo seleccionado
+            
+            if (archivo) {
+                const lector = new FileReader();
+                
+                lector.onload = (e) => {
+                    // Cuando el lector termina, le pasa el contenido a la imagen
+                    foto.src = e.target.result;
+                    // Al cambiar el src, se disparará automáticamente tu evento 'load'
+                    // y se ejecutará la función proceso() que ya tienes.
+                };
+                
+                lector.readAsDataURL(archivo);
+            }
+        });
+        async function proceso(){
+        foto = document.getElementById("foto");
+         ctx = c.getContext('2d', { willReadFrequently: true });
+       
 
         // Esto es vital para que las detecciones aparezcan donde deben
         const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
@@ -56,8 +81,9 @@
         const resizedDetections = faceapi.resizeResults(datos, displaySize);
 
         console.log(datos);
-        faceapi.draw.drawDetections(c,datos);
-        faceapi.draw.drawFaceLandmarks(c, datos);
+         ctx.clearRect(0, 0, c.width, c.height);
+        faceapi.draw.drawDetections(c,resizedDetections);//datos
+        faceapi.draw.drawFaceLandmarks(c, resizedDetections);
        // faceapi.draw.drawFaceExpressions(c, datos);
         /*
         Las 7 expresiones detectadas:
@@ -74,6 +100,8 @@
         Disgusted (Disgusto/Asco)
 
         Surprised (Sorpresa)*/
+        }
+        proceso();
     })();
 
     </script>
