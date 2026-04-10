@@ -29,6 +29,7 @@
     </div>
     <div class="menu">
         <input type="file" id="subir-foto" accept="image/*">
+        <button id="btn">Iniciar Escaneo</button>
     </div>
     <script>
     (async()=> {
@@ -52,6 +53,7 @@
         const c = document.getElementById("canva");
         //foto.addEventListener("load", proceso)
         const selectorArchivos = document.getElementById("subir-foto");
+        const btn = document.getElementById("btn");
 
         selectorArchivos.addEventListener("change", (evento) => {
             const archivo = evento.target.files[0]; // Obtenemos el archivo seleccionado
@@ -70,6 +72,9 @@
                 lector.readAsDataURL(archivo);
             }
         });
+        btn.addEventListener('click', () => {     
+             proceso();
+        });
         async function guarda(n) {
             const { data, error } = await sp
             .from('rostros')
@@ -83,7 +88,7 @@
         }
         async function proceso(){
         //foto = document.getElementById("foto");
-        //ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx = c.getContext('2d', { willReadFrequently: true });
         // Esto es vital para que las detecciones aparezcan donde deben
        // const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
 
