@@ -43,7 +43,7 @@
     </div>
     
     <div class="menu-controles">
-        <input type="text" id="input-nombre" placeholder="Escribe nombre manual...">
+        <input type="text" id="name" placeholder="Escribe tu nombre">
         
         <div class="botones-group">
             <label for="subir-foto" class="btn-secundario">Subir Imagen</label>
@@ -68,10 +68,10 @@
         await faceapi.nets.tinyFaceDetector.loadFromUri(url);///opcional solo para tiny
         //await faceapi.loadSsdMobilenetv1Model(url);//pesado para telefonos
         await faceapi.loadFaceLandmarkModel(url); // Mejor usar el normal para descriptores
-       // await faceapi.loadFaceRecognitionModel(url); // ¡Este es el que reconoce!
+        await faceapi.loadFaceRecognitionModel(url); // ¡Este es el que reconoce!
        // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
 
-
+      let detec;
         let foto = document.getElementById("foto");
         let video = document.getElementById("video");
         const c = document.getElementById("canva");
@@ -98,7 +98,12 @@
             }
         });
 
-        btn.addEventListener('click',proceso);
+        btn.addEventListener('click',preproceso);
+        function preproceso(){
+          proceso();
+          guarda(document.getElementById("name").value,detec);
+          
+        }
         const constraints = {
         video: {
             width: { ideal: 600 },
@@ -110,15 +115,15 @@
         .then(stream => { video.srcObject = stream; camara=true; })
         .catch(err => console.error("Error al acceder a la cámara:", err));
 
-        async function guarda(n) {
+        async function guarda(n,d) {
             const { data, error } = await sp
             .from('rostros')
             .insert([
-                { nombre: n }
+                { nombre: n,descriptor:d }
             ]);
 
-            if (error) console.error("Error guardando:", error);
-            else alert("¡ guardado en la base de datos!");
+            if (error) console.error("Error guardando rostro:", error);
+            else alert("¡ rostro guardado en la base de datos!");
     
         }
         async function proceso(){                
@@ -139,8 +144,9 @@
             const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
             const datos = await faceapi.detectAllFaces(apros,opcionesTiny)      
             .withFaceLandmarks()    
-            //.withFaceDescriptors()
+            .withFaceDescriptors()
             //.withFaceExpressions(); 
+            detec=datos.descriptor;
 
 
             console.log(datos);
