@@ -99,7 +99,7 @@
         });
 
         btn.addEventListener('click',preproceso);
-        function preproceso(){
+        async function preproceso(){
           await proceso();
            if(detec){
           await guarda(document.getElementById("name").value,detec);}
