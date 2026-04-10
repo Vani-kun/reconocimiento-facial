@@ -75,6 +75,10 @@
         btn.addEventListener('click', () => {     
              proceso();
         });
+        navigator.mediaDevices.getUserMedia({ video: {} })
+        .then(stream => { video.srcObject = stream; })
+        .catch(err => console.error("Error al acceder a la cámara:", err));
+
         async function guarda(n) {
             const { data, error } = await sp
             .from('rostros')
@@ -87,6 +91,7 @@
     
         }
         async function proceso(){
+                    
         //foto = document.getElementById("foto");
         ctx = c.getContext('2d', { willReadFrequently: true });
         // Esto es vital para que las detecciones aparezcan donde deben
@@ -94,9 +99,7 @@
 
        const displaySize = { width: video.width, height: video.height };faceapi.matchDimensions(c, displaySize);
 
-        navigator.mediaDevices.getUserMedia({ video: {} })
-        .then(stream => { video.srcObject = stream; })
-        .catch(err => console.error("Error al acceder a la cámara:", err));
+
 
 
         // Definimos opciones: 0.3 significa que detectará caras aunque no esté tan seguro
