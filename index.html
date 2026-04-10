@@ -65,7 +65,7 @@
             const archivo = evento.target.files[0]; // Obtenemos el archivo seleccionado
             
             if (archivo) {
-              guarda(archivo.name);
+              //guarda(archivo.name);
                 const lector = new FileReader();
                 
                 lector.onload = (e) => {
@@ -89,7 +89,7 @@
         }
         };
         navigator.mediaDevices.getUserMedia(constraints)
-        .then(stream => { video.srcObject = stream; })
+        .then(stream => { video.srcObject = stream; camara=true; })
         .catch(err => console.error("Error al acceder a la cámara:", err));
 
         async function guarda(n) {
@@ -103,31 +103,27 @@
             else alert("¡ guardado en la base de datos!");
     
         }
-        async function proceso(){                      
+        async function proceso(){                
+            let apros;
             ctx = c.getContext('2d', { willReadFrequently: true });
             // Esto es vital para que las detecciones aparezcan donde deben
             if(camara){
+                apros=video
                 foto.classList.add("oculto"); video.classList.remove("oculto"); 
-                const displaySize = { width: video.width, height: video.height };faceapi.matchDimensions(c, displaySize);
             }else{
-                foto.classList.remove("oculto"); video.classList.add("oculto"); 
-                const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
+                apros=foto
+                foto.classList.remove("oculto"); video.classList.add("oculto");        
             }
+            const displaySize = { width: apros.width, height: apros.height };faceapi.matchDimensions(c, displaySize);
 
             
             const opciones = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 });
             const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-            if(camara){
-            const datos = await faceapi.detectAllFaces(video,opcionesTiny)      
+            const datos = await faceapi.detectAllFaces(apros,opcionesTiny)      
             .withFaceLandmarks()    
             //.withFaceDescriptors()
-        // .withFaceExpressions(); 
-            }else{
-                const datos = await faceapi.detectAllFaces(foto,opcionesTiny)      
-                .withFaceLandmarks()    
-                //.withFaceDescriptors()
-            // .withFaceExpressions();        
-            }
+            //.withFaceExpressions(); 
+
 
             console.log(datos);
             const resizedDetections = faceapi.resizeResults(datos, displaySize);
