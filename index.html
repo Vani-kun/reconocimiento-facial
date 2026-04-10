@@ -100,8 +100,9 @@
 
         btn.addEventListener('click',preproceso);
         function preproceso(){
-          proceso();
-          guarda(document.getElementById("name").value,detec);
+          await proceso();
+           if(detec){
+          await guarda(document.getElementById("name").value,detec);}
           
         }
         const constraints = {
