@@ -55,6 +55,7 @@
     </div>
 
     <script>
+        let detec;
     (async()=> {
         camara=false;
         //conectar con base de datos
@@ -71,7 +72,7 @@
         await faceapi.loadFaceRecognitionModel(url); // ¡Este es el que reconoce!
        // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
 
-      let detec;
+      
         let foto = document.getElementById("foto");
         let video = document.getElementById("video");
         const c = document.getElementById("canva");
