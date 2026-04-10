@@ -54,14 +54,14 @@
     </div>
     </div>
 
-    <script>
+    script>
     (async()=> {
         camara=false;
         //conectar con base de datos
       const supabaseUrl = 'https://wktiuldhcukaathrhhih.supabase.co';
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrdGl1bGRoY3VrYWF0aHJoaGloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MDAxNDIsImV4cCI6MjA5MTM3NjE0Mn0.3_llGZ34epaIPNSyqGry5c2N7-5MD9bLWDLN9h17dCM';
       const sp = supabase.createClient(supabaseUrl, supabaseKey);
-
+<
             // Cargar los modelos para que face-api funcione correctamente.
         const url = './models';
         // Para descriptores necesitas estos 4 modelos obligatoriamente
@@ -119,7 +119,7 @@
             const { data, error } = await sp
             .from('rostros')
             .insert([
-                { nombre: n,descriptor:d }
+                { nombre: n,descriptor:Array.from(d)}
             ]);
 
             if (error) console.error("Error guardando rostro:", error);
@@ -146,7 +146,9 @@
             .withFaceLandmarks()    
             .withFaceDescriptors()
             //.withFaceExpressions(); 
-            detec=datos.descriptor;
+    if (datos.length > 0) {
+        
+            detec=datos[0].descriptor;}
 
 
             console.log(datos);
