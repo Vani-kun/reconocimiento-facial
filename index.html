@@ -10,6 +10,8 @@
         .contenedor{
             position: relative; /* Define el marco de referencia */
             display: inline-block; /* Ajusta el div al tamaño de la imagen */
+            line-height: 0;
+            padding: 0px;
         }
 
         #canva {
@@ -24,7 +26,7 @@
 <body>
     <div class="contenedor">
         <!--img src="caras.jpg"  id="foto" crossorigin="anonymous"-->
-        <video id="video" width="720" height="560" autoplay muted></video>
+        <video id="video"  autoplay muted></video>
         <canvas   id="canva"></canvas>
     </div>
     <div class="menu">
