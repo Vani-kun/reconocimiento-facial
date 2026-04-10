@@ -77,7 +77,14 @@
         btn.addEventListener('click', () => {     
              proceso();
         });
-        navigator.mediaDevices.getUserMedia({ video: {} })
+        const constraints = {
+        video: {
+            width: { ideal: 600 },
+            height: { ideal: 600 },
+            aspectRatio: 1 // Esto le dice al navegador que prefieres un cuadrado
+        }
+        };
+        navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => { video.srcObject = stream; })
         .catch(err => console.error("Error al acceder a la cámara:", err));
 
@@ -112,6 +119,7 @@
         .withFaceLandmarks()    
         //.withFaceDescriptors()
        // .withFaceExpressions(); 
+
         // ¡ESTA LÍNEA ES LA CLAVE!
         const resizedDetections = faceapi.resizeResults(datos, displaySize);
 
