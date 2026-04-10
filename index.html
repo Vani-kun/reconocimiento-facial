@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="js/face-api.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         .contenedor{
             position: relative; /* Define el marco de referencia */
@@ -22,7 +23,8 @@
 </head>
 <body>
     <div class="contenedor">
-        <img src="caras.jpg"  id="foto" crossorigin="anonymous">
+        <!--img src="caras.jpg"  id="foto" crossorigin="anonymous"-->
+        <video id="video" width="720" height="560" autoplay muted></video>
         <canvas   id="canva"></canvas>
     </div>
     <div class="menu">
@@ -30,6 +32,11 @@
     </div>
     <script>
     (async()=> {
+        //conectar con base de datos
+      const supabaseUrl = 'https://wktiuldhcukaathrhhih.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrdGl1bGRoY3VrYWF0aHJoaGloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MDAxNDIsImV4cCI6MjA5MTM3NjE0Mn0.3_llGZ34epaIPNSyqGry5c2N7-5MD9bLWDLN9h17dCM';
+      const sp = supabase.createClient(supabaseUrl, supabaseKey);
+
             // Cargar los modelos para que face-api funcione correctamente.
         const url = './models';
         // Para descriptores necesitas estos 4 modelos obligatoriamente
@@ -40,15 +47,17 @@
        // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
 
 
-        let foto = document.getElementById("foto");
+        //let foto = document.getElementById("foto");
+        let video = document.getElementById("video");
         const c = document.getElementById("canva");
-        foto.addEventListener("load", proceso)
+        //foto.addEventListener("load", proceso)
         const selectorArchivos = document.getElementById("subir-foto");
 
         selectorArchivos.addEventListener("change", (evento) => {
             const archivo = evento.target.files[0]; // Obtenemos el archivo seleccionado
             
             if (archivo) {
+              guarda(archivo.name);
                 const lector = new FileReader();
                 
                 lector.onload = (e) => {
@@ -61,19 +70,35 @@
                 lector.readAsDataURL(archivo);
             }
         });
-        async function proceso(){
-        foto = document.getElementById("foto");
-         ctx = c.getContext('2d', { willReadFrequently: true });
-       
+        async function guarda(n) {
+            const { data, error } = await sp
+            .from('rostros')
+            .insert([
+                { nombre: n }
+            ]);
 
+            if (error) console.error("Error guardando:", error);
+            else alert("¡ guardado en la base de datos!");
+    
+        }
+        async function proceso(){
+        //foto = document.getElementById("foto");
+        //ctx = c.getContext('2d', { willReadFrequently: true });
         // Esto es vital para que las detecciones aparezcan donde deben
-        const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
+       // const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
+
+       const displaySize = { width: video.width, height: video.height };faceapi.matchDimensions(c, displaySize);
+
+        navigator.mediaDevices.getUserMedia({ video: {} })
+        .then(stream => { video.srcObject = stream; })
+        .catch(err => console.error("Error al acceder a la cámara:", err));
+
 
         // Definimos opciones: 0.3 significa que detectará caras aunque no esté tan seguro
         const opciones = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 });
         // Luego usa esta configuración en la detección para mas precision  //512 multiplos de 32
         const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-        const datos = await faceapi.detectAllFaces(foto,opcionesTiny)      
+        const datos = await faceapi.detectAllFaces(video,opcionesTiny)      
         .withFaceLandmarks()    
         //.withFaceDescriptors()
        // .withFaceExpressions(); 
@@ -103,6 +128,7 @@
         }
         proceso();
     })();
+
 
     </script>
 </body>
