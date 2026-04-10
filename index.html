@@ -21,11 +21,14 @@
             /* Opcional: para asegurarte de que el canvas no bloquee clics en la imagen */
             pointer-events: none; 
         }
+        .oculto {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <div class="contenedor">
-        <!--img src="caras.jpg"  id="foto" crossorigin="anonymous"-->
+        <img src="caras.jpg"  id="foto" crossorigin="anonymous">
         <video id="video"  width="600" height="600" autoplay muted></video>
         <canvas   id="canva"></canvas>
     </div>
@@ -35,6 +38,7 @@
     </div>
     <script>
     (async()=> {
+        camara=false;
         //conectar con base de datos
       const supabaseUrl = 'https://wktiuldhcukaathrhhih.supabase.co';
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrdGl1bGRoY3VrYWF0aHJoaGloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MDAxNDIsImV4cCI6MjA5MTM3NjE0Mn0.3_llGZ34epaIPNSyqGry5c2N7-5MD9bLWDLN9h17dCM';
@@ -50,7 +54,7 @@
        // await faceapi.loadFaceExpressionModel(url); // Opcional, pero recomendado para precisión
 
 
-        //let foto = document.getElementById("foto");
+        let foto = document.getElementById("foto");
         let video = document.getElementById("video");
         const c = document.getElementById("canva");
         //foto.addEventListener("load", proceso)
@@ -99,50 +103,47 @@
             else alert("¡ guardado en la base de datos!");
     
         }
-        async function proceso(){
-                    
-        //foto = document.getElementById("foto");
-        ctx = c.getContext('2d', { willReadFrequently: true });
-        // Esto es vital para que las detecciones aparezcan donde deben
-       // const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
+        async function proceso(){                      
+            ctx = c.getContext('2d', { willReadFrequently: true });
+            // Esto es vital para que las detecciones aparezcan donde deben
+            if(camara){
+                foto.classList.add("oculto"); video.classList.remove("oculto"); 
+                const displaySize = { width: video.width, height: video.height };faceapi.matchDimensions(c, displaySize);
+            }else{
+                foto.classList.remove("oculto"); video.classList.add("oculto"); 
+                const displaySize = { width: foto.width, height: foto.height };faceapi.matchDimensions(c, displaySize);
+            }
 
-       const displaySize = { width: video.width, height: video.height };faceapi.matchDimensions(c, displaySize);
+            
+            const opciones = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 });
+            const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
+            if(camara){
+            const datos = await faceapi.detectAllFaces(video,opcionesTiny)      
+            .withFaceLandmarks()    
+            //.withFaceDescriptors()
+        // .withFaceExpressions(); 
+            }else{
+                const datos = await faceapi.detectAllFaces(foto,opcionesTiny)      
+                .withFaceLandmarks()    
+                //.withFaceDescriptors()
+            // .withFaceExpressions();        
+            }
 
-
-
-
-        // Definimos opciones: 0.3 significa que detectará caras aunque no esté tan seguro
-        const opciones = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 });
-        // Luego usa esta configuración en la detección para mas precision  //512 multiplos de 32
-        const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-        const datos = await faceapi.detectAllFaces(video,opcionesTiny)      
-        .withFaceLandmarks()    
-        //.withFaceDescriptors()
-       // .withFaceExpressions(); 
-
-        // ¡ESTA LÍNEA ES LA CLAVE!
-        const resizedDetections = faceapi.resizeResults(datos, displaySize);
-
-        console.log(datos);
-         ctx.clearRect(0, 0, c.width, c.height);
-        faceapi.draw.drawDetections(c,resizedDetections);//datos
-        faceapi.draw.drawFaceLandmarks(c, resizedDetections);
-       // faceapi.draw.drawFaceExpressions(c, datos);
-        /*
-        Las 7 expresiones detectadas:
-        Neutral (Neutral)
-
-        Happy (Felicidad)
-
-        Sad (Tristeza)
-
-        Angry (Enojo)
-
-        Fearful (Miedo)
-
-        Disgusted (Disgusto/Asco)
-
-        Surprised (Sorpresa)*/
+            console.log(datos);
+            const resizedDetections = faceapi.resizeResults(datos, displaySize);
+            //ctx.clearRect(0, 0, c.width, c.height);
+            faceapi.draw.drawDetections(c,resizedDetections);//datos
+            faceapi.draw.drawFaceLandmarks(c, resizedDetections);
+        //  faceapi.draw.drawFaceExpressions(c, datos);
+            /*
+            Las 7 expresiones detectadas:
+            Neutral (Neutral)
+            Happy (Felicidad)
+            Sad (Tristeza)
+            Angry (Enojo)
+            Fearful (Miedo)
+            Disgusted (Disgusto/Asco)
+            Surprised (Sorpresa)*/
         }
         proceso();
     })();
