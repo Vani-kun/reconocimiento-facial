@@ -62,7 +62,7 @@
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrdGl1bGRoY3VrYWF0aHJoaGloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MDAxNDIsImV4cCI6MjA5MTM3NjE0Mn0.3_llGZ34epaIPNSyqGry5c2N7-5MD9bLWDLN9h17dCM';
       const sp = supabase.createClient(supabaseUrl, supabaseKey);
 
-            // Cargar los modelos para que face-api funcione correctamente.
+        // Cargar los modelos para que face-api funcione correctamente.
         const url = './models';
         // Para descriptores necesitas estos 4 modelos obligatoriamente
         await faceapi.nets.tinyFaceDetector.loadFromUri(url);///opcional solo para tiny
