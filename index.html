@@ -101,8 +101,9 @@
         btn.addEventListener('click',preproceso);
         async function preproceso(){
           await proceso();
-           if(detec){
-          await guarda(document.getElementById("name").value,detec);}
+           //if(detec){alert("se detecto")
+             await guarda(document.getElementById("name").value,detec);
+           //}else{alert("no se detecto")}
           
         }
         const constraints = {
