@@ -6,6 +6,7 @@
     <title>Document</title>
     <script src="js/face-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
         .contenedor{
             position: relative; /* Define el marco de referencia */
@@ -27,15 +28,32 @@
     </style>
 </head>
 <body>
-    <div class="contenedor">
+    <div class="main-container">
+    <div class="contenedor visor-circular">
         <img src="caras.jpg"  id="foto" crossorigin="anonymous">
         <video id="video"  width="600" height="600" autoplay muted></video>
         <canvas   id="canva"></canvas>
+
+        
     </div>
-    <div class="menu">
-        <input type="file" id="subir-foto" accept="image/*">
-        <button id="btn">Iniciar Escaneo</button>
+    <div class="status-labels">
+        <span class="dot detectado"></span> Detectado
+        <span class="dot no-detectado"></span> No Detectado
+        
     </div>
+    
+    <div class="menu-controles">
+        <input type="text" id="input-nombre" placeholder="Escribe nombre manual...">
+        
+        <div class="botones-group">
+            <label for="subir-foto" class="btn-secundario">Subir Imagen</label>
+            <input type="file" id="subir-foto" accept="image/*" style="display: none;">
+            
+            <button id="btn" class="btn-principal">Escanear</button>
+        </div>
+    </div>
+    </div>
+
     <script>
     (async()=> {
         camara=false;
@@ -78,9 +96,8 @@
                 lector.readAsDataURL(archivo);
             }
         });
-        btn.addEventListener('click', () => {     
-             proceso();
-        });
+
+        btn.addEventListener('click',proceso);
         const constraints = {
         video: {
             width: { ideal: 600 },
