@@ -89,6 +89,7 @@
                 lector.onload = (e) => {
                     // Cuando el lector termina, le pasa el contenido a la imagen
                     foto.src = e.target.result;
+                    camara=false;
                     // Al cambiar el src, se disparará automáticamente tu evento 'load'
                     // y se ejecutará la función proceso() que ya tienes.
                 };
