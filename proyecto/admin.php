@@ -35,8 +35,35 @@
         <section class="panel list-panel">
             <div class="panel-header">
                 <h2>Profesores Registrados</h2>
-                <input type="text" placeholder="Buscar profesor..." id="search-prof">
             </div>
+<section class="control-panel">
+    <div class="current-prof-display">
+        <div class="status-indicator"></div>
+        <div class="prof-meta">
+            <span class="label">PROFESOR ACTUAL</span>
+            <h2 id="current-prof-name">Ninguno seleccionado</h2>
+            <small id="current-prof-id">ID: ---</small>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Buscar por nombre o ID...">
+        <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn-action btn-add">
+            <span class="icon">+</span> Añadir Profesor
+        </button>
+        <button class="btn-action btn-edit">
+            <span class="icon">✏️</span> Editar
+        </button>
+        <button class="btn-action btn-disable">
+            <span class="icon">🔒</span> Desactivar
+        </button>
+    </div>
+</section>
+
             <div class="scroll-area" id="professors-list">
                 <?php foreach ($profesores as $prof) {
                 $id = $prof['id'];
@@ -52,7 +79,7 @@
             </div>
         </section>
 
-        <section class="panel schedule-panel">
+        <section class="panel horario-panel">
             <div class="panel-header">
                 <h2>Horario de Clases</h2>
                 <button class="btn-add">+ Asignar Materia</button>
@@ -73,8 +100,8 @@
                 </div>
             </div>
         </section>
-
-        <section class="panel attendance-panel">
+<br>
+        <section class="panel historial-panel">
             <div class="panel-header">
                 <h2>Historial de Asistencias</h2>
             </div>

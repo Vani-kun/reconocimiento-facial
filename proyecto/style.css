@@ -1,0 +1,150 @@
+:root {
+    --color-detectado: #00ff00;
+    --color-no-detectado: #e74c3c;
+    --color-fondo: #f4f4f4;
+    --color-boton: #1336ff;
+}
+
+
+
+
+
+.panel-captura {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+}
+/* --- Nuevo Contenedor Padre --- */
+.wrapper-visor {
+    position: relative;
+    width: 288px; /* 280px + 4px de borde por lado */
+    height: 288px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* --- Visor Circular (Mantiene el recorte del video) --- */
+.visor-circular {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 4px solid #4169E1;
+    background: #000;
+    
+    /* ESTO SIGUE AQUÍ, ES VITAL PARA EL VIDEO */
+    overflow: hidden; 
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(65, 105, 225, 0.4);
+    z-index: 1; /* Capa base */
+}
+#video{
+    transform: scaleX(-1);
+}
+#video, #canva {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    top: 0;
+    left: 0;
+}
+#canva {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    pointer-events: none; 
+    z-index: 2; 
+}
+.oculto {
+    display: none !important;
+}
+
+/* Anillo de escaneo giratorio */
+.anillo-escaneo {
+    position: absolute;
+    /* Ajustamos el tamaño para que sea un poco más grande que el visor */
+    width: 296px; 
+    height: 296px;
+    border: 2px solid transparent;
+    border-top: 2px solid #00FFFF;
+    border-radius: 50%;
+    animation: girar 2s linear infinite;
+    
+    /* ESTO ES CLAVE: Lo pone por encima del visor sin ser recortado */
+    z-index: 10; 
+    /* Asegura que no interfiera con clics si los hubiera */
+    pointer-events: none; 
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+
+/*letras de espernado camara*/
+.status-cam {
+    position: absolute;
+    font-size:1rem;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 3;
+}
+
+
+/*indicadores*/
+.indicadores-estado {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+.estado-item {
+    font-size: 0.9rem;
+    color: #444; /* Color apagado por defecto */
+    transition: 0.3s;
+}
+.estado-item.active.detectado { color: #00FF00; text-shadow: 0 0 10px #00FF00; }
+.estado-item.active.no-detectado { color: #FF0000; text-shadow: 0 0 10px #FF0000; }
+
+
+.btnconte{
+    text-align: center;
+}
+.boton{
+    background: #6977a3;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.boton:hover {
+    background:  #4169E1;
+    transform: scale(1.01);
+    box-shadow: 0 0 5px  #4169E1;
+}
+.boton:active {
+    transform: scale(0.95);
+}
+/* Opcional: deshabilitar el botón si no hay rostro detectado */
+.boton:disabled {
+    background: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
