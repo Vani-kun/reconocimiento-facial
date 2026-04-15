@@ -5,14 +5,7 @@
     --color-boton: #1336ff;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--color-fondo);
-    font-family: 'Segoe UI', sans-serif;
-}
+
 
 .main-container {
     text-align: center;
@@ -115,3 +108,9 @@ video, img, canvas {
     height: 100%;
     object-fit: cover; /* Mantiene la proporción y llena el círculo */
 }
+
+.prof-actions{
+
+        right:0;
+        align-self: self-end;
+        }

@@ -1,0 +1,107 @@
+:root {
+    --bg: #0f172a;
+    --panel: #ffffff;
+    --prim:#275dff;
+    --accent: #00f2ff;
+    --text: #f8fafc;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+}
+
+body {
+    color: var(--text);
+    font-family: sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.drag-container {
+    display: flex;
+    gap: 2rem;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0px auto;
+    margin-top: 50px;
+}
+
+.items-bank, .drop-zone {
+    background: var(--panel);
+    padding: 2rem;
+    border-radius: 5px;
+    border-left: 5px solid #00e1ff;
+    flex: 1;    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+.draggable-item {
+    background:var(--prim);
+    padding: 1rem;
+    margin: 10px 0;
+    border-radius: 8px;
+    cursor: grab;
+    transition: 0.2s;
+    border-left: 4px solid #0100ff;
+    color: white;
+    width: 100%;
+    height: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.draggable-item:active { cursor: grabbing; }
+.draggable-item.dragging { opacity: 0.5; }
+
+.drop-zone.hover {
+    border: 2px dashed var(--accent);
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.input-group {
+    margin-bottom: 1.2rem;
+}
+
+label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #94a3b8; }
+
+input {
+    width: 100%;
+    padding: 10px;
+    background:#dfdfdf;
+    border: 1px solid #334155;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[readonly] { border-color: var(--accent); color: var(--accent); font-weight: bold; }
+
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.actions-bar {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-save { background: var(--success); }
+.btn-edit { background: var(--warning); }
+.btn-delete { background: var(--danger); }
+
+.btn:hover { opacity: 0.8; }

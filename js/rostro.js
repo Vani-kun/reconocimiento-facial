@@ -3,8 +3,8 @@ const faceapi = window.faceapi;
 let video, canvas, ctx;
 
 function initDOM() {
-  video = document.getElementById('video');
-  canvas = document.getElementById('canvas');
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
   if (canvas) {
     ctx = canvas.getContext('2d');
   }
@@ -156,6 +156,8 @@ async function deteccionBucle() {
 // -----------------------------------------------|
 // Registrar rostro
 // -----------------------------------------------|
+
+
 async function registrarRostro() {
     const nombre = document.getElementById('input-nombre').value.trim();
 
@@ -163,6 +165,15 @@ async function registrarRostro() {
         // Si el nombre esta vacio, 
         // mostrar un mensaje y salir de la funcion.
         mostrarMensaje('Escribe tu nombre completo.', 'red');
+        return;
+    }
+    if (nombre.length < 3) {
+        mostrarMensaje('El nombre debe tener al menos 3 caracteres.', 'red');
+        return;
+    }
+    const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
+    if (!soloLetras.test(nombre)) {
+        mostrarMensaje('El nombre solo puede contener letras y espacios.', 'red');
         return;
     }
     if (!descriptorActual) {
@@ -220,6 +231,7 @@ async function registrarRostro() {
     }
 }
 
+
 // -----------------------------------------------
 // Utilidades
 // -----------------------------------------------
@@ -264,13 +276,9 @@ export async function obtenerRostros(fU){
         // los rostros registrados y configurar el faceMatcher 
         // con los datos recibidos.
 
-        const res  = await fetch('./php/personas.php', {
+        const res  = await fetch('php/personas.php', {
             method:  'POST',
-            headers: { 'Content-Type': 'application/json' }/*,
-            body:    JSON.stringify({
-                nombre:     nombre,
-                descriptor: Array.from(descriptorActual)
-            })*/
+            headers: { 'Content-Type': 'application/json' }
         });
         const data = JSON.parse(await res.text());
 
@@ -322,13 +330,12 @@ export async function obtenerRostros(fU){
 }
 
 async function initRostro() {
-    if (!document.getElementById('status-cam')) return;
+    //if (!document.getElementById('status-cam')) return;
     iniciarCamara();
     faceMatcher = await obtenerRostros(faceUmbral);
 }
 
 initRostro();
-
 // Exponer funciones necesarias al DOM cuando se carga como módulo.
 window.registrarRostro = registrarRostro;
 window.iniciarCamara = iniciarCamara;

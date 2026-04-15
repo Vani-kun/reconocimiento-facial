@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M.A.R.S. - Registro de Asistencia</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="estiloMARS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <style>
@@ -325,20 +326,7 @@
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <a href="#" class="logo">
-            <img src="IUJO.gif" alt="Logo M.A.R.S." class="logo-img">
-            <span class="logo-text">M.A.R.S.</span>
-        </a>
-        <ul class="nav-menu">
-            <li><a href="index.html#inicio" class="nav-link">Escaner</a></li>
-            <li><a href="admin.php" class="nav-link">Profesores</a></li>
-            <li><a href="asistencia.php" class="nav-link active">Asistencia</a></li>
-            <li><a href="asignar.php" class="nav-link">Configuracion</a></li>
-        </ul>
-    </div>
-</nav>
+<?php include 'php/navbar.php';?>
 
 <main class="main">
 
