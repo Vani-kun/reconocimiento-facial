@@ -25,7 +25,7 @@
 
             <ul class="nav-menu">
                 <li><a href="index.html#inicio" class="nav-link">Escaner</a></li>
-                <li><a href="admin.php" class="nav-link">Profesores</li>
+                <li><a href="admin.php" class="nav-link">Profesores</a></li>
                 <li><a href="index.html#pie" class="nav-link">Configuracion</a></li>
             </ul>
         </div>
