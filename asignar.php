@@ -44,6 +44,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
             height: 10px;
             font-size: 15px;
+
+        }
+
+        .btn{
+
+        text-align: center;
+
         }
 
     .scroll-area {
@@ -51,8 +58,8 @@
     flex: 1; /* Esto le dice que use el espacio disponible */
     
     /* LIMITAR ALTURA */
-    height: 100px; /* O usa una medida relativa como 50vh */
-    max-height: 300px; 
+    height: 300px; /* O usa una medida relativa como 50vh */
+    max-height: 500px; 
     
     /* ACTIVAR SCROLL */
     overflow-y: auto; /* Solo sale el scroll si el contenido supera la altura */
@@ -86,7 +93,8 @@
 }
 
 .container{
-    width: 50%;
+    width: 100%;
+    
 }
 
 .menudiv{
@@ -94,19 +102,29 @@
     height: 10%;
 
 }
-
+.draggable-item, .btn-add { /* Usa tus clases reales */
+    display: flex;
+    align-items: center;     /* Centrado vertical */
+    justify-content: center;  /* Centrado horizontal */
+    text-align: center;
+    padding: 5px 10px;       /* Ajusta el padding en lugar del height */
+    height: auto;            /* Deja que el padding defina el tamaño */
+    min-height: 30px;        /* O el tamaño mínimo que desees */
+}
 
     </style>
 </head>
 <body>
     <?php include 'php/navbar.php';?>
     
+    
+
     <div style="display:flex;">
 
-    <div style="width:50%;display:grid;" >
+<div style="width:25%;display:grid;" >
     <div class="Materias-div container menudiv">
         <div class="drag-container">
-        <section class="items-bank list-panel panel">
+        <section class="items-bank">
             <div style="height: 90%;">
             <h3>Materias Disponibles</h3>
             <p><small>Arrastra una materia al panel derecho</small></p>
@@ -150,7 +168,8 @@
         </section>
         </div>
     </div>            
-
+</div>
+<div style="width:25%;display:grid;" >
     <div class="Aulas-div container menudiv">
         <div class="drag-container">
             <section class="items-bank">
@@ -192,10 +211,10 @@
         </section>
         </div>
     </div>   
+</div>  
 
-    </div>
-
-        <section class="drop-zone container" id="drop-target">
+        <section class="drop-zone" id="drop-target" style="position:sticky; left:50%; top:100px; width:50%; height:100%">
+            <div style="position:sticky;width:50%;right:0;top:25%;">
             <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
                 <div class="input-group">
@@ -210,7 +229,7 @@
                     </div>
                     <div class="input-group">
                         <label>Sección:</label>
-                        <input type="text" name="seccion" placeholder="Ej: 6to A" required>
+                        <input id="seccion-input" type="text" name="seccion" placeholder="Ej: 6to A" required>
                     </div>
                     <div class="input-group">
                         <label>Hora Entrada:</label>
@@ -228,6 +247,7 @@
                     <button type="button" class="btn btn-delete">Eliminar</button>
                 </div>
             </form>
+        </div>
         </section>
 
         <div id="MateriaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
@@ -288,6 +308,7 @@
                 const aulaInput = document.getElementById('aula-input');
                 const horarioEInput = document.getElementById('hora-entrada');
                 const horarioSInput = document.getElementById('hora-salida');
+                const seccionInput = document.getElementById('seccion-input');
 
         draggables.forEach(item => {
             item.addEventListener('dragstart', () => {
@@ -322,6 +343,9 @@
             }else if(draggingItem.classList.contains('item-aula')){
                 const draggingItem = document.querySelector('.dragging');
                 aulaInput.value = draggingItem.getAttribute('data-aula');
+            }else if(draggingItem.classList.contains('item-seccion')){
+                const draggingItem = document.querySelector('.dragging');
+                seccionInput.value = draggingItem.getAttribute('data-seccion');
             }
             
             dropTarget.classList.remove('hover');
