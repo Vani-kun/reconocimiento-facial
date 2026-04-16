@@ -159,3 +159,5 @@ async function proceso(){
     faceapi.draw.drawFaceLandmarks(c, resizedDetections);
     //faceapi.draw.drawFaceExpressions(c, datos);
 }
+
+        

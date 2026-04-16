@@ -13,9 +13,9 @@ if (isset($data['descriptor'])) {
     $tags = isset($data['tags']) ? json_encode($data['tags']) : json_encode([]); 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "INSERT INTO caras (nombre, descriptor, tags, activo) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO caras (nombre, descriptor, tags, activo, horarios) VALUES (?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$nombre, $descriptor, $tags, 1]);
+        $stmt->execute([$nombre, $descriptor, $tags, 1, "[]"]);
 
         $nuevoId = $pdo->lastInsertId();
 

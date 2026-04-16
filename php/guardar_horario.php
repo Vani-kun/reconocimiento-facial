@@ -17,12 +17,14 @@ if (isset($data['materia'])) {
 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "INSERT INTO horario (nombre, aula, entrada, salida, asignatura) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO horario (asignatura, aula, entrada, salida, seccion) VALUES (?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$materia, $aula, $h_entrada, $h_salida, $seccion]);
 
+        $idGenerado = $pdo->lastInsertId();
+
         //Responder al JavaScript que todo salió bien
-        echo json_encode(["success" => true, "message" => "Guardado con éxito"]);
+        echo json_encode(["success" => true, "message" => "Guardado con éxito", "id" => $idGenerado, 'materia' => $materia, 'aula' => $aula, 'h_entrada' => $h_entrada, 'h_salida' => $h_salida, 'seccion' => $seccion]);
     }catch (PDOException $e) {
         echo json_encode(["success" =>false, "error" => $e->getMessage()]);
     }

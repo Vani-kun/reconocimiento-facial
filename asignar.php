@@ -16,6 +16,10 @@
     $sql = "SELECT numero FROM secciones";
     $stmt = $pdo->query($sql);
     $secciones = $stmt->fetchAll();
+
+    $sql = "SELECT id, asignatura, seccion, entrada, salida, aula FROM horario";
+    $stmt = $pdo->query($sql);
+    $AllSeccions = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -25,196 +29,120 @@
     <title>M.A.R.S. - Asignación de Materias</title>
     <link rel="stylesheet" href="asignar-style.css">
     <link rel="stylesheet" href="estiloMARS.css">
-
-    <style>
-        .oculto {
-            display: none !important;
-            pointer-events: none;
-        }
-
-        .btn-add{
-
-            background-color: #28a745;
-            color: white;
-            border: none;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
-            height: 10px;
-            font-size: 15px;
-
-        }
-
-        .btn{
-
-        text-align: center;
-
-        }
-
-    .scroll-area {
-    margin-top: 20px;
-    flex: 1; /* Esto le dice que use el espacio disponible */
-    
-    /* LIMITAR ALTURA */
-    height: 300px; /* O usa una medida relativa como 50vh */
-    max-height: 500px; 
-    
-    /* ACTIVAR SCROLL */
-    overflow-y: auto; /* Solo sale el scroll si el contenido supera la altura */
-    overflow-x: hidden; /* Evita scroll horizontal molesto */
-    
-    padding: 10px;
-    border-top: 5px solid #0095ff;
-
-    font-size: 15px;
-    }
-
-.list-panel{
-    width: 35%;
-    float: left;
-    height: 80vh;
-}
-
-.panel {
-    background: var(--panel-bg);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    background: var(--panel);
-    padding: 2rem;
-    border-radius: 5px;
-    border-left: 5px solid #00e1ff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    height: 12.5%;
-}
-
-.container{
-    width: 100%;
-    
-}
-
-.menudiv{
-
-    height: 10%;
-
-}
-.draggable-item, .btn-add { /* Usa tus clases reales */
-    display: flex;
-    align-items: center;     /* Centrado vertical */
-    justify-content: center;  /* Centrado horizontal */
-    text-align: center;
-    padding: 5px 10px;       /* Ajusta el padding en lugar del height */
-    height: auto;            /* Deja que el padding defina el tamaño */
-    min-height: 30px;        /* O el tamaño mínimo que desees */
-}
-
-    </style>
 </head>
 <body>
     <?php include 'php/navbar.php';?>
     
     
+<div style="position:absolute; left:-5px; margin-top:60px; width:45%; height:100%">
+    <div class="itemsbcm divsection-master" style="margin-left:5px">
+        <div class="divsection itemsbc divsection-selected" id="msectionbutton">
+        Materias
+        </div>
 
-    <div style="display:flex;">
+        <div class="divsection itemsbc" id="asectionbutton">
+        Aulas
+        </div>
 
-<div style="width:25%;display:grid;" >
-    <div class="Materias-div container menudiv">
-        <div class="drag-container">
-        <section class="items-bank">
-            <div style="height: 90%;">
-            <h3>Materias Disponibles</h3>
-            <p><small>Arrastra una materia al panel derecho</small></p>
+        <div class="divsection itemsbc" id="ssectionbutton">
+        Secciones
+        </div>
 
-            <div id="materias-items-bank" class="scroll-area">
-            <?php foreach ($materias as $materia): ?>
-                <div class="draggable-item item-materia" draggable="true" data-materia="<?= htmlspecialchars($materia['nombre']) ?>">
-                    <?= htmlspecialchars($materia['nombre']) ?>
-                </div>
-            <?php endforeach; ?>
-            </div> 
-
-            </div>
-
-            <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-            <button id="open-menu-materia" class="btn btn-add" style="bottom:0;">Agregar Materia</button>
-            </div>
-        </section> 
+        <div class="divsection itemsbc" id="hsectionbutton">
+        Horarios
         </div>
     </div>
-    
-    <div class="Horarios-div container menudiv">
-        <div class="drag-container">
-            <section class="items-bank">
-            <div style="height: 90%;">
-            <h3>Horarios Disponibles</h3>
-            <p><small>Arrastra un horario al panel derecho</small></p>
+    <section class="items-bank" style="height:70%;max-height:70%">    
+        <div style="padding: 2rem;">
 
-            <div id="horarios-items-bank" class="scroll-area">
-            <?php foreach ($horas as $hora): ?>
-                <div class="draggable-item item-horario" draggable="true" data-entrada="<?= htmlspecialchars($hora['entrada']) ?>" data-salida="<?= htmlspecialchars($hora['salida']) ?>">
-                    <?= htmlspecialchars($hora['entrada']) ?> - <?= htmlspecialchars($hora['salida']) ?>
+            <div id="MateriaSection" style="display:grid">
+                <div>
+                    <h3>Materias Disponibles</h3>
+                    <p><small>Arrastra una materia al panel derecho</small></p>
+
+                    <div id="materias-items-bank" class="scroll-area">
+                        <?php foreach ($materias as $materia): ?>
+                        <div class="draggable-item item-materia" draggable="true" data-materia="<?= htmlspecialchars($materia['nombre']) ?>">
+                        <?= htmlspecialchars($materia['nombre']) ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div> 
                 </div>
-            <?php endforeach; ?>
+
+                <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
+                    <button id="open-menu-materia" class="btn btn-add" style="bottom:0;">Agregar Materia</button>
+                </div>
             </div>
 
+            <div id="AulaSection" style="display:none;">
+                <h3>Aulas Disponibles</h3>
+                <p><small>Arrastra un aula al panel derecho</small></p>
+                <div id="aulas-items-bank" class="scroll-area">
+                <?php foreach ($aulas as $aula): ?>
+                    <div class="draggable-item item-aula" draggable="true" data-aula="<?= htmlspecialchars($aula['numero']) ?>">
+                        Aula <?= htmlspecialchars($aula['numero']) ?>
+                    </div>
+                <?php endforeach; ?>
+                </div>
+
+                <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
+                    <button id="open-menu-aula" class="btn btn-add" style="bottom:0;">Agregar Aula</button>
+                </div>
             </div>
-            <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-            <button id="open-menu-horario" class="btn btn-add" style="bottom:0;">Agregar Horario</button>
+
+            <div id="HorarioSection" style="display:none;">
+                <h3>Horarios Disponibles</h3>
+                <p><small>Arrastra un horario al panel derecho</small></p>
+
+                <div id="horarios-items-bank" class="scroll-area">
+                <?php foreach ($horas as $hora): ?>
+                    <div class="draggable-item item-horario" draggable="true" data-entrada="<?= htmlspecialchars($hora['entrada']) ?>" data-salida="<?= htmlspecialchars($hora['salida']) ?>">
+                        <?= htmlspecialchars($hora['entrada']) ?> - <?= htmlspecialchars($hora['salida']) ?>
+                    </div>
+                <?php endforeach; ?>
+                </div>
+
+                <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
+                    <button id="open-menu-horario" class="btn btn-add" style="bottom:0;">Agregar Horario</button>
+                </div>
             </div>
-        </section>
+
+            <div id="SeccionSection" style="display:none;">
+                <h3>Secciones Disponibles</h3>
+                <p><small>Arrastra una sección al panel derecho</small></p>
+                <div id="secciones-items-bank" class="scroll-area">
+                    <?php foreach ($secciones as $seccion): ?>
+                        <div class="draggable-item item-seccion" draggable="true" data-seccion="<?= htmlspecialchars($seccion['numero']) ?>">
+                        Sección <?= htmlspecialchars($seccion['numero']) ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
+                    <button id="open-menu-seccion" class="btn btn-add" style="bottom:0;">Agregar Sección</button>
+                </div>
+            </div>
+                
+
         </div>
-    </div>            
+    </section>
 </div>
-<div style="width:25%;display:grid;" >
-    <div class="Aulas-div container menudiv">
-        <div class="drag-container">
-            <section class="items-bank">
-            <div style="height: 90%;">
-            <h3>Aulas Disponibles</h3>
-            <p><small>Arrastra un aula al panel derecho</small></p>
-            <div id="aulas-items-bank" class="scroll-area">
-            <?php foreach ($aulas as $aula): ?>
-                <div class="draggable-item item-aula" draggable="true" data-aula="<?= htmlspecialchars($aula['numero']) ?>">
-                    Aula <?= htmlspecialchars($aula['numero']) ?>
-                </div>
-            <?php endforeach; ?>
-            </div>
-            </div>
-            <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-            <button id="open-menu-aula" class="btn btn-add" style="bottom:0;">Agregar Aula</button>
-            </div>
-        </section>
-        </div>
-    </div>        
 
-    <div class="Seccion-div container menudiv">
-        <div class="drag-container">
-            <section class="items-bank">
-            <div style="height: 90%;">
-            <h3>Secciones Disponibles</h3>
-            <p><small>Arrastra una sección al panel derecho</small></p>
-            <div id="secciones-items-bank" class="scroll-area">
-            <?php foreach ($secciones as $seccion): ?>
-                <div class="draggable-item item-seccion" draggable="true" data-seccion="<?= htmlspecialchars($seccion['numero']) ?>">
-                    Sección <?= htmlspecialchars($seccion['numero']) ?>
-                </div>
-            <?php endforeach; ?>
-            </div>
-            </div>
-            <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-            <button id="open-menu-seccion" class="btn btn-add" style="bottom:0;">Agregar Sección</button>
-            </div>
-        </section>
-        </div>
-    </div>   
-</div>  
+<div class="recicle-bin"></div>
 
-        <section class="drop-zone" id="drop-target" style="position:sticky; left:50%; top:100px; width:50%; height:100%">
-            <div style="position:sticky;width:50%;right:0;top:25%;">
+<div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
+    <div class="divsection-master">
+        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 5px solid #00e1ff;">
+        Edición
+        </div>
+
+        <div id="BankSectionBtn" class="divsection">
+        Banco
+        </div>
+    </div>
+    <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%">        
+        <div style="padding: 2rem;">
+            <div id="SectionConfig">
             <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
                 <div class="input-group">
@@ -243,12 +171,30 @@
 
                 <div class="actions-bar">
                     <button type="submit" id="btn-save" class="btn btn-save">Guardar</button>
-                    <button type="button" class="btn btn-edit">Editar</button>
-                    <button type="button" class="btn btn-delete">Eliminar</button>
+                    <button type="button" id="btn-clean" class="btn btn-edit">Vaciar</button>
                 </div>
             </form>
+            </div>
+            <div id="SectionBank" style="display:none">
+                <h3>Secciones Creadas</h3>
+                <div id="mold-items-bank" class="scroll-area">
+                    <?php foreach ($AllSeccions as $mySec): ?>
+                        <div class="item-seccion draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
+                        <?= htmlspecialchars($mySec['asignatura']) ?> <?= htmlspecialchars($mySec['seccion']) ?> <?= htmlspecialchars($mySec['aula']) ?> <?= htmlspecialchars($mySec['entrada']) ?> - <?= htmlspecialchars($mySec['salida']) ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
+                    <button id="editmbtn" class="btn btn-add" style="bottom:0;width:50%">Editar</button>
+                    <button id="erasembtn" class="btn btn-add" style="bottom:0;width:50%">Eliminar</button>
+                </div>
+            </div>
         </div>
-        </section>
+    </section>
+</div>
+
+
 
         <div id="MateriaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
                 <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
@@ -299,37 +245,65 @@
                         <button type="button" id="cancel-seccion">Cancelar</button>
                     </div>
                 </section>
+                
         </div>
 </div>
     <script>
         const draggables = document.querySelectorAll('.draggable-item');
         const dropTarget = document.getElementById('drop-target');
-                const materiaInput = document.getElementById('materia-input');
-                const aulaInput = document.getElementById('aula-input');
-                const horarioEInput = document.getElementById('hora-entrada');
-                const horarioSInput = document.getElementById('hora-salida');
-                const seccionInput = document.getElementById('seccion-input');
+        const materiaInput = document.getElementById('materia-input');
+        const aulaInput = document.getElementById('aula-input');
+        const horarioEInput = document.getElementById('hora-entrada');
+        const horarioSInput = document.getElementById('hora-salida');
+        const seccionInput = document.getElementById('seccion-input');
+        const prevItems = document.querySelectorAll(".previtem");
+        ItemSelected = -1;                
+
+        prevItems.forEach(element => {
+           
+            element.addEventListener("click", () => {
+            
+                prevItems.forEach(element => {
+                element.classList.remove("previtemselected");
+                });     
+                if(!element.classList.contains("previtemselected")){
+                    ItemSelected = element;
+                    element.classList.add("previtemselected");   
+                    }else{
+                    ItemSelected = -1; 
+                    element.classList.remove("previtemselected");    
+                    }
+                });           
+
+            });                
 
         draggables.forEach(item => {
             item.addEventListener('dragstart', () => {
                 item.classList.add('dragging');
-            });
+                });
             item.addEventListener('dragend', () => {
                 item.classList.remove('dragging');
+                });
             });
-        });
 
         dropTarget.addEventListener('dragover', e => {
             e.preventDefault();
-            dropTarget.classList.add('hover');
-        });
+            if(!document.getElementById("EditSectionBtn").classList.contains("divsection-selected")){
+                return;
+                }
+            dropTarget.classList.add('hover');  
+            });
 
         dropTarget.addEventListener('dragleave', () => {
             dropTarget.classList.remove('hover');
-        });
+            });
 
         dropTarget.addEventListener('drop', e => {
             e.preventDefault();
+            if(!document.getElementById("EditSectionBtn").classList.contains("divsection-selected")){
+                return;
+                }
+
 
             const draggingItem = document.querySelector('.dragging');
 
@@ -351,38 +325,94 @@
             dropTarget.classList.remove('hover');
         });
 
-        document.getElementById("btn-save").addEventListener("click", async (e) => {
+        document.getElementById("form-asignacion").addEventListener("submit", async (e) => {
             e.preventDefault();
             const form = document.getElementById("form-asignacion");
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
-            console.log(data);
-
-            try {
-                const respuesta = await fetch('php/guardar_horario.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+            if(ItemSelected === -1){
+                console.log("XDXD");
+                try {
+                    const respuesta = await fetch('php/guardar_horario.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
 
                 
 
-                const resultado = await respuesta.json(); 
-                if (resultado.success) {
-                    console.log("respuesta: "+ resultado.message);
-                    alert("Horario guardado exitosamente.");
-                    form.reset();
-                } else {
-                    console.error("respuesta: " + resultado.error);
-                    alert("Error al guardar el horario.");
+                    const resultado = await respuesta.json(); 
+                    if (resultado.success) {
+                        console.log("respuesta: "+ resultado.message);
+                        alert("Horario guardado exitosamente.");
+                        form.reset();
+                        const NewItem = document.createElement("div");
+
+                        NewItem.setAttribute("materia", resultado.materia);
+                        NewItem.setAttribute("aula", resultado.aula);
+                        NewItem.setAttribute("horarioe", resultado.h_entrada);
+                        NewItem.setAttribute("horarios", resultado.h_salida);
+                        NewItem.setAttribute("seccion", resultado.seccion);
+                        NewItem.setAttribute("myid", resultado.id);
+
+                        NewItem.classList.add("item-seccion","draggable-item","previtem");
+
+                        NewItem.textContent = data.materia + " " + data.seccion + " " + data.aula + " " + data.h_entrada + " - " +data.h_salida;
+
+                        document.getElementById("mold-items-bank").appendChild(NewItem);
+
+                    } else {
+                        console.error("respuesta: " + resultado.error);
+                        alert("Error al guardar el horario.");
+                    }
+                } catch (error) {
+                    console.error("Error al enviar: ", error);
+                    alert("Error de conexión al guardar el horario.");
                 }
-            } catch (error) {
-                console.error("Error al enviar: ", error);
-                alert("Error de conexión al guardar el horario.");
+            }else{
+                        data.id = ItemSelected.getAttribute("myid");
+               try {
+                    const respuesta = await fetch('php/edit_horario.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const resultado = await respuesta.json(); 
+                    if (resultado.success) {
+                        console.log("respuesta: "+ resultado.message);
+                        alert("Horario guardado exitosamente.");
+                        form.reset();
+                        SectionBtn[1][0].classList.add("divsection-selected"); 
+                        SectionBtn[1][1].style   = "";
+                
+                        SectionBtn[0][0].classList.remove("divsection-selected"); 
+                        SectionBtn[0][1].style   = "display:none;"; 
+
+                        ItemSelected.setAttribute("materia", data.materia);
+                        ItemSelected.setAttribute("aula", data.aula);
+                        ItemSelected.setAttribute("horarioe", data.h_entrada);
+                        ItemSelected.setAttribute("horarios", data.h_salida);
+                        ItemSelected.setAttribute("seccion", data.seccion);
+
+                        ItemSelected.textContent = data.materia + " " + data.seccion + " " + data.aula + " " + data.h_entrada + " - " +data.h_salida;
+                        
+
+                    } else {
+                        console.error("respuesta: " + resultado.error);
+                        alert("Error al guardar el horario.");
+                    }
+                } catch (error) {
+                    console.error("Error al enviar: ", error);
+                    alert("Error de conexión al guardar el horario.");
+                } 
             }
+
         });
 
         //#region Agregar Materia
@@ -496,8 +526,7 @@
             } catch (error) {
             console.error("Error al enviar: ", error);
             }
-
-                
+    
             }
         });
         //#endregion
@@ -614,7 +643,135 @@
                 
             }
         });
+
         //#endregion
+        
+
+
+        ItemBankBtn = [];
+        ItemBankBtn[0] = [];
+        ItemBankBtn[1] = [];              
+        ItemBankBtn[2] = [];
+        ItemBankBtn[3] = [];
+
+        ItemBankBtn[0][0]  = document.getElementById("msectionbutton");                   
+        ItemBankBtn[1][0]  = document.getElementById("asectionbutton");
+        ItemBankBtn[2][0]  = document.getElementById("ssectionbutton");
+        ItemBankBtn[3][0]  = document.getElementById("hsectionbutton");
+
+        ItemBankBtn[0][1]  = document.getElementById("MateriaSection");
+        ItemBankBtn[1][1]  = document.getElementById("AulaSection");
+        ItemBankBtn[2][1]  = document.getElementById("SeccionSection");
+        ItemBankBtn[3][1]  = document.getElementById("HorarioSection");
+
+        SectionBtn = [];
+        SectionBtn[0] = [];
+        SectionBtn[1] = [];
+
+        SectionBtn[0][0]  = document.getElementById("EditSectionBtn"); 
+        SectionBtn[1][0]  = document.getElementById("BankSectionBtn"); 
+
+        SectionBtn[0][1]  = document.getElementById("SectionConfig"); 
+        SectionBtn[1][1]  = document.getElementById("SectionBank"); 
+
+                        console.log(SectionBtn[0][0]);
+                        console.log(SectionBtn[1][0]);
+           
+
+        function SwitchItemBankSection(Array, Number){
+        
+        if(Array[Number][0].classList.contains("divsection-selected")){return;}
+
+            for (let index = 0; index < Array.length; index++) {
+                
+                if(index === Number){
+                Array[index][0].classList.add("divsection-selected"); 
+                Array[index][1].style   = "";
+                }else{
+                Array[index][0].classList.remove("divsection-selected"); 
+                Array[index][1].style   = "display:none;"; 
+                }
+            }
+        }
+
+        ItemBankBtn[0][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 0));
+        ItemBankBtn[1][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 1));
+        ItemBankBtn[2][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 2));
+        ItemBankBtn[3][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 3));
+
+        SectionBtn[0][0].addEventListener("click", () => {
+
+                if(!SectionBtn[0][0].classList.contains("divsection-selected")){
+                    ItemSelected = -1;
+                    prevItems.forEach(element => {
+                        element.classList.remove("previtemselected");
+                        });   
+                    }
+
+            SwitchItemBankSection(SectionBtn, 0)
+            });
+        SectionBtn[1][0].addEventListener("click", () => SwitchItemBankSection(SectionBtn, 1));
+
+        const EraseMateriaBtn = document.getElementById("erasembtn");
+        const EditMateriaBtn = document.getElementById("editmbtn");
+
+        EditMateriaBtn.addEventListener("click", () => {
+
+            if(ItemSelected != -1){
+
+                
+                SectionBtn[0][0].classList.add("divsection-selected"); 
+                SectionBtn[0][1].style   = "";
+                
+                SectionBtn[1][0].classList.remove("divsection-selected"); 
+                SectionBtn[1][1].style   = "display:none;"; 
+
+                materiaInput.value  = ItemSelected.getAttribute("materia");
+                aulaInput.value     = ItemSelected.getAttribute("aula");
+                horarioEInput.value = ItemSelected.getAttribute("horarioe");
+                horarioSInput.value = ItemSelected.getAttribute("horarios");
+                seccionInput.value  = ItemSelected.getAttribute("seccion");
+                }
+
+            });
+
+            document.getElementById("btn-clean").addEventListener("click", (e) => {
+                e.preventDefault();
+                document.getElementById("form-asignacion").reset();   
+                });
+                  
+            document.getElementById("erasembtn").addEventListener("click", async (e) => {
+                if(ItemSelected === -1){return}
+
+                const MYID = ItemSelected.getAttribute("myid");
+
+                try {
+                const respuesta = await fetch('php/eliminar_horario.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id: MYID})
+                });
+
+                const resultado = await respuesta.json(); 
+                    if (resultado.success) {
+                        
+                        ItemSelected.remove();
+
+                        ItemSelected = -1; 
+                        } else {
+                        console.error("respuesta: " + resultado.error);
+                        }
+                    } catch (error) {
+                    console.error("Error al enviar: ", error);
+                    }
+
+                
+            
+
+                });
     </script>
+    
 </body>
 </html>
