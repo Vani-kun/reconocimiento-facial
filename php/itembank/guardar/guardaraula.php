@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require "conexion.php";
+require "../../conexion.php";
 
 // Leer los datos enviados por Fetch (JSON)
 $json = file_get_contents('php://input');

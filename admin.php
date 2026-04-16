@@ -19,7 +19,7 @@
     }
 
      //traer todos los horarios
-    $sql = "SELECT id, nombre, asignatura, seccion, profesor, entrada, salida, aula FROM horario";
+    $sql = "SELECT id, asignatura, seccion, profesor, entrada, salida, aula FROM horario";
     $stmt = $pdo->query($sql);
     $horarios = $stmt->fetchAll();
     //el profesor actual

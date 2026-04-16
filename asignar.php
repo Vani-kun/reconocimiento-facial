@@ -5,7 +5,7 @@
     $stmt = $pdo->query($sql);
     $materias = $stmt->fetchAll();
 
-    $sql = "SELECT entrada, salida FROM horas";
+    $sql = "SELECT id, entrada, salida FROM horas";
     $stmt = $pdo->query($sql);
     $horas = $stmt->fetchAll();
 
@@ -96,7 +96,7 @@
 
                 <div id="horarios-items-bank" class="scroll-area">
                 <?php foreach ($horas as $hora): ?>
-                    <div class="draggable-item item-horario" draggable="true" data-entrada="<?= htmlspecialchars($hora['entrada']) ?>" data-salida="<?= htmlspecialchars($hora['salida']) ?>">
+                    <div class="draggable-item item-horario" draggable="true" myid="<?= htmlspecialchars($hora['id']) ?>" data-entrada="<?= htmlspecialchars($hora['entrada']) ?>" data-salida="<?= htmlspecialchars($hora['salida']) ?>">
                         <?= htmlspecialchars($hora['entrada']) ?> - <?= htmlspecialchars($hora['salida']) ?>
                     </div>
                 <?php endforeach; ?>
@@ -127,8 +127,6 @@
         </div>
     </section>
 </div>
-
-<div class="recicle-bin"></div>
 
 <div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
     <div class="divsection-master">
@@ -180,7 +178,7 @@
                 <div id="mold-items-bank" class="scroll-area">
                     <?php foreach ($AllSeccions as $mySec): ?>
                         <div class="item-seccion draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
-                        <?= htmlspecialchars($mySec['asignatura']) ?> <?= htmlspecialchars($mySec['seccion']) ?> <?= htmlspecialchars($mySec['aula']) ?> <?= htmlspecialchars($mySec['entrada']) ?> - <?= htmlspecialchars($mySec['salida']) ?>
+
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -195,60 +193,82 @@
 </div>
 
 
+<div id="recicle-bin" style="font-size:40px;">🗑</div>
 
-        <div id="MateriaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
-                <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-                    <div>
-                        <label for="MateriaName">Nombre:</label>
-                        <input type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia">
 
-                        <button type="button" id="add-materia">Agregar</button>
-                        <button type="button" id="cancel-materia">Cancelar</button>
-                    </div>
-                </section>
-        </div>
+<div id="MateriaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
+        <form id="materiaform">
+            <label for="MateriaName">Nombre:</label>
+            <input type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia" required>
 
-        <div id="HorarioMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
-                <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-                    <div>
-                        <label for="HorarioE">Hora de Entrada:</label>
-                        <input type="time" id="HorarioE" name="entrada" placeholder="Ingrese la hora de entrada">
-
-                        <label for="HorarioS">Hora de Salida:</label>
-                        <input type="time" id="HorarioS" name="salida" placeholder="Ingrese la hora de salida">
-
-                        <button type="button" id="add-horario">Agregar</button>
-                        <button type="button" id="cancel-horario">Cancelar</button>
-                    </div>
-                </section>
-        </div>
-
-        <div id="AulaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
-                <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-                    <div>
-                        <label for="AulaNumber">Numero del Aula:</label>
-                        <input type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula">
-
-                        <button type="button" id="add-aula">Agregar</button>
-                        <button type="button" id="cancel-aula">Cancelar</button>
-                    </div>
-                </section>
-        </div>
-
-        <div id="SeccionMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
-                <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-                    <div>
-                        <label for="SeccionNumber">Numero de la sección:</label>
-                        <input type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección">
-
-                        <button type="button" id="add-seccion">Agregar</button>
-                        <button type="button" id="cancel-seccion">Cancelar</button>
-                    </div>
-                </section>
-                
-        </div>
+            <button type="submit" id="add-materia">Agregar</button>
+            <button type="button" id="cancel-materia">Cancelar</button>
+        </form>
+    </section>
 </div>
+
+<div id="HorarioMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
+        <form id="horarioform">
+            <label for="HorarioE">Hora de Entrada:</label>
+            <input type="time" id="HorarioE" name="entrada" placeholder="Ingrese la hora de entrada" required>
+
+            <label for="HorarioS">Hora de Salida:</label>
+            <input type="time" id="HorarioS" name="salida" placeholder="Ingrese la hora de salida" required>
+
+            <button type="submit" id="add-horario">Agregar</button>
+            <button type="button" id="cancel-horario">Cancelar</button>
+        </form>
+    </section>
+</div>
+
+<div id="AulaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
+        <form id="aulaform">
+            <label for="AulaNumber">Numero del Aula:</label>
+            <input type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula" required>
+
+            <button type="submit" id="add-aula">Agregar</button>
+            <button type="button" id="cancel-aula">Cancelar</button>
+        </form>
+    </section>
+</div>
+
+<div id="SeccionMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
+        <form id="seccionform">
+            <label for="SeccionNumber">Numero de la sección:</label>
+            <input type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección" required>
+
+            <button type="submit" id="add-seccion">Agregar</button>
+            <button type="button" id="cancel-seccion">Cancelar</button>
+        </form>
+    </section>  
+</div>
+
+
+
+</div>
+
+
     <script>
+        function arreglarhora(hora){
+
+            let hora24 = hora;
+            if(hora.length > 5){hora24 = hora.substring(0, 5)}  
+
+            // Creamos un objeto Date falso para poder formatearlo
+            // (Usamos una fecha cualquiera, lo importante es la hora)
+            const fechaTemp = new Date(`1970-01-01T${hora24}:00`);
+
+            return fechaTemp.toLocaleString('en-US', { 
+            hour: 'numeric', 
+            minute: 'numeric', 
+            hour12: true 
+            });
+        }
+
         const draggables = document.querySelectorAll('.draggable-item');
         const dropTarget = document.getElementById('drop-target');
         const materiaInput = document.getElementById('materia-input');
@@ -257,6 +277,7 @@
         const horarioSInput = document.getElementById('hora-salida');
         const seccionInput = document.getElementById('seccion-input');
         const prevItems = document.querySelectorAll(".previtem");
+        const dropEraser = document.getElementById("recicle-bin");
         ItemSelected = -1;                
 
         prevItems.forEach(element => {
@@ -286,6 +307,63 @@
                 });
             });
 
+         dropEraser.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropEraser.classList.add('hover');  
+            });
+
+        dropEraser.addEventListener('dragleave', () => {
+            dropEraser.classList.remove('hover');
+            });
+
+        dropEraser.addEventListener('drop', async (e) => {
+            e.preventDefault();
+
+            const draggingItem = document.querySelector('.dragging');
+            let MYID;
+            let type;
+
+            if(draggingItem.classList.contains('item-materia')){
+            MYID = draggingItem.getAttribute("data-materia");  
+            type = 0;
+            }else if(draggingItem.classList.contains('item-horario')){
+            MYID = draggingItem.getAttribute("myid");              
+            type = 1;
+            }else if(draggingItem.classList.contains('item-aula')){
+            MYID = draggingItem.getAttribute("data-aula");     
+            type = 2;         
+            }else if(draggingItem.classList.contains('item-seccion')){
+            MYID = draggingItem.getAttribute("data-seccion"); 
+            type = 3;             
+            }
+
+                try {
+                const respuesta = await fetch('php/itembank/eliminar/eliminarmolde.php', {
+                method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                        body: JSON.stringify({
+                        id: MYID,
+                        type: type
+                        })
+                    });
+
+                    const resultado = await respuesta.json(); 
+                    if (resultado.success) {
+                        
+                        draggingItem.remove();
+
+                        } else {
+                        console.error("respuesta: " + resultado.error);
+                        }
+                    } catch (error) {
+                    console.error("Error al enviar: ", error);
+                    }            
+
+            dropEraser.classList.remove('hover');
+        });
+
         dropTarget.addEventListener('dragover', e => {
             e.preventDefault();
             if(!document.getElementById("EditSectionBtn").classList.contains("divsection-selected")){
@@ -308,17 +386,13 @@
             const draggingItem = document.querySelector('.dragging');
 
             if(draggingItem.classList.contains('item-materia')){
-            const draggingItem = document.querySelector('.dragging');
             materiaInput.value = draggingItem.getAttribute('data-materia');
             }else if(draggingItem.classList.contains('item-horario')){
-                const draggingItem = document.querySelector('.dragging');
                 horarioEInput.value = draggingItem.getAttribute('data-entrada');
                 horarioSInput.value = draggingItem.getAttribute('data-salida');
             }else if(draggingItem.classList.contains('item-aula')){
-                const draggingItem = document.querySelector('.dragging');
                 aulaInput.value = draggingItem.getAttribute('data-aula');
             }else if(draggingItem.classList.contains('item-seccion')){
-                const draggingItem = document.querySelector('.dragging');
                 seccionInput.value = draggingItem.getAttribute('data-seccion');
             }
             
@@ -332,7 +406,6 @@
             const data = Object.fromEntries(formData.entries());
             
             if(ItemSelected === -1){
-                console.log("XDXD");
                 try {
                     const respuesta = await fetch('php/guardar_horario.php', {
                         method: 'POST',
@@ -360,10 +433,14 @@
 
                         NewItem.classList.add("item-seccion","draggable-item","previtem");
 
-                        NewItem.textContent = data.materia + " " + data.seccion + " " + data.aula + " " + data.h_entrada + " - " +data.h_salida;
+                        const add1 = document.createElement("strong"); 
+                        add1.textContent = `🌟${data.materia}:`;
+                        const add2 = document.createElement("p");
+                        add2.textContent = `🖈Seccion ${data.seccion} 🖈Aula ${data.aula} 🖈${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_salida)}`;
+                        NewItem.appendChild(add1);     
+                        NewItem.appendChild(add2);   
 
                         document.getElementById("mold-items-bank").appendChild(NewItem);
-
                     } else {
                         console.error("respuesta: " + resultado.error);
                         alert("Error al guardar el horario.");
@@ -400,8 +477,14 @@
                         ItemSelected.setAttribute("horarios", data.h_salida);
                         ItemSelected.setAttribute("seccion", data.seccion);
 
-                        ItemSelected.textContent = data.materia + " " + data.seccion + " " + data.aula + " " + data.h_entrada + " - " +data.h_salida;
+                        ItemSelected.textContent = "";
                         
+                        const add1 = document.createElement("strong"); 
+                        add1.textContent = `🌟${data.materia}:`;
+                        const add2 = document.createElement("p");
+                        add2.textContent = `🖈Seccion ${data.seccion} 🖈Aula ${data.aula} 🖈${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_salida)}`;
+                        ItemSelected.appendChild(add1);     
+                        ItemSelected.appendChild(add2);  
 
                     } else {
                         console.error("respuesta: " + resultado.error);
@@ -426,12 +509,23 @@
             document.getElementById('MateriaMenu').classList.add('oculto');
             });
 
-        document.getElementById('add-materia').addEventListener('click', async () => {
+        document.getElementById('materiaform').addEventListener('submit', async (e) => {
+            e.preventDefault();
             const nombre = document.getElementById('MateriaName').value.trim();
+            const items = Array.from(document.querySelectorAll('.item-materia'));
+            let salir = items.some(element => {
+                if(element.getAttribute("data-materia") == nombre){
+                    alert("Ya hay un prompt con el nombre "+nombre);
+                    return true;
+                    }
+                });
+
+            if(salir){return;}
+
             if (nombre) {
 
             try {
-                const respuesta = await fetch('php/guardarmateria.php', {
+                const respuesta = await fetch('php/itembank/guardar/guardarmateria.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -484,13 +578,29 @@
             document.getElementById('HorarioMenu').classList.add('oculto');
             });
 
-        document.getElementById('add-horario').addEventListener('click', async () => {
+        document.getElementById('horarioform').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
             const he = document.getElementById('HorarioE').value.trim();
             const hs = document.getElementById('HorarioS').value.trim();
+
+            const items =  Array.from(document.querySelectorAll('.item-horario'));
+            let salir = items.some(element => {
+                let entradaData = element.getAttribute("data-entrada").substring(0, 5); 
+                let salidaData = element.getAttribute("data-salida").substring(0, 5);
+
+                if(entradaData == he && salidaData == hs){
+                    alert("Ya hay un prompt con las horas "+he+" - "+hs);
+                    return true;
+                    }
+                });
+
+            if(salir){return;}
+
             if (he && hs) {
 
             try {
-                const respuesta = await fetch('php/guardarhora.php', {
+                const respuesta = await fetch('php/itembank/guardar/guardarhora.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -508,7 +618,7 @@
                 newItem.setAttribute('draggable', 'true');
                 newItem.setAttribute('data-entrada', he);
                 newItem.setAttribute('data-salida', hs);
-                newItem.textContent = `${he} - ${hs}`;
+                newItem.textContent = `${arreglarhora(he)} - ${arreglarhora(hs)}`;
                 document.getElementById('horarios-items-bank').appendChild(newItem);
 
                 // Agregar eventos de arrastre al nuevo elemento
@@ -542,12 +652,25 @@
             document.getElementById('AulaMenu').classList.add('oculto');
             });
 
-        document.getElementById('add-aula').addEventListener('click', async () => {
+        document.getElementById('aulaform').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
             const aula = document.getElementById('AulaNumber').value.trim();
+
+            const items =  Array.from(document.querySelectorAll('.item-aula'));
+            let salir = items.some(element => {
+                if(element.getAttribute("data-aula") == aula){
+                    alert("Ya hay un prompt con el aula "+aula);
+                    return true;
+                    }
+                });
+
+            if(salir){return;}
+
             if (aula) {
 
             try {
-                const respuesta = await fetch('php/guardaraula.php', {
+                const respuesta = await fetch('php/itembank/guardar/guardaraula.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -599,12 +722,25 @@
             document.getElementById('SeccionMenu').classList.add('oculto');
             });
 
-        document.getElementById('add-seccion').addEventListener('click', async () => {
+        document.getElementById('seccionform').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
             const seccion = document.getElementById('SeccionNumber').value.trim();
+
+            const items =  Array.from(document.querySelectorAll('.item-seccion'));
+            let salir = items.some(element => {
+                if(element.getAttribute("data-seccion") == seccion){
+                    alert("Ya hay un prompt con la seccion "+seccion);
+                    return true;
+                    }
+                });
+
+            if(salir){return;}
+
             if (seccion) {
 
             try {
-                const respuesta = await fetch('php/guardarseccion.php', {
+                const respuesta = await fetch('php/itembank/guardar/guardarseccion.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -766,11 +902,30 @@
                     } catch (error) {
                     console.error("Error al enviar: ", error);
                     }
-
-                
-            
-
                 });
+
+    const ih = document.querySelectorAll('.item-horario');
+    ih.forEach(element => {
+        const he = element.getAttribute('data-entrada');
+        const hs = element.getAttribute('data-salida');
+        element.textContent = `${arreglarhora(he)} - ${arreglarhora(hs)}`;               
+        });
+
+    const mm = document.querySelectorAll('.previtem');
+    mm.forEach(element => {
+         const ma = element.getAttribute('materia');
+         const au = element.getAttribute('aula');
+         const he = element.getAttribute('horarioe');
+         const hs = element.getAttribute('horarios');
+         const se = element.getAttribute('seccion');
+
+        const add1 = document.createElement("strong"); 
+        add1.textContent = `🌟${ma}:`;
+        const add2 = document.createElement("p");
+        add2.textContent = `🖈Seccion ${se} 🖈Aula ${au} 🖈${arreglarhora(he)} - ${arreglarhora(hs)}`;
+        element.appendChild(add1);     
+        element.appendChild(add2);              
+        });
     </script>
     
 </body>
