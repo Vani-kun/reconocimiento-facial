@@ -207,6 +207,7 @@
                     btnToggle.addEventListener('click', () => {
                         toggleProfesor(id);
                     });
+                    
                     profActions.appendChild(btnToggle);
                     const btnDelete = document.createElement('button');
                     btnDelete.classList.add('btn', 'btn-danger');

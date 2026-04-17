@@ -13,7 +13,7 @@ if (isset($data['descriptor'])) {
     $tags = isset($data['tags']) ? json_encode($data['tags']) : json_encode([]); 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "INSERT INTO caras (nombre, descriptor, tags, activo, horarios) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO caras (nombre, descriptor, tags, activo, horarios) VALUES (?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$nombre, $descriptor, $tags, 1, "[]"]);
 
