@@ -2,7 +2,7 @@
     include "php/conexion.php";
 
     // 1. Consultamos todos los registros
-    $sql = "SELECT id, descriptor, nombre, activo, tags FROM caras";
+    $sql = "SELECT id, descriptor, nombre, activo, tags FROM caras ORDER BY activo DESC, nombre ASC";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
 ?>
@@ -402,8 +402,6 @@
             console.log(prof.nombre, include);
 
         });
-
-        
 
     }
 

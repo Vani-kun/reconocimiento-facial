@@ -2,7 +2,7 @@
     include "php/conexion.php";
 
     //traer todos los profesores
-    $sql = "SELECT id, nombre, activo, tags, horarios FROM caras";
+    $sql = "SELECT id, nombre, activo, tags, horarios FROM caras WHERE activo = 1 ORDER BY nombre ASC";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
     //el profesor actual

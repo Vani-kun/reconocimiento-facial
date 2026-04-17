@@ -799,3 +799,7 @@ body {
             text-transform: uppercase;
             transition: color 0.2s;
         }
+
+        .fc-day-today{
+            background-color: black;
+        }
