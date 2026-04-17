@@ -32,12 +32,15 @@
         </div>
         <div id="reloj">00:00:00</div>
 
-        <div class="btnconte">
+        <div class="btnconte" style="display: none;">
             <button id="btn" class="boton">GUARDAR BIOMETRÍA</button>
         </div>
     </div>
-<audio id="detect" src="detect.mp3" preload="auto" hidden></audio>
-<audio id="nodetect" src="nodetect.mp3" preload="auto" hidden></audio>
+
     <script src="codigo.js"></script>
+
+    <footer class="footer">
+        <p>&copy; 2026 Proyecto Livelula | Instituto Universitario IUJO</p>
+    </footer>
 </body>
 </html>

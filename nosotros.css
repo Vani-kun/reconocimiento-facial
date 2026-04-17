@@ -1,0 +1,161 @@
+/* DISEÑO LLAMATIVO Y LIMPIO M.A.R.S. */
+:root {
+    --azul-vibrante: #0052ff;
+    --azul-hover: #003ccb;
+    --fondo-suave: #f0f4f8;
+    --blanco: #ffffff;
+    --texto-oscuro: #1a202c;
+    --texto-gris: #4a5568;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--fondo-suave);
+    color: var(--texto-oscuro);
+    line-height: 1.6;
+}
+
+/* NAVBAR MODERNA */
+.navbar {
+    background-color: var(--blanco);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-gif {
+    height: 45px;
+    border-radius: 8px;
+}
+
+.nav-btn {
+    text-decoration: none;
+    background-color: var(--azul-vibrante);
+    color: var(--blanco) !important;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: var(--azul-hover);
+    transform: translateY(-2px);
+}
+
+/* HERO HEADER (LLAMATIVO) */
+.hero-header {
+    background: linear-gradient(135deg, var(--azul-vibrante) 0%, #00d4ff 100%);
+    color: var(--blanco);
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero-logo {
+    width: 70px;
+    filter: brightness(0) invert(1); /* Pone el logo en blanco */
+    margin-bottom: 20px;
+}
+
+.hero-header h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.hero-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 15px auto 0;
+}
+
+/* TARJETAS DE EQUIPO */
+.container {
+    max-width: 900px;
+    margin: -40px auto 60px; /* Sube un poco para entrar en el azul */
+    padding: 0 20px;
+}
+
+.team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--blanco);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.card-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 30px;
+    border: 3px solid var(--azul-vibrante);
+}
+
+.name {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--texto-oscuro);
+}
+
+.role {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 5px 0 12px;
+}
+
+.azul-text { color: var(--azul-vibrante); }
+.verde-text { color: #10b981; }
+
+.bio {
+    color: var(--texto-gris);
+    font-size: 0.95rem;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 40px;
+    background-color: var(--blanco);
+    border-top: 1px solid #eee;
+    color: var(--texto-gris);
+}
+
+.footer b { color: var(--azul-vibrante); }
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    .card { flex-direction: column; text-align: center; }
+    .card-image img { margin: 0 0 20px 0; }
+}
