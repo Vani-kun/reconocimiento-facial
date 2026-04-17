@@ -29,19 +29,22 @@ include 'includes/session_check.php';
     <link rel="stylesheet" href="estiloMARS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
-            --color-detectado: #00ff00;
-            --color-no-detectado: #e74c3c;
+            --color-detectado: rgb(0, 255, 234);
+            --color-no-detectado: #7d27df;
             --color-fondo: #f4f4f4;
             --color-boton: #1336ff;
             --azul: #4169E1;
             --azul-glow: rgba(65, 105, 225, 0.4);
             --cyan: #00FFFF;
             --cyan-dim: rgba(0, 255, 255, 0.12);
-            --green: #00ff00;
-            --green-dim: rgba(0, 255, 0, 0.12);
-            --red: #e74c3c;
+            --green: #00d9ff;
+            --green-dim: rgba(0, 174, 255, 0.12);
+            --red: #601ae2;
             --red-dim: rgba(231, 76, 60, 0.12);
             --yellow: #f1c40f;
             --surface: #ffffff;
@@ -109,10 +112,16 @@ include 'includes/session_check.php';
         .stat-card.red::before { background: var(--red); }
         .stat-label { font-size: 0.68rem; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 600; }
         .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--azul); line-height: 1; }
-        .stat-card.green .stat-value { color: #27ae60; }
+        .stat-card.green .stat-value { color: #3ee2e2; }
         .stat-card.red .stat-value { color: var(--red); }
 
         .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; gap: 1rem; flex-wrap: wrap; }
+        .toolbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Espacio uniforme entre los botones */
+        flex-wrap: nowrap; /* Evita que los botones salten a la siguiente línea */
+        }
         .search-wrap { position: relative; }
         .search-input { background: #fff; border: 1.5px solid var(--border); border-radius: 50px; color: var(--text); font-size: 0.9rem; padding: 0.6rem 1.2rem 0.6rem 2.5rem; width: 270px; outline: none; transition: all 0.2s; }
         .search-input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px var(--azul-glow); }
@@ -152,7 +161,7 @@ include 'includes/session_check.php';
         }
         
         .fc-day-with-registry .fc-daygrid-day-top{
-        background-color: #05de34;
+        background-color: #2ce4e4;
 
         }
 
@@ -204,7 +213,7 @@ background-color: #adbeff;
 
 .fc-day-with-registry.fc-day.fc-daygrid-day:hover .fc-daygrid-day-top{
 
-background-color: #f6cd26;
+background-color: #229aaf;
         
 }
 
@@ -276,6 +285,41 @@ border-color:var(--cyan);
 }
 
 
+    /* --- ESTILOS DEL MENÚ DE EXPORTACIÓN --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--surface);
+            min-width: 160px;
+            box-shadow: 0px 8px 20px rgba(65,105,225,0.15);
+            z-index: 100;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .dropdown-content a {
+            color: var(--text);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .dropdown-content a:hover {
+            background-color: var(--surface2);
+            color: var(--azul);
+        }
+        /* Mostrar el menú al pasar el mouse */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -350,8 +394,17 @@ border-color:var(--cyan);
             <input id="filtroend" class="dateInput" type="date" readonly style="width:120px;height:30px;font-size:15px;border-radius:5px;">
             <button class="btn btn-reload" onclick="toggleCalendar()">📆Calendario</button>
             <button class="btn btn-reload" onclick="togglePList()">👤Profesores</button>
+            <div class="toolbar-actions">
             <button class="btn btn-reload" onclick="cargarDatos()">Recargar</button>
-            <button class="btn btn-pdf" onclick="descargarPDF()">Exportar PDF</button>
+            <div class="dropdown">
+            <button class="btn btn-export">Exportar ▼</button>
+            <div class="dropdown-content">
+             <a href="#" onclick="descargarPDF(); return false;">📄 Documento PDF</a>
+             <a href="#" onclick="descargarExcel(); return false;">📊 Hoja de Excel</a>
+             <a href="#" onclick="descargarWord(); return false;">📝 Documento Word</a>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -738,6 +791,37 @@ async function inicializarOReferescarCalendario() {
         doc.text("Registro de Asistencia M.A.R.S.", 14, 15);
         doc.autoTable({ html: '#tabla-asistencia', margin: { top: 25 } });
         doc.save("asistencia_mars.pdf");
+    }
+
+    // --- NUEVAS FUNCIONES DE EXPORTACIÓN ---
+
+    function descargarExcel() {
+        // Seleccionamos la tabla HTML
+        let tabla = document.getElementById("tabla-asistencia");
+        // SheetJS convierte la tabla HTML a un libro de Excel automáticamente
+        let wb = XLSX.utils.table_to_book(tabla, {sheet: "Asistencia"});
+        XLSX.writeFile(wb, "asistencia_mars.xlsx");
+    }
+
+    function descargarWord() {
+        // Se crea una estructura HTML básica que Word pueda interpretar
+        let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+             "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+             "xmlns='http://www.w3.org/TR/REC-html40'>" +
+             "<head><meta charset='utf-8'><title>Registro de Asistencia M.A.R.S.</title></head><body>" + 
+             "<h2>Registro de Asistencia M.A.R.S.</h2>";
+        let footer = "</body></html>";
+        
+        let tablaHTML = document.getElementById("tabla-asistencia").outerHTML;
+        let sourceHTML = header + tablaHTML + footer;
+
+        let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        let fileDownload = document.createElement("a");
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = 'asistencia_mars.doc';
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
     }
 
     // 1. Detectar si el usuario volvió atrás

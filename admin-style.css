@@ -266,10 +266,6 @@ body {
 }
 
 
-
-
-
-
 /*pestaña de agregar*/
 /* Fondo negro transparente que cubre todo */
 .modal-overlay {
@@ -344,5 +340,5 @@ body {
     gap: 10px;
 }
 
-.btn-ok { background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
-.btn-cancel { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+.btn-ok { background: #2ed3e9; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+.btn-cancel { background: #4731c5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }

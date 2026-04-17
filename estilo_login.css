@@ -7,12 +7,12 @@
     --tarjeta-bg: #ffffff;       /* Blanco puro para el contenedor */
     --azul-mars: #007bff;        /* Azul corporativo */
     --azul-hover: #0056b3;       /* Azul oscuro para hover */
-    --verde-mars: #28a745;       /* Verde para acciones positivas */
+    --verde-mars: #24b2f3;       /* Verde para acciones positivas */
     --texto-principal: #2c3e50;  /* Gris oscuro para títulos */
     --texto-secundario: #546e7a; /* Gris azulado para párrafos */
     --borde: #dee2e6;            /* Color de bordes y separadores */
     --sombra: rgba(0, 0, 0, 0.08);
-    --error: #ff4d4d;
+    --error: #d8ff4d;
 }
 
 /* Configuración Base */
@@ -187,7 +187,7 @@ input:focus {
 
 .btn-verde { background-color: var(--verde-mars); }
 .btn-verde:hover { 
-    background-color: #218838;
+    background-color: #16bce6;
     transform: translateY(-3px); 
     box-shadow: 0 8px 15px rgba(40,167,69,0.2); 
 }

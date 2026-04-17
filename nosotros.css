@@ -1,4 +1,6 @@
-/* DISEÑO LLAMATIVO Y LIMPIO M.A.R.S. */
+/* DISEÑO M.A.R.S. - PROYECTO LIVELULA 
+   Variables de color y estilos globales
+*/
 :root {
     --azul-vibrante: #0052ff;
     --azul-hover: #003ccb;
@@ -6,6 +8,7 @@
     --blanco: #ffffff;
     --texto-oscuro: #1a202c;
     --texto-gris: #4a5568;
+    --brillo-livelula: rgba(0, 212, 255, 0.8);
 }
 
 body {
@@ -17,7 +20,7 @@ body {
     line-height: 1.6;
 }
 
-/* NAVBAR MODERNA */
+/* --- NAVBAR MODERNA --- */
 .navbar {
     background-color: var(--blanco);
     padding: 15px 0;
@@ -36,9 +39,12 @@ body {
     padding: 0 20px;
 }
 
+/* Logo IUJO en la parte superior */
 .nav-gif {
     height: 45px;
+    width: auto;
     border-radius: 8px;
+    object-fit: contain;
 }
 
 .nav-btn {
@@ -56,7 +62,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* HERO HEADER (LLAMATIVO) */
+/* --- HERO HEADER (CENTRO AZUL) --- */
 .hero-header {
     background: linear-gradient(135deg, var(--azul-vibrante) 0%, #00d4ff 100%);
     color: var(--blanco);
@@ -64,16 +70,30 @@ body {
     text-align: center;
 }
 
-.hero-logo {
-    width: 70px;
-    filter: brightness(0) invert(1); /* Pone el logo en blanco */
+/* NUEVA CLASE: Logo Livelula Bicolor con Brillo */
+.hero-logo-livelula {
+    height: 250px; /* Tamaño destacado */
+    width: auto;
     margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+    /* Efecto de resplandor para que resalte sobre el azul */
+    filter: drop-shadow(0 0 15px var(--brillo-livelula));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.hero-logo-livelula:hover {
+    transform: scale(1.08); /* Crece un poco al pasar el mouse */
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
 }
 
 .hero-header h1 {
     font-size: 2.8rem;
     margin: 0;
     font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .hero-header p {
@@ -83,10 +103,10 @@ body {
     margin: 15px auto 0;
 }
 
-/* TARJETAS DE EQUIPO */
+/* --- CONTENEDOR Y TARJETAS --- */
 .container {
     max-width: 900px;
-    margin: -40px auto 60px; /* Sube un poco para entrar en el azul */
+    margin: -40px auto 60px; /* Sube las tarjetas sobre el fondo azul */
     padding: 0 20px;
 }
 
@@ -108,7 +128,7 @@ body {
 }
 
 .card:hover {
-    transform: scale(1.02);
+    transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
@@ -143,7 +163,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* FOOTER */
+/* --- FOOTER --- */
 .footer {
     text-align: center;
     padding: 40px;
@@ -154,8 +174,9 @@ body {
 
 .footer b { color: var(--azul-vibrante); }
 
-/* RESPONSIVO */
+/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
     .card { flex-direction: column; text-align: center; }
     .card-image img { margin: 0 0 20px 0; }
+    .hero-header h1 { font-size: 2rem; }
 }
