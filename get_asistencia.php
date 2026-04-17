@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 // Establecemos la zona horaria de Caracas para que concuerde con tu ubicación
 date_default_timezone_set('America/Caracas');
 
-require "conexion.php";
+require "php/conexion.php";
 
 try {
     $hoy = date('Y-m-d');
