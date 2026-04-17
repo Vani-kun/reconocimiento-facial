@@ -191,13 +191,13 @@
                             SelectProfesor = -1;
                             profCard.classList.remove('active');
                             document.getElementById('current-prof-name').textContent = "Seleccione un profesor";
-                            document.getElementById('current-prof-id').textContent = "tags: ---";
+                            document.getElementById('current-prof-id').textContent = "TAGS: ---";
                             return;
                         }else{
                             profCard.classList.add('active');
                             SelectProfesor = this.myID;
                             document.getElementById('current-prof-name').textContent = allProfesors[this.myID].nombre;
-                            document.getElementById('current-prof-id').textContent = "tags: " + 
+                            document.getElementById('current-prof-id').textContent = "TAGS: " + 
                             allProfesors[this.myID].tags
                             .filter(term => {
                             // Usamos !== para decir "que no sea igual a"
@@ -391,10 +391,10 @@
                         <?php
                             if($profesor){
                                 echo '<p id="current-prof-name">Pofesor(a) '.$profesor['nombre'].'</p>';
-                                echo '<small id="current-prof-id">ID: '.$profesor['id'].'</small>';
+                                echo '<small id="current-prof-id">TAGS: '.$profesor['id'].'</small>';
                             }else{
                                 echo '<p id="current-prof-name">Seleccione un profesor</p>';
-                                echo '<small id="current-prof-id">ID: ---</small>';
+                                echo '<small id="current-prof-id">TAGS: ---</small>';
                             }
                         ?>
                 </div>

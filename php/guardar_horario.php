@@ -9,22 +9,23 @@ $data = json_decode($json, true);
 
 if (isset($data['materia'])) {
 
-    $materia = $data['materia'];
-    $aula = $data['aula'];
-    $h_entrada = $data['h_entrada'];
-    $h_salida = $data['h_salida'];
-    $seccion = $data['seccion'];
+    $materia    = $data['materia'];
+    $aula       = $data['aula'];
+    $h_entrada  = $data['h_entrada'];
+    $h_salida   = $data['h_salida'];
+    $seccion    = $data['seccion'];
+    $dia        = $data['days'];
 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "INSERT INTO horario (asignatura, aula, entrada, salida, seccion) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO horario (asignatura, aula, entrada, salida, seccion, dia) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$materia, $aula, $h_entrada, $h_salida, $seccion]);
+        $stmt->execute([$materia, $aula, $h_entrada, $h_salida, $seccion, $dia]);
 
         $idGenerado = $pdo->lastInsertId();
 
         //Responder al JavaScript que todo salió bien
-        echo json_encode(["success" => true, "message" => "Guardado con éxito", "id" => $idGenerado, 'materia' => $materia, 'aula' => $aula, 'h_entrada' => $h_entrada, 'h_salida' => $h_salida, 'seccion' => $seccion]);
+        echo json_encode(["success" => true, "message" => "Guardado con éxito", "id" => $idGenerado, 'materia' => $materia, 'aula' => $aula, 'h_entrada' => $h_entrada, 'h_salida' => $h_salida, 'seccion' => $seccion, "days" => $dia]);
     }catch (PDOException $e) {
         echo json_encode(["success" =>false, "error" => $e->getMessage()]);
     }

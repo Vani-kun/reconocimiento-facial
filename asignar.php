@@ -17,7 +17,7 @@
     $stmt = $pdo->query($sql);
     $secciones = $stmt->fetchAll();
 
-    $sql = "SELECT id, asignatura, seccion, entrada, salida, aula FROM horario";
+    $sql = "SELECT id, asignatura, seccion, entrada, salida, aula, dia FROM horario";
     $stmt = $pdo->query($sql);
     $AllSeccions = $stmt->fetchAll();
 ?>
@@ -50,6 +50,10 @@
 
         <div class="divsection itemsbc" id="hsectionbutton">
         Horarios
+        </div>
+
+        <div class="divsection itemsbc" id="dsectionbutton">
+        Dias
         </div>
     </div>
     <section class="items-bank" style="height:70%;max-height:70%">    
@@ -122,7 +126,34 @@
                     <button id="open-menu-seccion" class="btn btn-add" style="bottom:0;">Agregar Sección</button>
                 </div>
             </div>
-                
+            <div id="DiaSection" style="display:none;">
+                <h3>Días Disponibles</h3>
+                <p><small>Arrastra un día al panel derecho</small></p>
+                <div id="dia-items-bank" class="scroll-area">
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Lunes">
+                    Lunes
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Martes">
+                    Martes
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Miercoles">
+                    Miercoles
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Jueves">
+                    Jueves
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Viernes">
+                    Viernes
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Sabado">
+                    Sabado
+                    </div>
+                    <div class="draggable-item item-dia" draggable="true" data-dia="Domingo">
+                    Domingo
+                    </div>
+                </div>
+
+            </div>    
 
         </div>
     </section>
@@ -143,27 +174,32 @@
             <div id="SectionConfig">
             <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
-                <div class="input-group">
-                    <label>Materia Seleccionada:</label>
-                    <input type="text" id="materia-input" name="materia" readonly placeholder="Arrastra aquí...">
-                </div>
+                
 
                 <div class="grid-form">
                     <div class="input-group">
-                        <label>Aula:</label>
-                        <input id="aula-input" type="text" name="aula" placeholder="Ej: Aula 102" required>
+                        <label>Materia Seleccionada:</label>
+                        <input type="text" id="materia-input" name="materia" readonly placeholder="Arrastra aquí...">
                     </div>
                     <div class="input-group">
                         <label>Sección:</label>
-                        <input id="seccion-input" type="text" name="seccion" placeholder="Ej: 6to A" required>
+                        <input id="seccion-input" type="text" name="seccion" readonly placeholder="Arrastra aquí..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Aula:</label>
+                        <input id="aula-input" type="text" name="aula" readonly placeholder="Arrastra aquí..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Dia:</label>
+                        <input id="dia-input" type="text" name="days" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
                         <label>Hora Entrada:</label>
-                        <input id="hora-entrada" type="time" name="h_entrada" required>
+                        <input id="hora-entrada" type="time" name="h_entrada" readonly required>
                     </div>
                     <div class="input-group">
                         <label>Hora Salida:</label>
-                        <input id="hora-salida" type="time" name="h_salida" required>
+                        <input id="hora-salida" type="time" name="h_salida" readonly required>
                     </div>
                 </div>
 
@@ -177,7 +213,7 @@
                 <h3>Secciones Creadas</h3>
                 <div id="mold-items-bank" class="scroll-area">
                     <?php foreach ($AllSeccions as $mySec): ?>
-                        <div class="item-seccion draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
+                        <div class="item-seccion draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dia="<?= htmlspecialchars($mySec['dia']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
 
                         </div>
                     <?php endforeach; ?>
@@ -276,15 +312,20 @@
         const horarioEInput = document.getElementById('hora-entrada');
         const horarioSInput = document.getElementById('hora-salida');
         const seccionInput = document.getElementById('seccion-input');
+        const diaInput = document.getElementById('dia-input');
         const prevItems = document.querySelectorAll(".previtem");
         const dropEraser = document.getElementById("recicle-bin");
         ItemSelected = -1;                
+
+        console.log(prevItems)
 
         prevItems.forEach(element => {
            
             element.addEventListener("click", () => {
             
-                prevItems.forEach(element => {
+            const prevItems2 = document.querySelectorAll(".previtem");
+
+                prevItems2.forEach(element => {
                 element.classList.remove("previtemselected");
                 });     
                 if(!element.classList.contains("previtemselected")){
@@ -335,6 +376,9 @@
             }else if(draggingItem.classList.contains('item-seccion')){
             MYID = draggingItem.getAttribute("data-seccion"); 
             type = 3;             
+            }else if(draggingItem.classList.contains('item-dia')){
+            dropEraser.classList.remove('hover');
+            return;         
             }
 
                 try {
@@ -394,6 +438,8 @@
                 aulaInput.value = draggingItem.getAttribute('data-aula');
             }else if(draggingItem.classList.contains('item-seccion')){
                 seccionInput.value = draggingItem.getAttribute('data-seccion');
+            }else if(draggingItem.classList.contains('item-dia')){
+                diaInput.value = draggingItem.getAttribute('data-dia');
             }
             
             dropTarget.classList.remove('hover');
@@ -401,10 +447,16 @@
 
         document.getElementById("form-asignacion").addEventListener("submit", async (e) => {
             e.preventDefault();
+
             const form = document.getElementById("form-asignacion");
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
+            if(data.materia == "" || data.aula == "" || data.seccion == "" || data.h_entrada == "" || data.h_salida == "" || data.dia == ""){
+                alert("Llena todos los campos");
+                return;
+                }           
+
             if(ItemSelected === -1){
                 try {
                     const respuesta = await fetch('php/guardar_horario.php', {
@@ -429,17 +481,40 @@
                         NewItem.setAttribute("horarioe", resultado.h_entrada);
                         NewItem.setAttribute("horarios", resultado.h_salida);
                         NewItem.setAttribute("seccion", resultado.seccion);
+                        NewItem.setAttribute("dia", resultado.days);
                         NewItem.setAttribute("myid", resultado.id);
 
                         NewItem.classList.add("item-seccion","draggable-item","previtem");
 
                         const add1 = document.createElement("strong"); 
-                        add1.textContent = `🌟${data.materia}:`;
+                        add1.textContent = `🌟${resultado.materia}:`;
                         const add2 = document.createElement("p");
-                        add2.textContent = `🖈Seccion ${data.seccion} 🖈Aula ${data.aula} 🖈${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_salida)}`;
+                        add2.textContent = `🖈Seccion ${resultado.seccion}`;
+                        const add3 = document.createElement("p");
+                        add3.textContent = `🖈Aula ${resultado.aula}`;
+                        const add4 = document.createElement("p");
+                        add4.textContent = `🖈${resultado.days} ${arreglarhora(resultado.h_entrada)} - ${arreglarhora(resultado.h_entrada)}`; 
+                        
                         NewItem.appendChild(add1);     
                         NewItem.appendChild(add2);   
+                        NewItem.appendChild(add3);     
+                        NewItem.appendChild(add4);  
 
+                        NewItem.addEventListener("click", () => {
+                        const prevItems2 = document.querySelectorAll(".previtem");
+                        
+                            prevItems2.forEach(element => {
+                            element.classList.remove("previtemselected");
+                            });     
+                            if(!NewItem.classList.contains("previtemselected")){
+                            ItemSelected = NewItem;
+                               NewItem.classList.add("previtemselected");   
+                                }else{
+                                ItemSelected = -1; 
+                                NewItem.classList.remove("previtemselected");    
+                                }
+                            });      
+   
                         document.getElementById("mold-items-bank").appendChild(NewItem);
                     } else {
                         console.error("respuesta: " + resultado.error);
@@ -476,15 +551,23 @@
                         ItemSelected.setAttribute("horarioe", data.h_entrada);
                         ItemSelected.setAttribute("horarios", data.h_salida);
                         ItemSelected.setAttribute("seccion", data.seccion);
+                        ItemSelected.setAttribute("dia", data.days);
 
                         ItemSelected.textContent = "";
                         
                         const add1 = document.createElement("strong"); 
                         add1.textContent = `🌟${data.materia}:`;
                         const add2 = document.createElement("p");
-                        add2.textContent = `🖈Seccion ${data.seccion} 🖈Aula ${data.aula} 🖈${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_salida)}`;
+                        add2.textContent = `🖈Seccion ${data.seccion}`;
+                        const add3 = document.createElement("p");
+                        add3.textContent = `🖈Aula ${data.aula}`;
+                        const add4 = document.createElement("p");
+                        add4.textContent = `🖈${data.days} ${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_entrada)}`; 
+                        
                         ItemSelected.appendChild(add1);     
                         ItemSelected.appendChild(add2);  
+                        ItemSelected.appendChild(add3); 
+                        ItemSelected.appendChild(add4); 
 
                     } else {
                         console.error("respuesta: " + resultado.error);
@@ -789,16 +872,19 @@
         ItemBankBtn[1] = [];              
         ItemBankBtn[2] = [];
         ItemBankBtn[3] = [];
+        ItemBankBtn[4] = [];                
 
         ItemBankBtn[0][0]  = document.getElementById("msectionbutton");                   
         ItemBankBtn[1][0]  = document.getElementById("asectionbutton");
         ItemBankBtn[2][0]  = document.getElementById("ssectionbutton");
         ItemBankBtn[3][0]  = document.getElementById("hsectionbutton");
+        ItemBankBtn[4][0]  = document.getElementById("dsectionbutton");
 
         ItemBankBtn[0][1]  = document.getElementById("MateriaSection");
         ItemBankBtn[1][1]  = document.getElementById("AulaSection");
         ItemBankBtn[2][1]  = document.getElementById("SeccionSection");
         ItemBankBtn[3][1]  = document.getElementById("HorarioSection");
+        ItemBankBtn[4][1]  = document.getElementById("DiaSection");
 
         SectionBtn = [];
         SectionBtn[0] = [];
@@ -834,6 +920,7 @@
         ItemBankBtn[1][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 1));
         ItemBankBtn[2][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 2));
         ItemBankBtn[3][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 3));
+        ItemBankBtn[4][0].addEventListener("click", () => SwitchItemBankSection(ItemBankBtn, 4));
 
         SectionBtn[0][0].addEventListener("click", () => {
 
@@ -867,6 +954,7 @@
                 horarioEInput.value = ItemSelected.getAttribute("horarioe");
                 horarioSInput.value = ItemSelected.getAttribute("horarios");
                 seccionInput.value  = ItemSelected.getAttribute("seccion");
+                diaInput.value      = ItemSelected.getAttribute("dia");
                 }
 
             });
@@ -918,13 +1006,21 @@
          const he = element.getAttribute('horarioe');
          const hs = element.getAttribute('horarios');
          const se = element.getAttribute('seccion');
+         const di = element.getAttribute('dia');
 
         const add1 = document.createElement("strong"); 
         add1.textContent = `🌟${ma}:`;
         const add2 = document.createElement("p");
-        add2.textContent = `🖈Seccion ${se} 🖈Aula ${au} 🖈${arreglarhora(he)} - ${arreglarhora(hs)}`;
+        add2.textContent = `🖈Seccion ${se}`;
+        const add3 = document.createElement("p");
+        add3.textContent = `🖈Aula ${au}`;
+        const add4 = document.createElement("p");
+        add4.textContent = `🖈${di} ${arreglarhora(he)} - ${arreglarhora(hs)}`;
+
         element.appendChild(add1);     
-        element.appendChild(add2);              
+        element.appendChild(add2);      
+        element.appendChild(add3);     
+        element.appendChild(add4);         
         });
     </script>
     

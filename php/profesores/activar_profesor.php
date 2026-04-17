@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 try {
-    require "conexion.php";
+    require "../conexion.php";
 
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);

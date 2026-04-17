@@ -2,7 +2,7 @@
     include "php/conexion.php";
 
     // 1. Consultamos todos los registros
-    $sql = "SELECT id, nombre, activo, tags FROM caras";
+    $sql = "SELECT id, descriptor, nombre, activo, tags FROM caras";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
 ?>
@@ -153,11 +153,11 @@
                     const id = prof.id;
                     const nombre = prof.nombre;
                     const activo = prof.activo;
+                    const descriptor = prof.descriptor;
                     const tags = JSON.parse(prof.tags) || [];
 
                     const profCard = document.createElement('div');
 
-                    console.log(tags);
                     profCard.classList.add('prof-card');
                     if(activo) {
                         profCard.classList.add('active');
@@ -214,91 +214,34 @@
                     profActions.appendChild(btnDelete);
                     infoDiv.appendChild(profActions);
 
-                    const profEditdivFormulario = document.createElement('div');
-                    profEditdivFormulario.classList.add('prof-edit-form');
-                    profEditdivFormulario.classList.add('invisible');
-
-                    const profEditForm = document.createElement('form');
-                    profEditdivFormulario.appendChild(profEditForm);
-
-                    const inputNombreLabel = document.createElement('label');
-                    inputNombreLabel.textContent = "Nombre del profesor:";
-                    profEditForm.appendChild(inputNombreLabel);
-
-                    const inputNombre = document.createElement('input');
-                    inputNombre.classList.add('prof-input');
-                    inputNombre.placeholder = "Nombre del profesor";
-                    inputNombre.type = 'text';
-                    inputNombre.name = 'nombre';
-                    inputNombre.value = nombre;
-                    profEditForm.appendChild(inputNombre);
-
-                    const inputTagsLabel = document.createElement('label');
-                    inputTagsLabel.textContent = "Tags (separados por comas):";
-                    profEditForm.appendChild(inputTagsLabel);
-
-                    const inputTags = document.createElement('input');
-                    inputTags.classList.add('prof-input', 'tag-input');
-                    inputTags.placeholder = "Tags del profesor";
-                    inputTags.type = 'text';
-                    inputTags.name = 'tags';
-                    inputTags.value = Array.isArray(tags) ? tags.join(', ') : '';
-                    profEditForm.appendChild(inputTags);
-
-                    const btnSave = document.createElement('button');
-                    btnSave.type = 'submit';
-                    btnSave.classList.add('btn', 'btn-success');
-                    btnSave.textContent = 'Guardar';
-                    btnSave.style = 'margin-top:10px; width:100%;';
-                    profEditForm.appendChild(btnSave);
+                    
 
                     btnChange.addEventListener('click', () => {
                     const mySelf = allProfesors[myAllprofesorID];
 
-                        if(openEditor !== -1 && openEditor !== id){
-                            if(openProf){
-                                openProf.classList.add('invisible');
-                            }
-                        }
+                        openEditor = mySelf;
 
-                        if(openEditor === id){
-                            openEditor = -1;
-                            openProf = -1;
-                            profEditdivFormulario.classList.add('invisible');
-                        }else{
-                            openEditor = id;
-                            openProf = profEditdivFormulario;
-                            profEditdivFormulario.classList.remove('invisible');
-                            inputNombre.value = mySelf.nombre;
-                            inputTags.value = Array.isArray(mySelf.tags) ? mySelf.tags.join(', ') : '';
-                        }
+                        addedi(2);
 
                     });
-
-                    profEditForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        const mySelf = allProfesors[myAllprofesorID];
-                        const updatedNombre = inputNombre.value.trim();
-                        const updatedTags = inputTags.value.split(',').map(t => t.trim()).filter(t => t);
-
-                        updateInfo(id, updatedNombre, updatedTags);
-                        
-                        mySelf.nombre = updatedNombre;
-                        mySelf.tags = updatedTags;
-                        prof.nombre = updatedNombre;
-                        prof.tags = updatedTags;
-                        strong.textContent = updatedNombre;
-                        profEditdivFormulario.classList.remove('visible');
-                    });
-
-                    profCard.appendChild(profEditdivFormulario);
+  
+                    btnDelete.addEventListener('click', () => {  
+                        if(!confirm("Seguro que quieres eliminar a "+nombre)){return;}
+                        if(prompt(`Para eliminar a ${nombre}, escribe: ELIMINAR`) != "ELIMINAR"){return;}
+                        _ID = id;
+                        BorrarProfesor(_ID);
+                        });
 
                     allProfesors.push({
                         id,
                         nombre,
                         activo,
                         tags,
-                        element: profCard
+                        descriptor,
+                        element: profCard,
+                        idap: myAllprofesorID,
+                        ep: profAvatar,
+                        en: strong
                     });
 
                 }
@@ -352,6 +295,44 @@
     </div>
 
     <script>
+
+    async function BorrarProfesor(_ID){
+
+        try {
+            const respuesta = await fetch('php/profesores/eliminar_profesor.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id:_ID})
+            });
+
+            const resultado = await respuesta.json(); 
+            if (resultado.success) {
+
+                console.log(resultado.message);
+                alert("respuesta: "+ resultado.message);
+                allProfesors.some(e => {
+
+                    if(e.id == _ID){
+                        e.element.remove();
+                        return true;
+                        }
+
+                    });      
+
+                allProfesors.splice(openEditor.idap,1);
+                
+   
+            } else {
+                alert("respuesta: " + resultado.error);
+            }
+        } catch (error) {
+            console.error("Error al enviar: ", error);
+        }
+
+    }
+
 
     function refreshProfessorList(search = ""){
         const listContainer = document.getElementById('professors-list');
@@ -425,21 +406,6 @@
 
     }
 
-    document.getElementById('search-prof').addEventListener('input', (e) => {
-        refreshProfessorList(e.target.value);
-
-
-         if(openEditor !== -1){
-            if(openProf){
-                openProf.classList.add('invisible');
-                }
-                openEditor = -1;
-                openProf = -1;
-            }
-
-
-    });
-
     refreshProfessorList();
 
     function toggleProfesor(id){
@@ -483,12 +449,7 @@
                
             }
 
-            const tagsInput = prof.element.querySelector('.prof-edit-form').querySelector('.tag-input');
-            if(tagsInput){
-                    tagsInput.value = prof.tags.join(', ');
-                }
-
-            fetch('php/activar.php', {
+            fetch('php/profesores/activar_profesor.php', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -505,26 +466,6 @@
         }
     }
 
-    function updateInfo(id, name, tags){
-        const prof = allProfesors.find(p => p.id === id);
-        if(prof){
-
-            fetch('php/actualizar.php', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: prof.id,
-                nombre: name,
-                tag: tags
-                }),
-            })
-            .then(response => response.json()) // Recibir respuesta PHP
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-        }
-    }
     </script>
     
     <script src="carafunciones.js"></script>
@@ -555,19 +496,20 @@
 
     // Abrir Modal
     btnadd.addEventListener('click', () =>{addedi(1)});
-    //btnedi.addEventListener('click', () =>{addedi(2)});
     async function addedi(md)  {
         if (!cargado) {alert("Los modelos de IA aún se están descargando. Por favor, espere.");return;}        
+        
         if(md==1){
             cnombre.value="";
             btntags.value="";
             aetag.textContent="Añadir Nuevo";
-        }/*else
+        }else
         if(md==2){
-            if (name==""){alert("seleccione un profesor") ;return}
-            cnombre.value=name;
-            aetag.textContent="Editar";
-        }*/
+            if (openEditor==-1){alert("seleccione un profesor") ;return}
+            cnombre.value = openEditor.nombre;
+             btntags.value = Array.isArray(openEditor.tags) ? openEditor.tags.join(', ') : '';
+            }
+
         ventana.style.display = 'flex';
         // Esperamos a que la cámara se encienda REALMENTE
         await startCamera(); 
@@ -585,27 +527,27 @@
             // Iniciamos el intervalo solo cuando todo está listo
             timepo=setInterval(proceso, 100);
             
-        };
-    }
+            };
+        }
     btnsalir.addEventListener('click', () => {
         ventana.style.display = 'none';
         stopCamera(); 
-    });
-    btnguarda.addEventListener('click',()=>{if(descriptorActual){guardar()}else{alert("ninguna cara detectada")}});
+        });
+    btnguarda.addEventListener('click',()=>{guardar()});
     // Función básica para activar la cámara
     async function startCamera() {
         
         const constraints = {
-        video: {
-            width: { ideal: 600 },
-            height: { ideal: 600 },
-            aspectRatio: 1 // Esto le dice al navegador que prefieres un cuadrado
-        }
-        };
+            video: {
+                width: { ideal: 600 },
+                height: { ideal: 600 },
+                aspectRatio: 1 // Esto le dice al navegador que prefieres un cuadrado
+                }
+            };
         navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => { video.srcObject = stream; camara=true; })
         .catch(err => console.error("Error al acceder a la cámara:", err));
-    }
+        }
     function stopCamera() {
         if (video && video.srcObject) {
             const stream = video.srcObject;
@@ -614,24 +556,48 @@
             tracks.forEach(track => {
                 track.stop();
                 console.log("Pista de cámara detenida.");
-            });
+                });
 
             video.srcObject = null;
             clearInterval(timepo);
+            }
         }
-    }
     async function guardar(){
-        // Convertimos el Float32Array a un array normal y luego a JSON
+
+        let _Descriptor = descriptorActual;
+        if(!_Descriptor){
+            if(openEditor == -1){
+                alert("ninguna cara detectada");
+                return;
+                }else{
+                _Descriptor = openEditor.descriptor;
+                console.log("actualizando sin descriptor");  
+                }
+            }
+
+        if(cnombre.value.trim() == ""){alert("Escribe un nombre");return;}
+
         const tags = btntags.value.split(',').map(tag => tag.trim());
+        let _Page = 'php/profesores/guardar_profesor.php';
+        let datosEnvio;
 
-        const datosEnvio = {
-            nombre:cnombre.value, 
-            tags: tags,
-            descriptor: JSON.stringify(Array.from(descriptorActual))
-        };
-
+        if(openEditor == -1){
+            datosEnvio = {
+                nombre:cnombre.value, 
+                tags: tags,
+                descriptor: JSON.stringify(Array.from(_Descriptor))
+                };
+            }else{
+                _Page = 'php/profesores/actualizar_profesor.php';
+                datosEnvio = {
+                    nombre:cnombre.value, 
+                    tags: tags,
+                    id: openEditor.id,
+                    descriptor: JSON.stringify(Array.from(_Descriptor))
+                    };
+                }
         try {
-            const respuesta = await fetch('php/guardar.php', {
+            const respuesta = await fetch(_Page, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -642,11 +608,27 @@
             const resultado = await respuesta.json(); 
             if (resultado.success) {
                 console.log(datosEnvio);
-                //await cargarCatalogo();
                 alert("respuesta: "+ resultado.message);
 
-                CrearCarta(resultado.profesor);
-                refreshProfessorList(document.getElementById('search-prof').value);
+                if(openEditor==-1){
+                    CrearCarta(resultado.profesor);
+                    refreshProfessorList(document.getElementById('search-prof').value);
+                    }
+                    else{
+                        //allProfesors[openEditor.idap];
+                        openEditor.nombre = cnombre.value;
+                        openEditor.tags = tags;
+                        openEditor.en.textContent = cnombre.value;
+                        openEditor.ep.textContent = cnombre.value.charAt(0).toUpperCase();
+                        openEditor.descriptor = _Descriptor;
+
+                        btntags.value = "";
+                        cnombre.value = "";    
+                        openEditor = -1;
+
+                        console.log(allProfesors[openEditor.idap]);
+                        }
+
                 ventana.style.display = 'none';
                 stopCamera(); 
             } else {
@@ -657,6 +639,9 @@
         }
     }
    
+    document.getElementById('search-prof').addEventListener('input', (e) => {
+        refreshProfessorList(e.target.value);
+        });
     </script>
     
 </body>
