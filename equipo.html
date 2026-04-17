@@ -3,94 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.A.R.S. - Nuestro Equipo</title>
-    <link rel="stylesheet" href="nosotros.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>LIVElula | Nuestro Equipo</title>
+    <link rel="stylesheet" href="equipo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="brand">
-                <img src="IUJO.gif" alt="Logo IUJO" class="nav-gif">
+    <nav class="equipo-nav">
+        <div class="equipo-nav-container">
+            <div class="equipo-brand">
+                <img src="IUJO.gif" alt="Logo IUJO" class="equipo-logo-img">
+                <span class="equipo-brand-name">LIVElula</span>
             </div>
-            <div class="nav-links">
-              <a href="login.php" class="nav-btn">Iniciar Sesion</a>
+            <div class="equipo-menu">
+                <a href="index.php" class="equipo-btn-link">Inicio</a>
+                <a href="acceso_admin.php" class="equipo-btn-solido">Iniciar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <header class="hero-header">
-        <div class="header-content">
-            <img src="IUJO.gif" alt="IUJO.gif" class="hero-logo">
-             <h1>Proyecto Livelula</h1>
-            <p>Conoce a las personas que hacen posible este sistema de asistencia biométrico.</p>
+    <header class="equipo-hero">
+        <div class="equipo-hero-content">
+            <div class="equipo-badge">PROYECTO UNIVERSITARIO</div>
+            <h1>Nuestro Equipo de Desarrollo</h1>
+            <p>Conoce a los especialistas detrás del sistema de asistencia biométrica LIVElula.</p>
         </div>
     </header>
 
-    <main class="container">
-        <div class="team-grid">
+    <main class="equipo-main">
+        <div class="equipo-grid">
             
-            <section class="card">
-                <div class="card-image">
-                    <img src="../img/user1.jpg" alt="Abraham">
+            <section class="equipo-card">
+                <div class="equipo-card-header azul">
+                    <img src="../img/user1.jpg" alt="Aaron">
                 </div>
-                <div class="card-content">
-                    <h3 class="name">Aaron</h3>
-                    <p class="role azul-text">Especialista en Javascript y PHP</p>
-                    <p class="bio">Encargado de la arquitectura del sistema, desarrollo backend en PHP y gestión de la base de datos MySQL.</p>
-                </div>
-            </section>
-
-            <section class="card">
-                <div class="card-image">
-                    <img src="../img/user2.jpg" alt="Integrante 2">
-                </div>
-                <div class="card-content">
-                    <h3 class="name">Yovani</h3>
-                    <p class="role verde-text">Especialista en Diseño y Base de Datos</p>
-                    <p class="bio">Responsable de la integración de la librería face-api.js para el reconocimiento facial en tiempo real.</p>
+                <div class="equipo-card-body">
+                    <h3>Aaron</h3>
+                    <span class="equipo-role">Arquitectura & Backend</span>
+                    <p>Especialista en JavaScript y PHP. Encargado de la estructura lógica del sistema y gestión de base de datos MySQL.</p>
                 </div>
             </section>
 
-            <section class="card">
-                <div class="card-image">
-                    <img src="../img/user3.jpg" alt="Integrante 3">
+            <section class="equipo-card">
+                <div class="equipo-card-header verde">
+                    <img src="../img/user2.jpg" alt="Yovani">
                 </div>
-                <div class="card-content">
-                    <h3 class="name">Abrahan</h3>
-                    <p class="role azul-text">Especialista en Seguridad Y Estructura</p>
-                    <p class="bio">Desarrollo de la experiencia de usuario (UX) y el diseño visual (UI) de los paneles administrativos.</p>
-                </div>
-            </section>
-
-            <section class="card">
-                <div class="card-image">
-                    <img src="../img/user4.jpg" alt="Integrante 4">
-                </div>
-                <div class="card-content">
-                    <h3 class="name">Anderson</h3>
-                    <p class="role verde-text">Especialista en Administraciòn de Datos y PHP </p>
-                    <p class="bio">Optimización de consultas SQL y mantenimiento de la integridad de la información en el servidor.</p>
+                <div class="equipo-card-body">
+                    <h3>Yovani</h3>
+                    <span class="equipo-role">Visión Artificial</span>
+                    <p>Especialista en Diseño y Datos. Responsable de integrar face-api.js para el reconocimiento facial en tiempo real.</p>
                 </div>
             </section>
 
-            <section class="card">
-                <div class="card-image">
-                    <img src="../img/user5.jpg" alt="Integrante 5">
+            <section class="equipo-card">
+                <div class="equipo-card-header azul">
+                    <img src="../img/user3.jpg" alt="Abrahan">
                 </div>
-                <div class="card-content">
-                    <h3 class="name">Raysmari</h3>
-                    <p class="role azul-text">Especialista en HTML y Diseño</p>
-                    <p class="bio">Encargado de las pruebas de seguridad y la redacción de la documentación técnica y manuales.</p>
+                <div class="equipo-card-body">
+                    <h3>Abrahan</h3>
+                    <span class="equipo-role">Seguridad & UI/UX</span>
+                    <p>Especialista en Estructura. Desarrollo de la experiencia de usuario y diseño visual de los paneles administrativos.</p>
+                </div>
+            </section>
+
+            <section class="equipo-card">
+                <div class="equipo-card-header verde">
+                    <img src="../img/user4.jpg" alt="Anderson">
+                </div>
+                <div class="equipo-card-body">
+                    <h3>Anderson</h3>
+                    <span class="equipo-role">Administración de Datos</span>
+                    <p>Especialista en PHP avanzado. Optimización de consultas SQL y mantenimiento de la integridad del servidor.</p>
+                </div>
+            </section>
+
+            <section class="equipo-card">
+                <div class="equipo-card-header azul">
+                    <img src="../img/user5.jpg" alt="Raysmari">
+                </div>
+                <div class="equipo-card-body">
+                    <h3>Raysmari</h3>
+                    <span class="equipo-role">Documentación & QA</span>
+                    <p>Especialista en HTML y Diseño. Encargada de pruebas de seguridad y redacción de manuales técnicos.</p>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2026 Proyecto Livelula | Instituto Universitario IUJO</p>
+    <footer class="equipo-footer">
+        <p>&copy; 2026 <b>LIVElula</b> | Instituto Universitario IUJO</p>
+        <li><a href="warp.php" class="nav-link" style="color: var(--azul);">Configuración</a></li>
     </footer>
 
 </body>

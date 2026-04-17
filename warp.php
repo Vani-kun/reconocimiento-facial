@@ -59,15 +59,10 @@
 
         <div style="width:100%; display:flex; flex-direction: column; gap: 10px;">
         
-            <div style="display:flex; width:100%; gap: 20px;">
-                <a href="asistencia.php" style="flex: 1;">
-                    <button class="btn" style="width:100%;">Asistencias de hoy</button>
-                </a>
-                <a href="asistencia.php" style="flex: 1;">
-                    <button class="btn" style="width:100%;">Asistencias historicas</button>
-                </a>
-            </div>
 
+            <a href="asistencia-historica.php" style="flex: 1;">
+                <button class="btn" style="width:100%;">Asistencias historicas</button>
+            </a>
             <a href="profesores.php"><button class="btn" style="width:100%;">Modificar profesores</button></a>
             <a href="admin.php"><button class="btn" style="width:100%;">Definir horarios</button></a>
             <a href="asignar.php"><button class="btn" style="width:100%;">Crear secciones</button></a>

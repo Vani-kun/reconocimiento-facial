@@ -315,9 +315,11 @@
         const diaInput = document.getElementById('dia-input');
         const prevItems = document.querySelectorAll(".previtem");
         const dropEraser = document.getElementById("recicle-bin");
+        const form = document.getElementById("form-asignacion");
+
         ItemSelected = -1;                
 
-        console.log(prevItems)
+        console.log(prevItems);
 
         prevItems.forEach(element => {
            
@@ -445,10 +447,9 @@
             dropTarget.classList.remove('hover');
         });
 
-        document.getElementById("form-asignacion").addEventListener("submit", async (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const form = document.getElementById("form-asignacion");
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
@@ -933,7 +934,8 @@
 
             SwitchItemBankSection(SectionBtn, 0)
             });
-        SectionBtn[1][0].addEventListener("click", () => SwitchItemBankSection(SectionBtn, 1));
+
+        SectionBtn[1][0].addEventListener("click", () => {SwitchItemBankSection(SectionBtn, 1);form.reset();});
 
         const EraseMateriaBtn = document.getElementById("erasembtn");
         const EditMateriaBtn = document.getElementById("editmbtn");
@@ -961,7 +963,7 @@
 
             document.getElementById("btn-clean").addEventListener("click", (e) => {
                 e.preventDefault();
-                document.getElementById("form-asignacion").reset();   
+                form.reset();   
                 });
                   
             document.getElementById("erasembtn").addEventListener("click", async (e) => {
