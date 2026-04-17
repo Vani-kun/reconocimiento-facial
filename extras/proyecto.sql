@@ -1,12 +1,3 @@
-CREATE TABLE `asistencia` (
-  `id` int(11) NOT NULL,
-  `nombre` text NOT NULL,
-  `entrada` time NOT NULL,
-  `salida` time NOT NULL,
-  `estado` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-
 CREATE TABLE `aulas` (
   `numero` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
