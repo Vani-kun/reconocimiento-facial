@@ -36,8 +36,8 @@
             <button id="btn" class="boton">GUARDAR BIOMETRÍA</button>
         </div>
     </div>
-    <audio id="detect" src="detect.mp3" preload="auto" hidden></audio>
-    <audio id="nodetect" src="nodetect.mp3" preload="auto" hidden></audio>
+    <audio id="detect" src="mp3/detect.mp3" preload="auto" hidden></audio>
+    <audio id="nodetect" src="mp3/nodetect.mp3" preload="auto" hidden></audio>
 
     <script src="codigo.js"></script>
 
