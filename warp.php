@@ -55,16 +55,25 @@
     include 'php/navbar.php';
     ?>
 
-    <div class="main-container" style="display:flex; flex-direction: column; align-items: center; padding: 20px; position: fixed; align-self:center; top: 50%; transform: translateY(-50%);">
+    <div class="main-container" style="width:80%; display:flex; flex-direction: column; align-items: center; padding: 20px; position: fixed; align-self:center; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 
-    <div style="width:80%">
-    <a href="asistencia.php"><button class="btn" >Historial de asistencias</button></a>
-    <a href="profesores.php"><button class="btn" >Modificar profesores</button></a>
-    <a href="admin.php"><button class="btn" >Definir horarios</button></a>
-    <a href="asignar.php"><button class="btn" >Crear secciones</button></a>
-    <a href="config.php"><button class="btn" >Configuración de pagina</button></a>
-    </div>
+        <div style="width:100%; display:flex; flex-direction: column; gap: 10px;">
+        
+            <div style="display:flex; width:100%; gap: 20px;">
+                <a href="asistencia.php" style="flex: 1;">
+                    <button class="btn" style="width:100%;">Asistencias de hoy</button>
+                </a>
+                <a href="asistencia.php" style="flex: 1;">
+                    <button class="btn" style="width:100%;">Asistencias historicas</button>
+                </a>
+            </div>
 
+            <a href="profesores.php"><button class="btn" style="width:100%;">Modificar profesores</button></a>
+            <a href="admin.php"><button class="btn" style="width:100%;">Definir horarios</button></a>
+            <a href="asignar.php"><button class="btn" style="width:100%;">Crear secciones</button></a>
+            <a href="config.php"><button class="btn" style="width:100%;">Configuración de pagina</button></a>
+        
+        </div>
     </div>
 
 </body>

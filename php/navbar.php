@@ -8,7 +8,7 @@ echo '<nav class="navbar">
 
             <ul class="nav-menu">
                 <li><a href="index.php#inicio" class="nav-link">Escaner</a></li>
-                <li><a href="warp.php" class="nav-link">Admin</a></li>
+                <li><a href="login.php" class="nav-link">Admin</a></li>
             </ul>
         </div>
     </nav>';

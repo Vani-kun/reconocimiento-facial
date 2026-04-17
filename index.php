@@ -32,10 +32,12 @@
         </div>
         <div id="reloj">00:00:00</div>
 
-        <div class="btnconte" style="display: none;">
+        <div class="btnconte">
             <button id="btn" class="boton">GUARDAR BIOMETRÍA</button>
         </div>
     </div>
+    <audio id="detect" src="detect.mp3" preload="auto" hidden></audio>
+    <audio id="nodetect" src="nodetect.mp3" preload="auto" hidden></audio>
 
     <script src="codigo.js"></script>
 
