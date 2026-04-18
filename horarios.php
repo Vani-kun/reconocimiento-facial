@@ -42,8 +42,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M.A.R.S. - Panel de Administración</title>
-    <link rel="stylesheet" href="admin-style.css">
-    <link rel="stylesheet" href="estiloMARS.css">
+    <link rel="stylesheet" href="style.css">
     <script src="js/face-api.min.js"></script>
     <style>
         .prof-card{
@@ -100,7 +99,7 @@
 </head>
 <body>
     
-<?php include 'php/navbar.php';?>
+<?php include 'php/extras/navbar.php'; ?>
 
     <main class="admin-container">
         <section id="schedule-section" class="panel list-panel invisible">
@@ -481,7 +480,7 @@
     </div>
     </div>
 
-    <script src="carafunciones.js"></script>
+    <script src="js/carafunciones.js"></script>
     <script>
     let pageMode = 0;
 
@@ -687,5 +686,8 @@
 
     });
     </script>
+
+    <?php include 'php/extras/footer.php';?>
+
 </body>
 </html>

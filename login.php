@@ -11,6 +11,7 @@
     </script>
 </head>
 <body>
+    <?php include 'php/extras/navbar.php'; ?>
 
     <div class="header-logo">
         <img src="IUJO.gif" alt="Logo IUJO">
@@ -40,10 +41,7 @@
         </div>
     </main>
 
-    <footer>
-        &copy; <?php echo date("Y"); ?> M.A.R.S. - Monitoring and Analytical Recognition System. 
-        <br>Todos los derechos reservados.
-    </footer>
+    <?php include 'php/extras/footer.php';?>
 
 </body>
 </html>

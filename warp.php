@@ -7,8 +7,6 @@
     <script src="js/face-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="estiloMARS.css">
-    <link rel="stylesheet" href="admin-style.css">
 
     <style>
         
@@ -31,45 +29,34 @@
         }
 
         .btn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
-        }
-
-        .btn:hover {
-            background-color: #007bffa3;
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-            transform: translateY(4px);
-        }
+            width: 80%;
+            }
 
     </style>
 </head>
 <body>
 
-    <?php
-    include 'php/navbar.php';
-    ?>
+    <?php include 'php/extras/navbar.php'; ?>
 
-    <div class="main-container" style="width:80%; display:flex; flex-direction: column; align-items: center; padding: 20px; position: fixed; align-self:center; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div style="min-height:100vh"></div>
 
-        <div style="width:100%; display:flex; flex-direction: column; gap: 10px;">
+    <div class="main-container section-container" style="width:50%; display:flex; flex-direction: column; align-items: center; padding: 20px; position: absolute; align-self:center; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+
+        <div style="padding-top: 10px; padding-bottom: 10px; width:100%; display:flex; flex-direction: column; gap: 10px;">
         
 
             <a href="asistencia-historica.php" style="flex: 1;">
-                <button class="btn" style="width:100%;">Asistencias historicas</button>
+                <button class="btn">Asistencias historicas</button>
             </a>
-            <a href="profesores.php"><button class="btn" style="width:100%;">Modificar profesores</button></a>
-            <a href="admin.php"><button class="btn" style="width:100%;">Definir horarios</button></a>
-            <a href="asignar.php"><button class="btn" style="width:100%;">Crear secciones</button></a>
-            <a href="config.php"><button class="btn" style="width:100%;">Configuración de pagina</button></a>
+            <a href="profesores.php"><button class="btn">Modificar profesores</button></a>
+            <a href="horarios.php"><button class="btn btn-danger">🛠 Definir horarios</button></a>
+            <a href="asignar.php"><button class="btn">Crear secciones</button></a>
+            <a href="config.php"><button class="btn btn-danger">🛠 Configuración de pagina</button></a>
         
         </div>
     </div>
+
+    <?php include 'php/extras/footer.php';?>
 
 </body>
 </html>

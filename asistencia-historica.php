@@ -26,19 +26,13 @@ include 'includes/session_check.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M.A.R.S. - Registro de Asistencia</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="estiloMARS.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
     <style>
         :root {
             --color-detectado: rgb(0, 255, 234);
             --color-no-detectado: #7d27df;
             --color-fondo: #f4f4f4;
             --color-boton: #1336ff;
-            --azul: #4169E1;
             --azul-glow: rgba(65, 105, 225, 0.4);
             --cyan: #00FFFF;
             --cyan-dim: rgba(0, 255, 255, 0.12);
@@ -51,7 +45,6 @@ include 'includes/session_check.php';
             --surface2: #eef1fb;
             --border: #d0d8f5;
             --text: #2c3e6b;
-            --text-dim: #7a8bbf;
             --fc-today-bg-color: white;
         }
 
@@ -64,38 +57,6 @@ include 'includes/session_check.php';
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        /* Navbar Dinámico (Solo Inicio, Configuración si es Admin, y Salir) */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: #fff;
-            border-bottom: 2px solid var(--border);
-            padding: 0 2rem;
-            box-shadow: 0 2px 12px rgba(65,105,225,0.10);
-        }
-        .nav-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-        }
-        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-menu { list-style: none; display: flex; gap: 2rem; }
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-dim);
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.2s;
-        }
-        .nav-link:hover { color: var(--azul); }
-        .nav-link.logout { color: var(--red); }
 
         /* --- AQUÍ EMPIEZA TODO TU DISEÑO ORIGINAL DE M.A.R.S. --- */
         .main { max-width: 1300px; margin: 0 auto; padding: 2.5rem 2rem; }
@@ -126,8 +87,6 @@ include 'includes/session_check.php';
         .search-input { background: #fff; border: 1.5px solid var(--border); border-radius: 50px; color: var(--text); font-size: 0.9rem; padding: 0.6rem 1.2rem 0.6rem 2.5rem; width: 270px; outline: none; transition: all 0.2s; }
         .search-input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px var(--azul-glow); }
 
-        .btn { background: #6977a3; color: white; border: none; padding: 12px 26px; font-size: 12px; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; }
-        .btn:hover { background: var(--azul); transform: scale(1.01); box-shadow: 0 0 10px var(--azul); }
 
         .table-wrap { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(65,105,225,0.08); }
         .table-inner { overflow-x: auto; }
@@ -324,20 +283,7 @@ border-color:var(--cyan);
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <a href="index.php" class="logo">
-            <span style="font-weight: 800; color: var(--text); font-size: 1.2rem;">M.A.R.S.</span>
-        </a>
-        <ul class="nav-menu">
-            <li><a href="index.php" class="nav-link">Inicio</a></li>
-            <?php if ($_SESSION['rol'] === 'admin'): ?>
-                <li><a href="warp.php" class="nav-link" style="color: var(--azul);">Configuración</a></li>
-            <?php endif; ?>
-            <li><a href="login.php" class="nav-link logout">Cerrar Sesión</a></li>
-        </ul>
-    </div>
-</nav>
+<?php include 'php/extras/navbar.php'; ?>
 
 <div id="profesorlist" class="oculto" style="overflow:hidden;position:absolute;width:50%;max-height:50%;min-height:50%;background-color:white;top:70px;right:20px;border-radius:10px;justify-content:center">
     <div class="search-wrap" style="margin-top:10px;">
@@ -873,6 +819,8 @@ async function inicializarOReferescarCalendario() {
 
     cargarDatos()
 </script>
+
+<?php include 'php/extras/footer.php';?>
 
 </body>
 </html>

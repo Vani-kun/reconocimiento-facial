@@ -27,13 +27,12 @@
 <head>
     <meta charset="UTF-8">
     <title>M.A.R.S. - Asignación de Materias</title>
-    <link rel="stylesheet" href="asignar-style.css">
-    <link rel="stylesheet" href="estiloMARS.css">
+    <link rel="stylesheet" href="css/asignar-style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php include 'php/navbar.php';?>
-    
-    
+   <?php include 'php/extras/navbar.php'; ?>
+
 <div style="position:absolute; left:-5px; margin-top:60px; width:45%; height:100%">
     <div class="itemsbcm divsection-master" style="margin-left:5px">
         <div class="divsection itemsbc divsection-selected" id="msectionbutton">
@@ -74,7 +73,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-materia" class="btn btn-add" style="bottom:0;">Agregar Materia</button>
+                    <button id="open-menu-materia" class="btn btn-change" style="bottom:0;">Agregar Materia</button>
                 </div>
             </div>
 
@@ -90,7 +89,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-aula" class="btn btn-add" style="bottom:0;">Agregar Aula</button>
+                    <button id="open-menu-aula" class="btn btn-change" style="bottom:0;">Agregar Aula</button>
                 </div>
             </div>
 
@@ -107,7 +106,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-horario" class="btn btn-add" style="bottom:0;">Agregar Horario</button>
+                    <button id="open-menu-horario" class="btn btn-change" style="bottom:0;">Agregar Horario</button>
                 </div>
             </div>
 
@@ -123,7 +122,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-seccion" class="btn btn-add" style="bottom:0;">Agregar Sección</button>
+                    <button id="open-menu-seccion" class="btn btn-change" style="bottom:0;">Agregar Sección</button>
                 </div>
             </div>
             <div id="DiaSection" style="display:none;">
@@ -161,7 +160,7 @@
 
 <div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
     <div class="divsection-master">
-        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 5px solid #00e1ff;">
+        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 3px solid var(--azul);">
         Edición
         </div>
 
@@ -204,8 +203,8 @@
                 </div>
 
                 <div class="actions-bar">
-                    <button type="submit" id="btn-save" class="btn btn-save">Guardar</button>
-                    <button type="button" id="btn-clean" class="btn btn-edit">Vaciar</button>
+                    <button type="submit" id="btn-save" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-clean" class="btn btn-disable">Vaciar</button>
                 </div>
             </form>
             </div>
@@ -220,8 +219,8 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="editmbtn" class="btn btn-add" style="bottom:0;width:50%">Editar</button>
-                    <button id="erasembtn" class="btn btn-add" style="bottom:0;width:50%">Eliminar</button>
+                    <button id="editmbtn" class="btn btn-change" style="bottom:0;width:50%">Editar</button>
+                    <button id="erasembtn" class="btn btn-cancel" style="bottom:0;width:50%">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -237,9 +236,10 @@
         <form id="materiaform">
             <label for="MateriaName">Nombre:</label>
             <input type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia" required>
-
-            <button type="submit" id="add-materia">Agregar</button>
-            <button type="button" id="cancel-materia">Cancelar</button>
+            <div style="display:flex; justify-content:center;">        
+                <button class="btn btn-small btn-success" type="submit" id="add-materia">Agregar</button>
+                <button class="btn btn-small btn-cancel" type="button" id="cancel-materia">Cancelar</button>
+            </div>  
         </form>
     </section>
 </div>
@@ -253,8 +253,10 @@
             <label for="HorarioS">Hora de Salida:</label>
             <input type="time" id="HorarioS" name="salida" placeholder="Ingrese la hora de salida" required>
 
-            <button type="submit" id="add-horario">Agregar</button>
-            <button type="button" id="cancel-horario">Cancelar</button>
+            <div style="display:flex; justify-content:center;">             
+                <button class="btn btn-small btn-success" type="submit" id="add-horario">Agregar</button>
+                <button class="btn btn-small btn-cancel" type="button" id="cancel-horario">Cancelar</button>
+            </div> 
         </form>
     </section>
 </div>
@@ -265,8 +267,10 @@
             <label for="AulaNumber">Numero del Aula:</label>
             <input type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula" required>
 
-            <button type="submit" id="add-aula">Agregar</button>
-            <button type="button" id="cancel-aula">Cancelar</button>
+            <div style="display:flex; justify-content:center;"> 
+                <button class="btn btn-small btn-success" type="submit" id="add-aula">Agregar</button>
+                <button class="btn btn-small btn-cancel" type="button" id="cancel-aula">Cancelar</button>
+            </div> 
         </form>
     </section>
 </div>
@@ -277,8 +281,10 @@
             <label for="SeccionNumber">Numero de la sección:</label>
             <input type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección" required>
 
-            <button type="submit" id="add-seccion">Agregar</button>
-            <button type="button" id="cancel-seccion">Cancelar</button>
+            <div style="display:flex; justify-content:center;"> 
+                <button class="btn btn-small btn-success" type="submit" id="add-seccion">Agregar</button>
+                <button class="btn btn-small btn-cancel" type="button" id="cancel-seccion">Cancelar</button>
+            </div> 
         </form>
     </section>  
 </div>
@@ -286,7 +292,7 @@
 
 
 </div>
-
+<div style="min-height:100vh"></div>
 
     <script>
         function arreglarhora(hora){
@@ -1026,5 +1032,7 @@
         });
     </script>
     
+    <?php include 'php/extras/footer.php';?>
+
 </body>
 </html>

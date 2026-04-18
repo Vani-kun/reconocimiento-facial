@@ -8,13 +8,7 @@
 </head>
 <body>
 
-    <div class="header-logo">
-        <img src="IUJO.gif" alt="Logo IUJO">
-    </div>
-
-    <div class="header-info">
-        <a href="equipo.html" class="btn-info">Acerca de</a>
-    </div>
+    <?php include 'php/extras/navbar.php'; ?>
 
     <main class="main-content">
         <div class="mars-card">

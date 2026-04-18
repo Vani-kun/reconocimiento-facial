@@ -16,125 +16,73 @@
     <script src="js/face-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="estiloMARS.css">
-    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="css/profesores.css">
 
     <style>
-        .contenedor{
-            position: relative; /* Define el marco de referencia */
-            display: inline-block; /* Ajusta el div al tamaño de la imagen */
-            line-height: 0;
-            padding: 0px;
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
         }
 
-        #canva {
-            position: absolute; /* Lo saca del flujo normal */
-            top: 0;
-            left: 0;
-            /* Opcional: para asegurarte de que el canvas no bloquee clics en la imagen */
-            pointer-events: none; 
-        }
-        .oculto {
-            display: none !important;
+    .contenedor{
+        position: relative; /* Define el marco de referencia */
+        display: inline-block; /* Ajusta el div al tamaño de la imagen */
+        line-height: 0;
+        padding: 0px;
         }
 
-
-        .btn {
-        padding: 6px 17.5px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
-        margin-right: 5px;
-        }
-        
-
-        .btn-success {
-        background-color: #ffffff;
-        border-color: #00ff59;
-        color: #00ff59;
+    #canva {
+        position: absolute; /* Lo saca del flujo normal */
+        top: 0;
+        left: 0;
+        /* Opcional: para asegurarte de que el canvas no bloquee clics en la imagen */
+        pointer-events: none; 
         }
 
-        .btn-danger {
-        border-color: #ff0000;
-        color: #ff0000;
-        background-color: #ffc5c5;
+    .oculto {
+        display: none !important;
         }
 
-        .btn-change {
-        background-color: #ffffff;
-        border-color: #ffae00;
-        color: #ffae00;
+    .btn {
+        width:33%;
+        margin-left:5px;
+        margin-right:5px;
         }
-
-        .btn:hover{
-
-        transform: translateY(4px);
-        cursor: pointer;
-        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.8);
-        }
-
-        .active{
+    .active{
         color: #000000;
         }
-
-        .inactive{
+    .inactive{
         color: #888888;
         }
-
-        .prof-edit-form{
-
-        width:100%;
-        display: block;
-
+    .invisible {
+        display: none;
+        height: 0;
         }
-
-        .prof-infodiv{
+    .section-container{
+        overflow: clip;
+        margin-top: 20px;
+        }
+    .panel {
+        border-radius: 12px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 2rem;
         }
-
-        .prof-card{
-        display: block;
-
-        }
-
-        .prof-info{
-            display:flex;
-        }
-
-        .prof-avatar-context{
-            display:flex;
-            align-items: center;
-        }
-
-        .prof-edit-form{
-            margin-top: 20px;
-            transition: 0.3s all; 
-        }
-
-        .prof-input{
-            width:100%;
-        }
-
-        .invisible {
-            display: none;
-            height: 0;
-        }
-
-        .list-panel{
+    .list-panel{
         width:100%;
-
+        float: left;
+        height: 80vh;
         }
+</style>
 
-    </style>
 </head>
 <body>
 
-    <?php include 'php/navbar.php'; ?>
+    <?php include 'php/extras/navbar.php'; ?>
 
             <script>
                 const datosProfesores = <?php echo json_encode($profesores); ?>;
@@ -198,7 +146,7 @@
 
                     const btnToggle = document.createElement('button');
                     if(activo){
-                        btnToggle.classList.add('btn');
+                        btnToggle.classList.add('btn', 'btn-disable');
                         btnToggle.textContent = 'Desactivar';
                     } else {
                         btnToggle.classList.add('btn', 'btn-success');
@@ -250,11 +198,11 @@
 
             </script>
 
-    <div class="main-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 20px; margin-left: 5%;">
+    <div class="main-container section-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 20px; margin-left: 5%;">
      <section class="panel list-panel">
-            <div class="panel-header" >
+            <div class="panel-header input-group" style="width:100%;justify-content:center;">
                 <h2>Profesores Registrados</h2>
-                <input type="text" placeholder="Buscar profesor..." id="search-prof">
+                <input type="text" placeholder="🔍 Buscar profesor..." id="search-prof" style="width:50%;">
             </div>
             <div class="scroll-area" id="professors-list">
             </div>
@@ -289,8 +237,8 @@
         </div>
 
         <div class="modal-footer">
-            <button class="btn-cancel" id="btnsalir">Cancelar</button>
-            <button class="btn-ok" id="btnguarda">Guardar Profesor</button>
+            <button class="btn btn-cancel" id="btnsalir">Cancelar</button>
+            <button class="btn btn-success" id="btnguarda">Guardar Profesor</button>
         </div>
     </div>
     </div>
@@ -403,6 +351,8 @@
 
         });
 
+        
+
     }
 
     refreshProfessorList();
@@ -466,8 +416,7 @@
     }
 
     </script>
-    
-    <script src="carafunciones.js"></script>
+    <script src="js/carafunciones.js"></script>
     <script>
     let cargado = false; // Variable global
     let displaySize;
@@ -643,5 +592,7 @@
         });
     </script>
     
+    <?php include 'php/extras/footer.php';?>
+
 </body>
 </html>

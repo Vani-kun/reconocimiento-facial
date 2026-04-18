@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIVElula | Registro Biométrico</title>
     <script src="js/face-api.min.js"></script>
-    <link rel="stylesheet" href="estiloMARS.css">
-    <link rel="stylesheet" href="indexstyle.css">
-    <link rel="stylesheet" href="admin-style.css">
-    <link rel="stylesheet" href="css/navbar_style.css"> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/camara.css">
+    <link rel="stylesheet" href="css/index.css">
     
     <script>
         // Seguridad: Bloqueo de retroceso
@@ -18,19 +17,7 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.php" class="logo-container">
-                <img src="IUJO.gif" alt="Logo IUJO" class="logo-img">
-               
-            </a>
-
-            <ul class="nav-menu">
-                <li><a href="equipo.html" class="nav-link">Acerca de</a></li>
-                <li><a href="acceso_admin.php" class="nav-link admin-btn">Iniciar sesión</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'php/extras/navbar.php'; ?>
 
     <main class="panel-captura">
         <div class="wrapper-visor"> 
@@ -43,8 +30,8 @@
         </div> 
         
         <div class="indicadores-estado">
-            <div class="estado-item detectado" id="det">● Detectado</div>
-            <div class="estado-item no-detectado active" id="nodet">● No Detectado</div>
+            <div class="estado-item detectado" id="det"><span>●</span> Detectado</div>
+            <div class="estado-item no-detectado active" id="nodet"><span>●</span> No Detectado</div>
         </div>
         
         <div id="reloj">00:00:00</div>
@@ -59,10 +46,8 @@
 
     <script src="codigo.js"></script>
 
-    <footer class="footer">
-        <p>&copy; <?php echo date("Y"); ?> <strong>LIVElula</strong> | Instituto Universitario IUJO</p>
-        <p>Todos los derechos reservados.</p>
-    </footer>
+    <?php include 'php/extras/footer.php';?>
+
 
 </body>
 </html>
