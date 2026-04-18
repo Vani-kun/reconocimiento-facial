@@ -37,7 +37,7 @@
         <div id="reloj">00:00:00</div>
 
         <div class="btnconte">
-            <button id="btn" class="boton">GUARDAR BIOMETRÍA</button>
+            <button id="btn" class="boton oculto">GUARDAR BIOMETRÍA</button>
         </div>
     </main>
 
