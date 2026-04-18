@@ -152,6 +152,9 @@ video, img, canvas {
     margin-left: 40px; /* Más espacio entre opciones */
 }
 
+
+
+
 .main-container {
     text-align: center;
     background: white;
@@ -309,7 +312,7 @@ video, img, canvas {
     display: flex; /* Dividir en dos columnas */
     gap: 30px;
     }
-    
+
 .modal-footer {
     margin-top: 20px;
     display: flex;
