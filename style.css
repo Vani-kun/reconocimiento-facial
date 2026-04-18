@@ -3,10 +3,6 @@
     --color-no-detectado: #e74c3c;
     --color-fondo: #f4f4f4;
     --color-boton: #1336ff;
-}
-
-/*Cosas aprobadas*/
-:root {
     --primario: #2563eb;
     --oscuro: #1d2026;
     --fondo:#f8fafc;
@@ -18,18 +14,19 @@
     --azul: #4169E1;
     --text-dim: #7a8bbf;
     --red: #601ae2;
+    --text: #2c3e6b;
     }
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', system-ui, Tahoma,sans-serif;
-    background-color: #e7e7e7;
-    color: var(--letra);
+    background: var(--color-fondo);
+    color: var(--text);
     line-height: 1.6;
     text-align: center;
-
-
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 * {
@@ -58,7 +55,6 @@ video, img, canvas {
 
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .logo-img { height: 36px; }
-        .nav-menu { list-style: none; display: flex;}
 
 .footer{
     align-content: end;
@@ -152,8 +148,23 @@ video, img, canvas {
     margin-left: 40px; /* Más espacio entre opciones */
 }
 
+.nav-btn-div{
+    text-decoration: none;
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    }
 
+.nav-btn-div:hover .nav-link::after {
+    width: 100%;
+    }  
 
+.nav-btn-div:hover .nav-link{
+    color: var(--azul);
+    transform: translateY(-3px);
+    }
 
 .main-container {
     text-align: center;
@@ -168,7 +179,6 @@ video, img, canvas {
     color: white;
     border: none;
     margin: 10px;
-    border-radius: 10px;
     cursor: pointer;
     width: 100%;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
@@ -258,24 +268,6 @@ video, img, canvas {
    background-color:#d4d4d400;
    margin:20px 20px;
 }
-
-.navBtnDiv{
-    text-decoration: none;
-    height:100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-    }
-
-.navBtnDiv:hover .nav-link::after {
-    width: 100%;
-    }  
-
-.navBtnDiv:hover .nav-link{
-    color: var(--azul);
-    transform: translateY(-3px);
-    }
 
 .scroll-area {
     margin-top: 20px;

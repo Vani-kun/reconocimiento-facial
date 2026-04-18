@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <?php include 'php/extras/navbar.php'; ?>
+<?php include 'php/extras/navbar.php'; ?>
 
     <header class="hero-header">
         <div class="header-content">
@@ -82,7 +82,7 @@
         </div>
     </main>
 
-    <?php include 'php/extras/footer.php'; ?>
+<?php include 'php/extras/footer.php'; ?>
 
 </body>
 </html>

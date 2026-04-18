@@ -29,7 +29,7 @@
 
                 <div class="input-group">
                     <label style="font-size: 0.75rem; color: var(--texto-secundario); margin-left: 5px; font-weight: bold; text-transform: uppercase;">Contraseña</label>
-                    <input type="password" name="password" placeholder="••••••••" required>
+                    <input type="password" name="password" placeholder="Ingresa la contraseña" required>
                 </div>
                 
                 <button type="submit" class="btn-mars btn-azul" style="margin-top: 10px;">

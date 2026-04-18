@@ -1,21 +1,13 @@
-:root {
-    --color-detectado: #00ff00;
-    --color-no-detectado: #e74c3c;
-    --color-fondo: #f4f4f4;
-    --color-boton: #1336ff;
-    }
-
 .panel-captura {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 300px;
     }
-/* --- Nuevo Contenedor Padre --- */
+
 .wrapper-visor {
     position: relative;
-    width: 288px; /* 280px + 4px de borde por lado */
+    width: 288px;
     height: 288px;
     display: flex;
     justify-content: center;

@@ -31,7 +31,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <?php include 'php/extras/navbar.php'; ?>
+    
+<?php include 'php/extras/navbar.php'; ?>
 
 <div style="position:absolute; left:-5px; margin-top:60px; width:45%; height:100%">
     <div class="itemsbcm divsection-master" style="margin-left:5px">
@@ -168,7 +169,7 @@
         Banco
         </div>
     </div>
-    <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%">        
+    <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%;border-bottom-left-radius: 5px;">        
         <div style="padding: 2rem;">
             <div id="SectionConfig">
             <h3>Configuración de Asignación</h3>
@@ -230,8 +231,7 @@
 
 <div id="recicle-bin" style="font-size:40px;">🗑</div>
 
-
-<div id="MateriaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+<div id="MateriaMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
     <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
         <form id="materiaform">
             <label for="MateriaName">Nombre:</label>
@@ -244,7 +244,7 @@
     </section>
 </div>
 
-<div id="HorarioMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+<div id="HorarioMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
     <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
         <form id="horarioform">
             <label for="HorarioE">Hora de Entrada:</label>
@@ -261,7 +261,7 @@
     </section>
 </div>
 
-<div id="AulaMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+<div id="AulaMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
     <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
         <form id="aulaform">
             <label for="AulaNumber">Numero del Aula:</label>
@@ -275,7 +275,7 @@
     </section>
 </div>
 
-<div id="SeccionMenu" class="oculto" style="position: fixed; display: flex; justify-content: center; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-items: center;">
+<div id="SeccionMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
     <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
         <form id="seccionform">
             <label for="SeccionNumber">Numero de la sección:</label>
@@ -290,8 +290,6 @@
 </div>
 
 
-
-</div>
 <div style="min-height:100vh"></div>
 
     <script>
