@@ -19,19 +19,19 @@
 .main { max-width: 1300px; margin: 0 auto; padding: 2.5rem 2rem; }
 .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem; }
 .page-tag { font-size: 0.7rem; letter-spacing: 4px; color: var(--azul); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: bold; }
-.page-title { font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: 1px; color: var(--text); text-transform: uppercase; }
-.page-title span { color: var(--azul); }
-.page-date { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.5rem; letter-spacing: 2px; text-transform: uppercase; }
+.page-title { font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: 1px; color: #ADD8D5; text-transform: uppercase; }
+.page-title span { color: #69A8A3; }
+.page-date { font-size: 0.8rem; color: #D1EAEC; margin-top: 0.5rem; letter-spacing: 2px; text-transform: uppercase; }
 
 .stats-row { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-.stat-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem 1.8rem; min-width: 160px; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(65,105,225,0.07); }
-.stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--azul); }
-.stat-card.green::before { background: var(--green); }
-.stat-card.red::before { background: var(--red); }
-.stat-label { font-size: 0.68rem; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 600; }
-.stat-value { font-size: 2.2rem; font-weight: 800; color: var(--azul); line-height: 1; }
-.stat-card.green .stat-value { color: #3ee2e2; }
-.stat-card.red .stat-value { color: var(--red); }
+.stat-card { background: #D1EAEC; border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem 1.8rem; min-width: 160px; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(65,105,225,0.07); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #009FE3; }
+.stat-card.green::before { background: #81BA4E; }
+.stat-card.red::before { background: #E41924; }
+.stat-label { font-size: 0.68rem; letter-spacing: 3px; color: #211E42; text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 600; }
+.stat-value { font-size: 2.2rem; font-weight: 800; color: #009FE3; line-height: 1; }
+.stat-card.green .stat-value { color: #81BA4E; }
+.stat-card.red .stat-value { color: #E41924; }
 
 .toolbar { display: flex; align-items: center; margin-bottom: 1.2rem; gap: 1rem; flex-wrap: wrap; }
 .toolbar-actions {
@@ -45,11 +45,11 @@
 .search-input { background: #fff; border: 1.5px solid var(--border); border-radius: 50px; color: var(--text); font-size: 0.9rem; padding: 0.6rem 1.2rem 0.6rem 2.5rem; width: 270px; outline: none; transition: all 0.2s; }
 .search-input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px var(--azul-glow); }
 
-.table-wrap { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(65,105,225,0.08); }
+.table-wrap { background: #D1EAEC; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(65,105,225,0.08); }
 .table-inner { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
-th { font-size: 0.7rem; letter-spacing: 3px; color: var(--azul); text-transform: uppercase; padding: 1rem 1.2rem; text-align: left; background: var(--surface2); }
-td { padding: 0.9rem 1.2rem; font-size: 0.95rem; border-bottom: 1px solid var(--border); color: var(--text); }
+th { font-size: 0.7rem; letter-spacing: 3px; color: #D1EAEC; text-transform: uppercase; padding: 1rem 1.2rem; text-align: left; background: #69A8A3; }
+td { padding: 0.9rem 1.2rem; font-size: 0.95rem; border-bottom: 1px solid #69A8A3; color: #0F495E; }
 
 .badge { display: inline-block; font-size: 0.68rem; padding: 0.28rem 0.8rem; border-radius: 50px; font-weight: 700; }
 .badge-puntual  { background: var(--green-dim);  color: #27ae60; border: 1.5px solid rgba(0,200,80,0.3); }
@@ -59,6 +59,7 @@ td { padding: 0.9rem 1.2rem; font-size: 0.95rem; border-bottom: 1px solid var(--
 @keyframes girar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes fadeRow { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 tbody tr { animation: fadeRow 0.3s ease both; }
+
 
 .fc-theme-standard td, .fc-theme-standard th {
     border-radius: 100%;

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="nosotros.css">
     <link rel="stylesheet" href="equipo.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
@@ -78,7 +78,6 @@
                     <p>Especialista en HTML y Diseño. Encargada de pruebas de seguridad y redacción de manuales técnicos.</p>
                 </div>
             </section>
-
         </div>
     </main>
 

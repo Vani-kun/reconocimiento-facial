@@ -8,18 +8,9 @@
     --brillo-livelula: rgba(0, 212, 255, 0.8);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    background-color: var(--fondo-suave);
-    color: var(--texto-oscuro);
-    line-height: 1.6;
-}
-
 /* --- HERO HEADER (CENTRO AZUL) --- */
 .hero-header {
-    background: linear-gradient(135deg, var(--azul-vibrante) 0%, #00d4ff 100%);
+    background: linear-gradient(135deg, #F9C127 0%, #E41924 100%);
     color: var(--blanco);
     padding: 80px 20px;
     text-align: center;
@@ -118,16 +109,9 @@ body {
     font-size: 0.95rem;
 }
 
-/* --- FOOTER --- */
-.footer {
-    text-align: center;
-    padding: 40px;
-    background-color: var(--blanco);
-    border-top: 1px solid #eee;
-    color: var(--texto-gris);
-}
 
-.footer b { color: var(--azul-vibrante); }
+
+
 
 /* --- RESPONSIVE --- */
 @media (max-width: 600px) {

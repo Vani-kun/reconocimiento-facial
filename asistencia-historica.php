@@ -53,27 +53,33 @@ include 'includes/session_check.php';
 </div>
 
 <main class="main">
-    <div class="page-header">
-        <div class="header-left">
-            <div class="page-tag">// sistema de asistencia</div>
-            <h1 class="page-title">REGISTRO DE <span>ASISTENCIA</span></h1>
-            <div class="page-date" id="fecha-hoy"></div>
-            <br><br>
+    <div style="display:grid;width:50%;">
+        <div class="page-header">
+            <div class="header-left">
+                <h1 class="page-title">REGISTRO DE <span>ASISTENCIA</span></h1>
+                <div class="page-date" id="fecha-hoy"></div>
+                <br><br>
+            </div>
         </div>
-    </div>
 
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="stat-label">Total registros</div>
-            <div class="stat-value" id="stat-total">—</div>
+    
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">Total registros</div>
+                <div class="stat-value" id="stat-total">—</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-label">Puntuales</div>
+                <div class="stat-value" id="stat-puntual">—</div>
+            </div>
+            <div class="stat-card red">
+                <div class="stat-label">Tardanzas</div>
+                <div class="stat-value" id="stat-tarde">—</div>
+            </div>
         </div>
-        <div class="stat-card green">
-            <div class="stat-label">Puntuales</div>
-            <div class="stat-value" id="stat-puntual">—</div>
-        </div>
-        <div class="stat-card red">
-            <div class="stat-label">Tardanzas</div>
-            <div class="stat-value" id="stat-tarde">—</div>
+        <div style="display:flex;justify-content:center">
+            <input id="filtrostart" class="dateInput selected" type="date" readonly style="width:120px;height:30px;font-size:15px;border-radius:5px;"> -
+            <input id="filtroend" class="dateInput" type="date" readonly style="width:120px;height:30px;font-size:15px;border-radius:5px;">
         </div>
     </div>
 
@@ -81,14 +87,12 @@ include 'includes/session_check.php';
 
     <div class="toolbar" style="justify-content: flex-end;">
         <div class="toolbar-actions">
-            <input id="filtrostart" class="dateInput selected" type="date" readonly style="width:120px;height:30px;font-size:15px;border-radius:5px;"> -
-            <input id="filtroend" class="dateInput" type="date" readonly style="width:120px;height:30px;font-size:15px;border-radius:5px;">
-            <button class="btn btn-reload" onclick="toggleCalendar()">📆Calendario</button>
-            <button class="btn btn-reload" onclick="togglePList()">👤Profesores</button>
+            <button class="btn btn-white" onclick="toggleCalendar()">Calendario</button>
+            <button class="btn btn-white" onclick="togglePList()">Profesores</button>
             <div class="toolbar-actions">
-            <button class="btn btn-reload" onclick="cargarDatos()">Recargar</button>
+            <button class="btn btn-white" onclick="cargarDatos()">Recargar</button>
                 <div class="dropdown">
-                <button class="btn btn-export">Exportar ▼</button>
+                <button class="btn btn-white">Exportar ▼</button>
                     <div class="dropdown-content">
                     <a href="#" onclick="descargarPDF(); return false;">📄 Documento PDF</a>
                     <a href="#" onclick="descargarExcel(); return false;">📊 Hoja de Excel</a>

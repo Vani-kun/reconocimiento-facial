@@ -43,6 +43,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M.A.R.S. - Panel de Administración</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/profesores.css">
     <script src="js/face-api.min.js"></script>
     <style>
         .prof-card{
@@ -106,10 +107,8 @@
             <div class="panel-header">
                 <h2>Horario Registrados</h2>
                 </div>
-                
                 <div class="scroll-area" id="schedule-list">
                 </div>
-
         </section>
 
         <section id="professors-section" class="panel list-panel">
@@ -426,7 +425,7 @@
                 </div>
             </div>
         </section>
-<br>
+        <br>
         <!--section class="panel historial-panel">
             <div class="panel-header">
                 <h2>Historial de Asistencias</h2>

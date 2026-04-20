@@ -7,16 +7,17 @@
         cursor: pointer;
         transition: 0.3s;
         border: 1px solid transparent;
+        color: #0F495E;
         }
     .prof-card:hover, .prof-card.active {
-        background: #6976a31a;
-        border-color: #6977a3;
+        background: #009fe31c;
+        border-color: #0F495E;
         }
-    .prof-avatar {
+    .prof-avatar { 
         width: 40px;
         height: 40px;
-        background: var(--red);
-        color: white;
+        background: #015558;
+        color: #A7C4CE;
         border-radius: 50%;
         display: flex;
         align-items: center;

@@ -61,10 +61,7 @@
 
             <div id="MateriaSection" style="display:grid">
                 <div>
-                    <h3>Materias Disponibles</h3>
-                    <p><small>Arrastra una materia al panel derecho</small></p>
-
-                    <div id="materias-items-bank" class="scroll-area">
+                    <div id="materias-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(4, 1fr);gap: 15px;">
                         <?php foreach ($materias as $materia): ?>
                         <div class="draggable-item item-materia" draggable="true" data-materia="<?= htmlspecialchars($materia['nombre']) ?>">
                         <?= htmlspecialchars($materia['nombre']) ?>
@@ -74,13 +71,11 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-materia" class="btn btn-change" style="bottom:0;">Agregar Materia</button>
+                    <button id="open-menu-materia" class="btn" style="bottom:0;">Agregar Materia</button>
                 </div>
             </div>
 
             <div id="AulaSection" style="display:none;">
-                <h3>Aulas Disponibles</h3>
-                <p><small>Arrastra un aula al panel derecho</small></p>
                 <div id="aulas-items-bank" class="scroll-area">
                 <?php foreach ($aulas as $aula): ?>
                     <div class="draggable-item item-aula" draggable="true" data-aula="<?= htmlspecialchars($aula['numero']) ?>">
@@ -90,14 +85,11 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-aula" class="btn btn-change" style="bottom:0;">Agregar Aula</button>
+                    <button id="open-menu-aula" class="btn" style="bottom:0;">Agregar Aula</button>
                 </div>
             </div>
 
             <div id="HorarioSection" style="display:none;">
-                <h3>Horarios Disponibles</h3>
-                <p><small>Arrastra un horario al panel derecho</small></p>
-
                 <div id="horarios-items-bank" class="scroll-area">
                 <?php foreach ($horas as $hora): ?>
                     <div class="draggable-item item-horario" draggable="true" myid="<?= htmlspecialchars($hora['id']) ?>" data-entrada="<?= htmlspecialchars($hora['entrada']) ?>" data-salida="<?= htmlspecialchars($hora['salida']) ?>">
@@ -107,29 +99,25 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-horario" class="btn btn-change" style="bottom:0;">Agregar Horario</button>
+                    <button id="open-menu-horario" class="btn" style="bottom:0;">Agregar Horario</button>
                 </div>
             </div>
 
             <div id="SeccionSection" style="display:none;">
-                <h3>Secciones Disponibles</h3>
-                <p><small>Arrastra una sección al panel derecho</small></p>
-                <div id="secciones-items-bank" class="scroll-area">
+                <div id="secciones-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(8, 1fr);gap: 15px;">
                     <?php foreach ($secciones as $seccion): ?>
                         <div class="draggable-item item-seccion" draggable="true" data-seccion="<?= htmlspecialchars($seccion['numero']) ?>">
-                        Sección <?= htmlspecialchars($seccion['numero']) ?>
+                        <?= htmlspecialchars($seccion['numero']) ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-seccion" class="btn btn-change" style="bottom:0;">Agregar Sección</button>
+                    <button id="open-menu-seccion" class="btn" style="bottom:0;">Agregar Sección</button>
                 </div>
             </div>
             <div id="DiaSection" style="display:none;">
-                <h3>Días Disponibles</h3>
-                <p><small>Arrastra un día al panel derecho</small></p>
-                <div id="dia-items-bank" class="scroll-area">
+                <div id="dia-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(3, 1fr);gap: 15px;">
                     <div class="draggable-item item-dia" draggable="true" data-dia="Lunes">
                     Lunes
                     </div>
@@ -161,7 +149,7 @@
 
 <div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
     <div class="divsection-master">
-        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 3px solid var(--azul);">
+        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 3px solid #484D60;">
         Edición
         </div>
 
@@ -170,7 +158,7 @@
         </div>
     </div>
     <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%;border-bottom-left-radius: 5px;">        
-        <div style="padding: 2rem;">
+        <div id="mutear" style="padding: 2rem;">
             <div id="SectionConfig">
             <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
@@ -205,22 +193,21 @@
 
                 <div class="actions-bar">
                     <button type="submit" id="btn-save" class="btn btn-success">Guardar</button>
-                    <button type="button" id="btn-clean" class="btn btn-disable">Vaciar</button>
+                    <button type="button" id="btn-clean" class="btn btn-cancel">Vaciar</button>
                 </div>
             </form>
             </div>
             <div id="SectionBank" style="display:none">
-                <h3>Secciones Creadas</h3>
                 <div id="mold-items-bank" class="scroll-area">
                     <?php foreach ($AllSeccions as $mySec): ?>
-                        <div class="item-seccion draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dia="<?= htmlspecialchars($mySec['dia']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
+                        <div class="draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dia="<?= htmlspecialchars($mySec['dia']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
 
                         </div>
                     <?php endforeach; ?>
                 </div>
-
+                <br>
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="editmbtn" class="btn btn-change" style="bottom:0;width:50%">Editar</button>
+                    <button id="editmbtn" class="btn btn-success" style="bottom:0;width:50%">Editar</button>
                     <button id="erasembtn" class="btn btn-cancel" style="bottom:0;width:50%">Eliminar</button>
                 </div>
             </div>
@@ -309,6 +296,7 @@
             });
         }
 
+        const mutear = document.getElementById("mutear");                
         const draggables = document.querySelectorAll('.draggable-item');
         const dropTarget = document.getElementById('drop-target');
         const materiaInput = document.getElementById('materia-input');
@@ -348,9 +336,11 @@
         draggables.forEach(item => {
             item.addEventListener('dragstart', () => {
                 item.classList.add('dragging');
+                mutear.classList.add("noclickeable");
                 });
             item.addEventListener('dragend', () => {
                 item.classList.remove('dragging');
+                mutear.classList.remove("noclickeable");
                 });
             });
 
@@ -492,7 +482,7 @@
                         NewItem.classList.add("item-seccion","draggable-item","previtem");
 
                         const add1 = document.createElement("strong"); 
-                        add1.textContent = `🌟${resultado.materia}:`;
+                        add1.textContent = `🖈${resultado.materia}:`;
                         const add2 = document.createElement("p");
                         add2.textContent = `🖈Seccion ${resultado.seccion}`;
                         const add3 = document.createElement("p");
@@ -561,7 +551,7 @@
                         ItemSelected.textContent = "";
                         
                         const add1 = document.createElement("strong"); 
-                        add1.textContent = `🌟${data.materia}:`;
+                        add1.textContent = `🖈${data.materia}:`;
                         const add2 = document.createElement("p");
                         add2.textContent = `🖈Seccion ${data.seccion}`;
                         const add3 = document.createElement("p");
@@ -845,7 +835,7 @@
                 newItem.classList.add('draggable-item', 'item-seccion');
                 newItem.setAttribute('draggable', 'true');
                 newItem.setAttribute('data-seccion', seccion);
-                newItem.textContent = `Seccion ${seccion}`;
+                newItem.textContent = `${seccion}`;
                 document.getElementById('secciones-items-bank').appendChild(newItem);
 
                 // Agregar eventos de arrastre al nuevo elemento
@@ -971,7 +961,9 @@
                 });
                   
             document.getElementById("erasembtn").addEventListener("click", async (e) => {
-                if(ItemSelected === -1){return}
+                if(ItemSelected === -1){return;}
+
+                if(!confirm('Seguro que quieres eliminar esta sección de "'+ItemSelected.getAttribute("materia")+'"?')){return;}
 
                 const MYID = ItemSelected.getAttribute("myid");
 
@@ -1015,7 +1007,7 @@
          const di = element.getAttribute('dia');
 
         const add1 = document.createElement("strong"); 
-        add1.textContent = `🌟${ma}:`;
+        add1.textContent = `🖈${ma}:`;
         const add2 = document.createElement("p");
         add2.textContent = `🖈Seccion ${se}`;
         const add3 = document.createElement("p");

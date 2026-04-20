@@ -52,10 +52,10 @@
         margin-right:5px;
         }
     .active{
-        color: #000000;
+        color: #0F495E;
         }
     .inactive{
-        color: #888888;
+        color: #6F868E;
         }
     .invisible {
         display: none;
@@ -140,13 +140,13 @@ function CrearCarta(prof){
     profActions.classList.add('prof-actions');
 
     const btnChange = document.createElement('button');
-    btnChange.classList.add('btn', 'btn-change');
+    btnChange.classList.add('btn', 'btn-white');
     btnChange.textContent = 'Editar';
     profActions.appendChild(btnChange);
 
     const btnToggle = document.createElement('button');
     if(activo){
-        btnToggle.classList.add('btn', 'btn-disable');
+        btnToggle.classList.add('btn');
         btnToggle.textContent = 'Desactivar';
         } else {
         btnToggle.classList.add('btn', 'btn-success');
@@ -345,7 +345,7 @@ function toggleProfesor(id){
         if(prof.activo){
             prof.element.classList.add('active');
             prof.element.classList.remove('inactive');
-            const btnToggle = prof.element.querySelector('.btn-change + .btn');
+            const btnToggle = prof.element.querySelector('.btn-white + .btn');
             btnToggle.classList.remove('btn-success');
             btnToggle.textContent = 'Desactivar';
             const datos = { nombre: "Juan", edad: 30 };
@@ -358,7 +358,7 @@ function toggleProfesor(id){
             } else {
             prof.element.classList.remove('active');
             prof.element.classList.add('inactive');
-            const btnToggle = prof.element.querySelector('.btn-change + .btn');
+            const btnToggle = prof.element.querySelector('.btn-white + .btn');
             btnToggle.classList.add('btn-success');
             btnToggle.textContent = 'Activar';
             if(prof.tags.includes("activo")){

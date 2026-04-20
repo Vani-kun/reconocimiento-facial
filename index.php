@@ -41,6 +41,8 @@
         </div>
     </main>
 
+    <div style="min-height:30vh"></div>
+
     <audio id="detect" src="mp3/detect.mp3" preload="auto" hidden></audio>
     <audio id="nodetect" src="mp3/nodetect.mp3" preload="auto" hidden></audio>
 

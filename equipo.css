@@ -13,8 +13,8 @@
 body {
     margin: 0;
     font-family: 'Quicksand', sans-serif;
-    background-color: var(--e-fondo);
-    color: var(--e-texto);
+    background-color: #0F495E;
+    color: #211E42;
 }
 
 /* Navbar */
@@ -108,7 +108,7 @@ body {
 }
 
 .equipo-card {
-    background: var(--e-blanco);
+    background: #D1EAEC;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
@@ -119,8 +119,8 @@ body {
 .equipo-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
 .equipo-card-header { padding: 40px 0 20px; position: relative; }
-.equipo-card-header.azul { background: rgba(37, 99, 235, 0.05); }
-.equipo-card-header.verde { background: rgba(16, 185, 129, 0.05); }
+.equipo-card-header.azul { background: #83CDDD; }
+.equipo-card-header.verde { background: #009FE3; }
 
 .equipo-card-header img {
     width: 120px;
@@ -138,23 +138,12 @@ body {
     display: block;
     font-weight: 700;
     font-size: 0.85rem;
-    color: var(--e-azul);
+    color: #0F495E;
     text-transform: uppercase;
     margin: 8px 0 15px;
 }
 
-.equipo-card-body p { color: var(--e-texto-suave); font-size: 0.95rem; line-height: 1.6; margin: 0; }
-
-/* Footer */
-.equipo-footer {
-    text-align: center;
-    padding: 40px;
-    background: var(--e-blanco);
-    color: var(--e-texto-suave);
-    border-top: 1px solid #e2e8f0;
-}
-
-.equipo-footer b { color: var(--e-azul); }
+.equipo-card-body p { color: #6F868E; font-size: 0.95rem; line-height: 1.6; margin: 0; }
 
 @media (max-width: 768px) {
     .equipo-hero h1 { font-size: 2.2rem; }
