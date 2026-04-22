@@ -180,13 +180,14 @@ async function intentarAsistencia(nombreProfesor) {
 
     const respuesta = JSON.parse(textoRaw);
     if (respuesta.success) {
-        alert(respuesta.message);
+        document.getElementById("detected-hour").textContent = respuesta.message;
+        document.getElementById("detected-name").textContent = respuesta.nombre;
         ultimosMarcajes[nombreProfesor] = Date.now(); 
     } else {
         // Aquí se mostrará el mensaje de "Faltan X minutos"
         console.warn(respuesta.error);
-        estatus.textContent = respuesta.error; 
-        alert("⚠️ " + respuesta.error); 
+        document.getElementById("detected-hour").textContent = "⚠️ " + respuesta.error;
+        document.getElementById("detected-name").textContent = respuesta.nombre;
         // Opcional: sonido de error
         sonido(0); 
     }

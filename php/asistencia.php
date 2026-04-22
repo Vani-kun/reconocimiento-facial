@@ -11,7 +11,7 @@ try {
     $data = json_decode($json, true);
 
     if (!$data || !isset($data['nombre'])) {
-        echo json_encode(['success' => false, 'error' => 'Datos incompletos']);
+        echo json_encode(['success' => false, 'error' => 'Datos incompletos',"nombre" => "Error"]);
         exit;
     }
 
@@ -32,7 +32,8 @@ try {
         echo json_encode([
             'success' => true, 
             'message' => "Entrada registrada: $nombre a las $horaActual",
-            'estado' => 1
+            'estado' => 1,
+            "nombre" => $nombre
         ]);
     } 
     else {
@@ -53,7 +54,8 @@ try {
                 
                 echo json_encode([
                     'success' => false, 
-                    'error' => "Faltan $minutos min. para poder marcar salida."
+                    'error' => "Faltan $minutos min. para poder marcar salida.",
+                    "nombre" => $nombre
                 ]);
                 exit;
             }
@@ -65,15 +67,16 @@ try {
             echo json_encode([
                 'success' => true, 
                 'message' => "Salida registrada: $nombre a las $horaActual",
-                'estado' => 2
+                'estado' => 2,
+                "nombre" => $nombre
             ]);
         } 
         else {
-            echo json_encode(['success' => false, 'error' => "Jornada completada para $nombre."]);
+            echo json_encode(['success' => false, 'error' => "Jornada completada para $nombre.","nombre" => $nombre]);
         }
     }
 
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'error' => 'Error de BD: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => 'Error de BD: ' . $e->getMessage(),"nombre" => $nombre]);
 }
 ?>

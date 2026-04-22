@@ -17,7 +17,7 @@ async function proceso(){
     if (video.paused || video.ended || !cargado) return;
 
     // 2. Detectar
-    const opc = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.8 });
+    const opc = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
     const datos = await faceapi.detectSingleFace(video, opc)   
         .withFaceLandmarks()
         .withFaceDescriptor();

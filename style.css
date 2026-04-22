@@ -350,3 +350,11 @@ input::placeholder{color: #ADD8D5}
 .noclickeable{
     pointer-events: none;
     }
+
+input:focus,select:focus {
+    outline: none;
+    border: 0.1vh solid #000;
+}
+input:focus::placeholder,select:focus::placeholder{
+    color: #D1EAEC;  
+}

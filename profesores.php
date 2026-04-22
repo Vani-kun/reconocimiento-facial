@@ -618,7 +618,7 @@ function refreshFacesList(){
         btn.textContent = "X";
         btn.addEventListener("click", () => {
 
-            if(!confirm("Seguro que deseas eliminar el rostro "+index)){return;}
+            if(!confirm("Seguro que deseas eliminar el rostro "+(index+1))){return;}
 
                 FacesList.splice(index, 1);
                 fb.remove();

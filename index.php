@@ -19,25 +19,34 @@
 
     <?php include 'php/extras/navbar.php'; ?>
 
-    <main class="panel-captura">
-        <div class="wrapper-visor"> 
-            <div class="anillo-escaneo"></div>
-            <div class="visor-circular">
-                <p class="status-cam" id="estatus">ESPERANDO CÁMARA...</p>
-                <video id="video" width="600" height="600" autoplay muted></video>
-                <canvas id="canva"></canvas>
+    <main class="main-container" style="display:flex">
+        <div style="min-height:80vh;width:40vw">
+            <div class="wrapper-visor" style="width:100%;height:100%"> 
+                <div class="anillo-escaneo"></div>
+                <div class="visor-circular">
+                    <p class="status-cam" id="estatus">ESPERANDO CÁMARA...</p>
+                    <video id="video" width="600" height="600" autoplay muted></video>
+                    <canvas id="canva"></canvas>
+                </div>
+            </div> 
+        
+            <div class="indicadores-estado">
+                <div class="estado-item detectado" id="det"><span>●</span> Detectado</div>
+                <div class="estado-item no-detectado active" id="nodet"><span>●</span> No Detectado</div>
             </div>
-        </div> 
-        
-        <div class="indicadores-estado">
-            <div class="estado-item detectado" id="det"><span>●</span> Detectado</div>
-            <div class="estado-item no-detectado active" id="nodet"><span>●</span> No Detectado</div>
         </div>
-        
-        <div id="reloj">00:00:00</div>
+        <div style="background-color:#D1EAEC;border-radius:5vh;min-height:80vh;width:59vw;display:block;margin-left:1vw;">
+            <div style="height:88%;width:100%;font-size:2.5vh;">
+                <h1 id="detected-name">Esperando...</h1>
+                <h2 id="detected-tags" style="color:#ADD8D5">Tags:</h2>
+                <h3 id="detected-hour" style="color:#81BA4E"></h3>
+                <h3 id="detected-state" style="color:#E41924"></h3>
+            </div>
+            <div id="reloj">00:00:00</div>
+            <div class="btnconte">
+                <button id="btn" class="boton oculto">GUARDAR BIOMETRÍA</button>
+            </div>
 
-        <div class="btnconte">
-            <button id="btn" class="boton oculto">GUARDAR BIOMETRÍA</button>
         </div>
     </main>
 

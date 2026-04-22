@@ -5,12 +5,22 @@
 .profesor-container{
     width:25%;
     padding: 0.5vh 1vh 0.5vh 0.5vh;
-    border-right: 0.2vw black solid;
+    border-right: 0.2vw #A7C4CE solid;
     background-color: #D1EAEC;;
     height: 80.5vh;
     overflow: hidden;
     border-top-left-radius: 1vh;
     border-bottom-left-radius: 1vh;
+    }
+
+.schedule-container{
+    width:75%;
+    padding: 0.5vh 1vh 0.5vh 0.5vh;
+    background-color: #D1EAEC;;
+    height: 80.5vh;
+    overflow: hidden;
+    border-top-right-radius: 1vh;
+    border-bottom-right-radius: 1vh;
     }
 
 .scroll-area{
@@ -20,27 +30,139 @@
     width:24vw;
     }
 
-    .prof-card {
-        padding: 0.75vh 2.25vh;
-        border-radius: 25px;
-        margin-bottom: 1vh;
-        border: 0.1vh solid transparent;
-        width:100%;
-        height: 7.25vh;
-        font-size: 2.1vh; 
-        }
-    .prof-avatar { 
-        width: 4.75vh;
-        height: 4.75vh;
-        margin-right: 1.5vh;
-        }    
-    .prof-edit-form{
-        width:100%;
-        }
+.prof-card {
+    padding: 0.75vh 2.25vh;
+    border-radius: 5vh;
+    margin-bottom: 1vh;
+    border: 0.1vh solid transparent;
+    width:100%;
+    height: 7.25vh;
+    font-size: 2.1vh; 
+    }
+.prof-avatar { 
+    width: 4.75vh;
+    height: 4.75vh;
+    margin-right: 1.5vh;
+    }    
+.prof-edit-form{
+    width:100%;
+    }
 
-        .infodiv{
-            user-select: none;
-            color:#6F868E;
-            padding: 1vh 1vw;
-            text-align: left;
-        }
+.infodiv{
+    user-select: none;
+    color:#6F868E;
+    padding: 1vh 1vw;
+    text-align: left;
+    font-size: 2.5vh;
+    }
+
+.schedule{
+    justify-self: center;
+    background-color: #4F2054;
+    min-height: 87%;
+    max-height: 87%;
+    width: 90%;
+    border-radius: 2vh;
+    display:grid;
+    overflow-y: scroll;
+    grid-template-rows: 1fr 9fr;
+    }
+
+.schedule-day-div{
+
+    width: 100%;
+    height: 100%;
+    border-left: 0.1vh #9A6DA5 dotted;
+    border-right: 0.1vh #9A6DA5 dotted;
+
+}
+
+.schedule-day-div-h{
+    width: 100%;
+    height: 100%;
+    background-color:#9A6DA5;
+    border: 0.1vh #4F2054 solid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-weight: bolder;
+    font-size: 2.8vh;
+    user-select: none;
+    color:#FFFFFF;
+}
+
+.schedule-header{
+    height: 100%;
+    display:grid;
+    grid-template-columns: 7fr 7fr 7fr 7fr 7fr 7fr 7fr;
+    }
+
+.schedule-config{
+    height: 100%;
+    display:grid;
+    grid-template-columns: 7fr 7fr 7fr 7fr 7fr 7fr 7fr;
+}
+.schedule-div{
+
+    height: 70%;
+
+}
+
+.schedule-menu{
+
+    height: 30%;
+    width: 100%;
+    border-top: 0.1vh #A7C4CE solid;
+    align-content: center;
+}
+
+.schedule-menu-scroll{
+
+    justify-self: center;
+    width: 90%;
+    min-height: 90%;
+    max-height: 90%;
+    background-color: #F9C127;
+    border-radius: 2vh;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vw;
+    padding: 1vh 1vw;
+    overflow-y: scroll;
+
+}
+
+.schedule-option {
+    background-color:#83CDDD; 
+    width:100%; 
+    margin:2% 0;
+    border-radius:2.5vh;
+    overflow:hidden;
+    border: 0.1vh #0F495E solid;
+    font-size: 2.5vh;
+    color:#0F495E;
+    user-select:none;
+    transition: transform 0.2s;
+    }
+.schedule-option-header{
+    background-color:#0F495E;
+    color:#D1EAEC;
+    text-align:left;
+    transition: background-color,color 0.2s;    
+    }
+
+.schedule-option:hover{
+    cursor: pointer;
+    transform: translateY(-1vh);
+    }
+.schedule-option:hover .schedule-option-header{
+    background-color:#81BA4E;
+    color: #000000;
+    }
+
+
+
+.schedule-option-body{
+    display:flex;
+    }

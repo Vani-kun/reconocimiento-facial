@@ -23,13 +23,13 @@
     
 <?php include 'php/extras/navbar.php'; ?>
 
-    <main class="main-container">
-        <section id="professors-section" class="profesor-container">
-            <div class="panel-header">
-                <h2 style="font-size:3.5vh">Profes Registrados</h2>
-            </div>
+<main class="main-container" style="display:flex">
+    <section id="professors-section" class="profesor-container">
+        <div class="panel-header">
+            <h2 style="font-size:3.5vh">Profes Registrados</h2>
+        </div>
 
-            <div class="scroll-area" id="professors-list">
+        <div class="scroll-area" id="professors-list">
             <script>
 
             profSelected = -1;
@@ -127,27 +127,117 @@
 
             return profCard;
             }
-            </script>    
-                
-            </div>
+            </script>            
+        </div>
 
             
             
-            <div id="controlpanel" class="control-panel">
-                <div class="current-prof-display">
-                        <div class="status-indicator"></div>
+        <div id="controlpanel" class="control-panel">
+            <div class="current-prof-display">
+                <div class="status-indicator"></div>
                         
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="search-prof" placeholder="🔍Buscar por nombre o ID...">
+            </div>
+            <div class="infodiv">
+                <strong id="userinfo">Escoje a un profesor</strong>
+                <p id="usertags">tags:</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="schedule-section" class="schedule-container">
+        <div class="schedule-div">
+            <div class="panel-header">
+            <h2 style="font-size:3.5vh">Horario</h2>
+            </div>
+
+            <div class="schedule">
+
+                <div class="schedule-header">
+                    <div class="schedule-day-div-h">Lunes</div>
+                    <div class="schedule-day-div-h">Martes</div>
+                    <div class="schedule-day-div-h">Miercoles</div>
+                    <div class="schedule-day-div-h">Jueves</div>
+                    <div class="schedule-day-div-h">Viernes</div>
+                    <div class="schedule-day-div-h">Sabado</div>
+                    <div class="schedule-day-div-h">Domingo</div>
                 </div>
 
-                <div class="search-box">
-                    <input type="text" id="search-prof" placeholder="🔍Buscar por nombre o ID...">
+                <div class="schedule-config">
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="friday" class="schedule-day-div"></div>
                 </div>
-                <div class="infodiv">
-                    <strong id="userinfo">Escoje a un profesor</strong>
-                    <p id="usertags">tags:</p>
-                </div>
+
             </div>
-        </section>
+        </div>
+        <div class="schedule-menu">
+        
+            <div class="schedule-menu-scroll">
+
+                <div class="schedule-option">
+            
+                    <div class="schedule-option-header">
+                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Aaron García</p>
+                    </div>
+                    <div class="schedule-option-body">
+                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
+                        <p>Sección C</p>
+                        <p>Aula 14</p>
+                        </div>
+                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
+                        <p><strong>Martes: </strong>2:15 - 4:35</p>
+                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-option">
+            
+                    <div class="schedule-option-header">
+                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Aaron García</p>
+                    </div>
+                    <div class="schedule-option-body">
+                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
+                        <p>Sección C</p>
+                        <p>Aula 14</p>
+                        </div>
+                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
+                        <p><strong>Martes: </strong>2:15 - 4:35</p>
+                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-option">
+            
+                    <div class="schedule-option-header">
+                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Anderson Pichardo</p>
+                    </div>
+                    <div class="schedule-option-body">
+                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
+                        <p>Sección C</p>
+                        <p>Aula 14</p>
+                        </div>
+                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
+                        <p><strong>Martes: </strong>2:15 - 4:35</p>
+                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
 </main>
 
 <script>
