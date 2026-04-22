@@ -230,3 +230,7 @@ label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #94a3b8; }
     .previtem{
         display:grid;
         }
+
+    #EditSectionBtn{
+        border-left: 3px solid #484D60;
+        }

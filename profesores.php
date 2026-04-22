@@ -17,8 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/profesores.css">
-    <link rel="stylesheet" href="sigeastyle.css">
-
     <style>
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -53,10 +51,10 @@
         margin-right:5px;
         }
     .active{
-        color: #030303;
+        color: #0F495E;
         }
     .inactive{
-        color: #0b0c0c;
+        color: #6F868E;
         }
     .invisible {
         display: none;
@@ -79,10 +77,10 @@
         height: 80vh;
         }
     .section-container{
-        background-color:#ffffff;
+        background-color:#D1EAEC;
         }
     </style>
-
+    <link rel="stylesheet" href="sigeastyle.css">
 </head>
 <body>
 
@@ -209,7 +207,7 @@ function CrearCarta(prof){
 <div class="main-container section-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 20px; margin-left: 5%;">
     <section class="panel list-panel">
         <div class="panel-header input-group" style="width:100%;justify-content:center;">
-            <h2 style="color: #000203;">Profesores Registrados</h2>
+            <h2>Profesores Registrados</h2>
             <input type="text" placeholder="🔍 Buscar profesor..." id="search-prof" style="width:50%;">
         </div>
         <div class="scroll-area" id="professors-list">

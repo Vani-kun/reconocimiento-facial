@@ -150,7 +150,7 @@
 
 <div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
     <div class="divsection-master">
-        <div id="EditSectionBtn" class="divsection divsection-selected" style="border-left: 3px solid #81BA4E;">
+        <div id="EditSectionBtn" class="divsection divsection-selected">
         Edición
         </div>
 

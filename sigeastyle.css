@@ -316,3 +316,21 @@ input, select {
     
     input[readonly], select:disabled { border-color: #88dd64; color: #000000;}
     input::placeholder{color: #000000}
+
+    #EditSectionBtn{
+        border-left: 3px solid #81BA4E;
+        }
+    .active{
+        color: #030303;
+        }
+    .inactive{
+        color: #0b0c0c;
+        }
+    .section-container{
+        background-color:#ffffff;
+        }
+
+    .panel-header h2{
+        color: #000203;
+        }
+   
