@@ -2,7 +2,7 @@
     include "php/conexion.php";
 
     // 1. Consultamos todos los registros
-    $sql = "SELECT id, descriptor, nombre, activo, tags FROM caras ORDER BY activo DESC, nombre ASC";
+    $sql = "SELECT id, descriptores, nombre, activo, tags FROM caras ORDER BY activo DESC, nombre ASC";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
 ?>
@@ -77,6 +77,9 @@
         float: left;
         height: 80vh;
         }
+    .section-container{
+        background-color:#D1EAEC;
+        }
     </style>
 
 </head>
@@ -85,6 +88,16 @@
 <?php include 'php/extras/navbar.php'; ?>
 
 <script>
+const safeParse = (data) => {
+    if (!data || data.trim() === "") return []; // Si está vacío o es solo espacio, devuelve array vacío
+    try {
+        return JSON.parse(data);
+    } catch (e) {
+        console.error("Error parseando JSON:", data);
+        return []; // Si el JSON está mal formado, devuelve array vacío para no romper el código
+    }
+};
+
 const datosProfesores = <?php echo json_encode($profesores); ?>;
 const allProfesors = [];
 
@@ -101,8 +114,8 @@ function CrearCarta(prof){
     const id = prof.id;
     const nombre = prof.nombre;
     const activo = prof.activo;
-    const descriptor = prof.descriptor;
-    const tags = JSON.parse(prof.tags) || [];
+    const descriptores = safeParse(prof.descriptores);
+    const tags = safeParse(prof.tags);
 
     const profCard = document.createElement('div');
 
@@ -183,7 +196,7 @@ function CrearCarta(prof){
         nombre,
         activo,
         tags,
-        descriptor,
+        descriptores,
         element: profCard,
         idap: myAllprofesorID,
         ep: profAvatar,
@@ -219,12 +232,22 @@ function CrearCarta(prof){
                     <input type="text" id="btntags" placeholder="Ej. Matemáticas, Fisica, Informatica, etc.">
                 </div>
             </div>
-            <div class="camera-column">
-                <div class="camera-circle">
-                    <video id="video" width="600" height="600" autoplay muted></video>
-                    <canvas id="canvas"></canvas>
-                 </div>
-                <p>Asegúrese de que el rostro esté visible</p>
+            <div class="faces-column">
+                <div id="cameraedit" class="oculto">
+                    <div class="camera-circle">
+                        <video id="video" width="600" height="600" autoplay muted></video>
+                        <canvas id="canvas"></canvas>
+                    </div>
+                    <div style="display:flex">
+                    <button class="btn btn-cancel" id="btncancelface" style="width:48%;margin:0 1%;">Cancelar</button>
+                    <button class="btn btn-success" id="btnconfirmface" style="width:48%;margin:0 1%;">Confirmar</button>
+                    </div>
+                </div>
+                <div id="allfaces">
+                    <fieldset class="scroll-section" id="allfacesfs">
+                    </fieldset>
+                    <button class="btn btn-change" id="btnaddface" style="width:100%;margin:0;">Añadir rostro</button>
+                </div>
             </div>
         </div>
 
@@ -238,6 +261,9 @@ function CrearCarta(prof){
 <script src="js/carafunciones.js"></script>
 
 <script>
+
+FacesList = [];
+
 async function BorrarProfesor(_ID){
     try {
         const respuesta = await fetch('php/profesores/eliminar_profesor.php', {
@@ -419,14 +445,31 @@ async function addedi(md)  {
         cnombre.value="";
         btntags.value="";
         aetag.textContent="Añadir Nuevo";
+        FacesList = [];
     }else
     if(md==2){
+
         if (openEditor==-1){alert("seleccione un profesor") ;return}
         cnombre.value = openEditor.nombre;
-        btntags.value = Array.isArray(openEditor.tags) ? openEditor.tags.join(', ') : '';
+        btntags.value = Array.isArray(openEditor.tags) ? openEditor.tags.filter((e) => (e != "activo" && e != "inactivo")).join(", ") : '';
+        FacesList = Array.from(openEditor.descriptores);
         }
 
+    refreshFacesList();
+
+    const facem = document.getElementById("allfaces");
+    const cameram = document.getElementById("cameraedit");
+
+    if(!cameram.classList.contains("oculto")){
+        cameram.classList.add("oculto");
+        }
+
+    if(facem.classList.contains("oculto")){
+        facem.classList.remove("oculto");
+        }    
+
     ventana.style.display = 'flex';
+
     // Esperamos a que la cámara se encienda REALMENTE
     await startCamera(); 
 
@@ -478,15 +521,9 @@ function stopCamera() {
     }
 async function guardar(){
 
-    let _Descriptor = descriptorActual;
-    if(!_Descriptor){
-        if(openEditor == -1){
-            alert("ninguna cara detectada");
-            return;
-            }else{
-            _Descriptor = openEditor.descriptor;
-            console.log("actualizando sin descriptor");  
-            }
+    if(FacesList.length == 0){
+        alert("Guarda al menos un rostro");
+        return;
         }
 
     if(cnombre.value.trim() == ""){alert("Escribe un nombre");return;}
@@ -496,18 +533,24 @@ async function guardar(){
     let datosEnvio;
 
     if(openEditor == -1){
+        tags.push("activo")
         datosEnvio = {
             nombre:cnombre.value, 
             tags: tags,
-            descriptor: JSON.stringify(Array.from(_Descriptor))
+            descriptor: JSON.stringify(FacesList)
             };
         }else{
             _Page = 'php/profesores/actualizar_profesor.php';
+            if(openEditor.activo){
+                tags.push("activo");
+                }else{
+                tags.push("inactivo");
+                }
             datosEnvio = {
                 nombre:cnombre.value, 
                 tags: tags,
                 id: openEditor.id,
-                descriptor: JSON.stringify(Array.from(_Descriptor))
+                descriptor: JSON.stringify(FacesList)
                 };
             }
     try {
@@ -527,16 +570,16 @@ async function guardar(){
             if(openEditor==-1){
                 CrearCarta(resultado.profesor);
                 refreshProfessorList(document.getElementById('search-prof').value);
-                }
-                else{
+                }else{
                     openEditor.nombre = cnombre.value;
                     openEditor.tags = tags;
                     openEditor.en.textContent = cnombre.value;
                     openEditor.ep.textContent = cnombre.value.charAt(0).toUpperCase();
-                    openEditor.descriptor = _Descriptor;
+                    openEditor.descriptores = FacesList;
 
                     btntags.value = "";
                     cnombre.value = "";    
+                    FacesList = [];
                     openEditor = -1;
 
                     console.log(allProfesors[openEditor.idap]);
@@ -555,6 +598,64 @@ async function guardar(){
 document.getElementById('search-prof').addEventListener('input', (e) => {
     refreshProfessorList(e.target.value);
     });
+
+function refreshFacesList(){
+    console.log(FacesList);
+    const fieldset = document.getElementById("allfacesfs");
+    fieldset.textContent = "";
+
+    FacesList.forEach( (element,index) => {
+        
+        const fb = document.createElement("div");
+        fb.classList.add("facebar");
+
+        const p = document.createElement("p");
+        p.style = "width:70%;justify-content:left;display:flex;padding-left:10px;";
+        p.textContent = "Face "+(index+1);
+        
+        const btn = document.createElement("div");
+        btn.classList.add("facebarbtn");
+        btn.textContent = "X";
+        btn.addEventListener("click", () => {
+
+            if(!confirm("Seguro que deseas eliminar el rostro "+index)){return;}
+
+                FacesList.splice(index, 1);
+                fb.remove();
+                
+
+            });
+
+        fb.appendChild(p);
+        fb.appendChild(btn);
+        fieldset.appendChild(fb);
+        });     
+    }    
+
+    document.getElementById("btnaddface").addEventListener("click", () => {
+        document.getElementById("allfaces").classList.toggle("oculto");
+        document.getElementById("cameraedit").classList.toggle("oculto");
+        })
+
+    document.getElementById("btncancelface").addEventListener("click", () => {
+        document.getElementById("allfaces").classList.toggle("oculto");
+        document.getElementById("cameraedit").classList.toggle("oculto");
+        })
+
+    document.getElementById("btnconfirmface").addEventListener("click", () => {
+        let _Descriptor = descriptorActual;
+        if(!_Descriptor){
+            alert("ninguna cara detectada");
+            }else{
+                FacesList.push(_Descriptor);
+                refreshFacesList();
+                document.getElementById("allfaces").classList.toggle("oculto");
+                document.getElementById("cameraedit").classList.toggle("oculto");
+            }
+        });
+
+        
+        
 </script>
     
 <?php include 'php/extras/footer.php';?>

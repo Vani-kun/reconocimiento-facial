@@ -17,7 +17,7 @@
     $stmt = $pdo->query($sql);
     $secciones = $stmt->fetchAll();
 
-    $sql = "SELECT id, asignatura, seccion, entrada, salida, aula, dia FROM horario";
+    $sql = "SELECT id, asignatura, seccion, aula, dias FROM horario";
     $stmt = $pdo->query($sql);
     $AllSeccions = $stmt->fetchAll();
 ?>
@@ -163,7 +163,6 @@
             <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
                 
-
                 <div class="grid-form">
                     <div class="input-group">
                         <label>Materia Seleccionada:</label>
@@ -178,8 +177,21 @@
                         <input id="aula-input" type="text" name="aula" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
-                        <label>Dia:</label>
-                        <input id="dia-input" type="text" name="days" readonly placeholder="Arrastra aquí..." required>
+                        <label>Selector de dias:</label>
+                        <div style="display:flex">
+                            <select id="diaselect-input" style="width:100%;">
+                                <option value="0" selected>Dia 1</option>
+                            </select>
+                            <div class="oculto" id="dayerasediv" style="display:flex;justify-content:center;align-items:center;width:15%;">
+                                <button id="dayerasebtn" class="circle-btn">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-form" style="grid-template-columns: 3fr 3fr 3fr;">
+                    <div class="input-group">
+                        <label for="dia">Dia:</label>
+                        <input id="dia-input" type="text" name="dia" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
                         <label>Hora Entrada:</label>
@@ -189,18 +201,18 @@
                         <label>Hora Salida:</label>
                         <input id="hora-salida" type="time" name="h_salida" readonly required>
                     </div>
-                </div>
-
+                </div>           
                 <div class="actions-bar">
                     <button type="submit" id="btn-save" class="btn btn-success">Guardar</button>
                     <button type="button" id="btn-clean" class="btn btn-cancel">Vaciar</button>
                 </div>
+                
             </form>
             </div>
             <div id="SectionBank" style="display:none">
                 <div id="mold-items-bank" class="scroll-area">
                     <?php foreach ($AllSeccions as $mySec): ?>
-                        <div class="draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" horarioe="<?= htmlspecialchars($mySec['entrada']) ?>" horarios="<?= htmlspecialchars($mySec['salida']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dia="<?= htmlspecialchars($mySec['dia']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
+                        <div class="draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dias="<?= htmlspecialchars($mySec['dias']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
 
                         </div>
                     <?php endforeach; ?>
@@ -280,6 +292,92 @@
 <div style="min-height:100vh"></div>
 
     <script>
+        const DayListElement = document.getElementById('diaselect-input');
+        let DayList = [];
+
+        DayListElement.addEventListener("change", () => {
+            
+            horarioEInput.value = DayList[DayListElement.value].HoraE;
+            horarioSInput.value = DayList[DayListElement.value].HoraS;
+            diaInput.value = DayList[DayListElement.value].Dia;
+
+            if(DayList[DayListElement.value].HoraE != "0" && DayList[DayListElement.value].HoraS != "0" && DayList[DayListElement.value].Dia != ""){
+                document.getElementById("dayerasediv").classList.remove("oculto");
+                DayListElement.style = "width:85%;"
+                }else{
+                if(!document.getElementById("dayerasediv").classList.contains("oculto")){
+                    document.getElementById("dayerasediv").classList.add("oculto");   
+                    }
+                DayListElement.style = "width:100%;"
+                }
+            })
+
+
+
+        function CleanDayList(){
+
+        DayList = [];
+        DayList[0] = {
+            HoraE: "",
+            HoraS: "",
+            Dia: ""
+            }
+
+        ActualizarDayList();
+        }
+
+        function IncreaseDayList(){
+            const DLlenght = DayList.length;
+
+            if(DayList[DLlenght-1].HoraE != "" && DayList[DLlenght-1].HoraS != "" && DayList[DLlenght-1].Dia != ""){
+                DayList[DLlenght] = {
+                    HoraE: "",
+                    HoraS: "",
+                    Dia: ""
+                    }
+                ActualizarDayList();
+                }
+            }               
+
+        function ActualizarDayList(){
+            const DLlenght = DayList.length;
+            const acselect = DayListElement.value;
+            if(acselect > DLlenght){
+                acselect = DLlenght;
+                }
+            DayListElement.textContent = "";
+            
+
+            for (let index = 0; index < DLlenght; index++) {
+                const element = document.createElement("option");
+                element.value = index;
+                element.textContent = "Día "+(index+1);
+                if(index == acselect){
+                    element.selected = true;
+                    }
+                DayListElement.appendChild(element);
+                }
+
+            if(DLlenght > 1 && DayList[DayListElement.value].HoraE != "0" && DayList[DayListElement.value].HoraS != "0" && DayList[DayListElement.value].Dia != ""){
+                document.getElementById("dayerasediv").classList.remove("oculto");
+                DayListElement.style = "width:85%;"
+                }else{
+                    if(!document.getElementById("dayerasediv").classList.contains("oculto")){
+                    document.getElementById("dayerasediv").classList.add("oculto");   
+                    }
+                DayListElement.style = "width:100%;"
+                }  
+
+            horarioEInput.value = DayList[acselect].HoraE;
+            horarioSInput.value = DayList[acselect].HoraS;
+            diaInput.value = DayList[acselect].Dia;
+
+            if(DayList[DLlenght-1].HoraE != "" && DayList[DLlenght-1].HoraS != "" && DayList[DLlenght-1].Dia != ""){
+                IncreaseDayList();        
+                }
+            }
+
+        
         function arreglarhora(hora){
 
             let hora24 = hora;
@@ -308,6 +406,8 @@
         const prevItems = document.querySelectorAll(".previtem");
         const dropEraser = document.getElementById("recicle-bin");
         const form = document.getElementById("form-asignacion");
+
+        CleanDayList();
 
         ItemSelected = -1;                
 
@@ -364,7 +464,7 @@
             MYID = draggingItem.getAttribute("data-materia");  
             type = 0;
             }else if(draggingItem.classList.contains('item-horario')){
-            MYID = draggingItem.getAttribute("myid");              
+            MYID = draggingItem.getAttribute("myid");
             type = 1;
             }else if(draggingItem.classList.contains('item-aula')){
             MYID = draggingItem.getAttribute("data-aula");     
@@ -430,12 +530,17 @@
             }else if(draggingItem.classList.contains('item-horario')){
                 horarioEInput.value = draggingItem.getAttribute('data-entrada');
                 horarioSInput.value = draggingItem.getAttribute('data-salida');
+                DayList[DayListElement.value].HoraS = horarioSInput.value;
+                DayList[DayListElement.value].HoraE = horarioEInput.value;
+                IncreaseDayList();
             }else if(draggingItem.classList.contains('item-aula')){
                 aulaInput.value = draggingItem.getAttribute('data-aula');
             }else if(draggingItem.classList.contains('item-seccion')){
                 seccionInput.value = draggingItem.getAttribute('data-seccion');
             }else if(draggingItem.classList.contains('item-dia')){
                 diaInput.value = draggingItem.getAttribute('data-dia');
+                DayList[DayListElement.value].Dia = diaInput.value;
+                IncreaseDayList();
             }
             
             dropTarget.classList.remove('hover');
@@ -447,10 +552,38 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
-            if(data.materia == "" || data.aula == "" || data.seccion == "" || data.h_entrada == "" || data.h_salida == "" || data.dia == ""){
+            console.log(data)
+            
+            if(data.materia == "" || data.aula == "" || data.seccion == ""){
                 alert("Llena todos los campos");
                 return;
                 }           
+
+            if(DayList.length <= 1){
+                alert("Asigna al menos un día completo");
+                return;
+                }
+
+            if((data.h_entrada == "" || data.h_salida == "" || data.dia == "") && !(data.h_entrada == "" && data.h_salida == "" && data.dia == "")){
+                if(!confirm("No has terminado de configurar el dia actual al guardar este molde, se borrara el dia N° "+(DayList.length))){
+                    return;
+                    }
+                }           
+
+            for (let i = 0; i < DayList.length; i++) {
+                for (let j = i+1; j < DayList.length; j++) {
+                    const n = DayList[i]; 
+                    const m = DayList[j]; 
+                    if(n.Dia == m.Dia){
+                        if((m.HoraE > n.HoraE && m.HoraE < n.HoraS) || (m.HoraS > n.HoraE && m.HoraS < n.HoraS) || (m.HoraS == n.HoraS && m.HoraE == n.HoraE)){
+                            alert("Las horas del dia "+(i+1)+" chocan con las horas del dia "+(j+1));
+                            return;    
+                            }     
+                        }
+                    }     
+                }
+
+            DayList.splice(DayList.length-1,1);
 
             if(ItemSelected === -1){
                 try {
@@ -459,7 +592,14 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify({
+
+                        aula: data.aula,
+                        materia: data.materia,
+                        seccion: data.seccion,
+                        dias: JSON.stringify(DayList)
+
+                        })
                     });
 
                 
@@ -469,48 +609,55 @@
                         console.log("respuesta: "+ resultado.message);
                         alert("Horario guardado exitosamente.");
                         form.reset();
-                        const NewItem = document.createElement("div");
 
-                        NewItem.setAttribute("materia", resultado.materia);
-                        NewItem.setAttribute("aula", resultado.aula);
-                        NewItem.setAttribute("horarioe", resultado.h_entrada);
-                        NewItem.setAttribute("horarios", resultado.h_salida);
-                        NewItem.setAttribute("seccion", resultado.seccion);
-                        NewItem.setAttribute("dia", resultado.days);
-                        NewItem.setAttribute("myid", resultado.id);
+                        const element = document.createElement("div");
 
-                        NewItem.classList.add("item-seccion","draggable-item","previtem");
+                        element.classList.add("draggable-item","previtem")
 
-                        const add1 = document.createElement("strong"); 
-                        add1.textContent = `🖈${resultado.materia}:`;
-                        const add2 = document.createElement("p");
-                        add2.textContent = `🖈Seccion ${resultado.seccion}`;
-                        const add3 = document.createElement("p");
-                        add3.textContent = `🖈Aula ${resultado.aula}`;
-                        const add4 = document.createElement("p");
-                        add4.textContent = `🖈${resultado.days} ${arreglarhora(resultado.h_entrada)} - ${arreglarhora(resultado.h_entrada)}`; 
-                        
-                        NewItem.appendChild(add1);     
-                        NewItem.appendChild(add2);   
-                        NewItem.appendChild(add3);     
-                        NewItem.appendChild(add4);  
+                        const di = DayList;
+                        const ma = data.materia;
+                        const au = data.aula;
+                        const se = data.seccion;
+                        element.setAttribute("materia", ma);
+                        element.setAttribute("aula", au);
+                        element.setAttribute("seccion", se);
+                        element.setAttribute("dias", JSON.stringify(di));
 
-                        NewItem.addEventListener("click", () => {
+                        element.textContent = "";
+
+                        const add1 = document.createElement("div");
+                        add1.style = "display:flex";
+                        const add2 = document.createElement("strong"); 
+                        add2.textContent = `🖈${ma}: `;
+                        const add3 = document.createElement("p"); 
+                        add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
+
+                        add1.appendChild(add2); 
+                        add1.appendChild(add3); 
+                        element.appendChild(add1);     
+
+                        di.forEach(e => {
+                            const add4 = document.createElement("p");
+                            add4.textContent = `🖈${e.Dia} ${arreglarhora(e.HoraE)} - ${arreglarhora(e.HoraS)}`;
+                            element.appendChild(add4);   
+                            });
+
+                        element.addEventListener("click", () => {
                         const prevItems2 = document.querySelectorAll(".previtem");
                         
-                            prevItems2.forEach(element => {
-                            element.classList.remove("previtemselected");
+                            prevItems2.forEach(e => {
+                            e.classList.remove("previtemselected");
                             });     
-                            if(!NewItem.classList.contains("previtemselected")){
-                            ItemSelected = NewItem;
-                               NewItem.classList.add("previtemselected");   
+                            if(!element.classList.contains("previtemselected")){
+                            ItemSelected = element;
+                               element.classList.add("previtemselected");   
                                 }else{
                                 ItemSelected = -1; 
-                                NewItem.classList.remove("previtemselected");    
+                                element.classList.remove("previtemselected");    
                                 }
                             });      
    
-                        document.getElementById("mold-items-bank").appendChild(NewItem);
+                        document.getElementById("mold-items-bank").appendChild(element);
                     } else {
                         console.error("respuesta: " + resultado.error);
                         alert("Error al guardar el horario.");
@@ -527,7 +674,13 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify({
+                        aula: data.aula,
+                        materia: data.materia,
+                        seccion: data.seccion,
+                        dias: JSON.stringify(DayList),
+                        id: data.id
+                        })
                     });
 
                     const resultado = await respuesta.json(); 
@@ -541,28 +694,35 @@
                         SectionBtn[0][0].classList.remove("divsection-selected"); 
                         SectionBtn[0][1].style   = "display:none;"; 
 
-                        ItemSelected.setAttribute("materia", data.materia);
-                        ItemSelected.setAttribute("aula", data.aula);
-                        ItemSelected.setAttribute("horarioe", data.h_entrada);
-                        ItemSelected.setAttribute("horarios", data.h_salida);
-                        ItemSelected.setAttribute("seccion", data.seccion);
-                        ItemSelected.setAttribute("dia", data.days);
+                        const element = ItemSelected;
+                        const di = DayList;
+                        const ma = data.materia;
+                        const au = data.aula;
+                        const se = data.seccion;
+                        element.setAttribute("materia", ma);
+                        element.setAttribute("aula", au);
+                        element.setAttribute("seccion", se);
+                        element.setAttribute("dias", JSON.stringify(di));
 
-                        ItemSelected.textContent = "";
-                        
-                        const add1 = document.createElement("strong"); 
-                        add1.textContent = `🖈${data.materia}:`;
-                        const add2 = document.createElement("p");
-                        add2.textContent = `🖈Seccion ${data.seccion}`;
-                        const add3 = document.createElement("p");
-                        add3.textContent = `🖈Aula ${data.aula}`;
-                        const add4 = document.createElement("p");
-                        add4.textContent = `🖈${data.days} ${arreglarhora(data.h_entrada)} - ${arreglarhora(data.h_entrada)}`; 
-                        
-                        ItemSelected.appendChild(add1);     
-                        ItemSelected.appendChild(add2);  
-                        ItemSelected.appendChild(add3); 
-                        ItemSelected.appendChild(add4); 
+                        element.textContent = "";
+
+                        const add1 = document.createElement("div");
+                        add1.style = "display:flex";
+                        const add2 = document.createElement("strong"); 
+                        add2.textContent = `🖈${ma}: `;
+                        const add3 = document.createElement("p"); 
+                        add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
+
+                        add1.appendChild(add2); 
+                        add1.appendChild(add3); 
+                        element.appendChild(add1);     
+
+                        di.forEach(e => {
+                            const add4 = document.createElement("p");
+                            add4.textContent = `🖈${e.Dia} ${arreglarhora(e.HoraE)} - ${arreglarhora(e.HoraS)}`;
+                            element.appendChild(add4);   
+                            });
+           
 
                     } else {
                         console.error("respuesta: " + resultado.error);
@@ -574,6 +734,7 @@
                 } 
             }
 
+            CleanDayList();
         });
 
         //#region Agregar Materia
@@ -929,7 +1090,7 @@
             SwitchItemBankSection(SectionBtn, 0)
             });
 
-        SectionBtn[1][0].addEventListener("click", () => {SwitchItemBankSection(SectionBtn, 1);form.reset();});
+        SectionBtn[1][0].addEventListener("click", () => {SwitchItemBankSection(SectionBtn, 1);form.reset();CleanDayList();});
 
         const EraseMateriaBtn = document.getElementById("erasembtn");
         const EditMateriaBtn = document.getElementById("editmbtn");
@@ -947,10 +1108,10 @@
 
                 materiaInput.value  = ItemSelected.getAttribute("materia");
                 aulaInput.value     = ItemSelected.getAttribute("aula");
-                horarioEInput.value = ItemSelected.getAttribute("horarioe");
-                horarioSInput.value = ItemSelected.getAttribute("horarios");
                 seccionInput.value  = ItemSelected.getAttribute("seccion");
-                diaInput.value      = ItemSelected.getAttribute("dia");
+                DayList = JSON.parse(ItemSelected.getAttribute("dias"));
+
+                ActualizarDayList();
                 }
 
             });
@@ -958,6 +1119,7 @@
             document.getElementById("btn-clean").addEventListener("click", (e) => {
                 e.preventDefault();
                 form.reset();   
+                CleanDayList();
                 });
                   
             document.getElementById("erasembtn").addEventListener("click", async (e) => {
@@ -999,27 +1161,49 @@
 
     const mm = document.querySelectorAll('.previtem');
     mm.forEach(element => {
-         const ma = element.getAttribute('materia');
-         const au = element.getAttribute('aula');
-         const he = element.getAttribute('horarioe');
-         const hs = element.getAttribute('horarios');
-         const se = element.getAttribute('seccion');
-         const di = element.getAttribute('dia');
+        const ma = element.getAttribute('materia');
+        const au = element.getAttribute('aula');
+        const se = element.getAttribute('seccion');
+        const di = JSON.parse(element.getAttribute('dias'));
 
-        const add1 = document.createElement("strong"); 
-        add1.textContent = `🖈${ma}:`;
-        const add2 = document.createElement("p");
-        add2.textContent = `🖈Seccion ${se}`;
-        const add3 = document.createElement("p");
-        add3.textContent = `🖈Aula ${au}`;
-        const add4 = document.createElement("p");
-        add4.textContent = `🖈${di} ${arreglarhora(he)} - ${arreglarhora(hs)}`;
+        const add1 = document.createElement("div");
+        add1.style = "display:flex";
+        const add2 = document.createElement("strong"); 
+        add2.textContent = `🖈${ma}: `;
+        const add3 = document.createElement("p"); 
+        add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
 
-        element.appendChild(add1);     
-        element.appendChild(add2);      
-        element.appendChild(add3);     
-        element.appendChild(add4);         
+        add1.appendChild(add2); 
+        add1.appendChild(add3); 
+        element.appendChild(add1);       
+
+        di.forEach(e => {
+            const add4 = document.createElement("p");
+            add4.textContent = `🖈${e.Dia} ${arreglarhora(e.HoraE)} - ${arreglarhora(e.HoraS)}`;
+            element.appendChild(add4);   
+            });
+               
         });
+
+        const erasebtn = document.getElementById("dayerasebtn");
+
+        erasebtn.addEventListener("click", e => {
+        e.preventDefault();
+
+            const index = DayListElement.value;
+
+
+            DayList.splice(index,1);
+            console.log(index,DayList);
+            
+            horarioEInput.value = DayList[DayListElement.value].HoraE;
+            horarioSInput.value = DayList[DayListElement.value].HoraS;
+            diaInput.value = DayList[DayListElement.value].Dia;
+
+            ActualizarDayList();
+
+        })
+
     </script>
     
     <?php include 'php/extras/footer.php';?>

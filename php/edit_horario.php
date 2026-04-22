@@ -12,17 +12,15 @@ if (isset($data['materia'])) {
 
     $materia    = $data['materia'];
     $aula       = $data['aula'];
-    $h_entrada  = $data['h_entrada'];
-    $h_salida   = $data['h_salida'];
     $seccion    = $data['seccion'];
     $id         = $data['id'];
-    $dia        = $data['days'];
+    $dias        = $data['dias'];
 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "UPDATE horario SET asignatura = ?, aula = ?, entrada = ?, salida = ?, seccion = ?, dia = ? WHERE id = ?";
+        $sql = "UPDATE horario SET asignatura = ?, aula = ?, seccion = ?, dias = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$materia, $aula, $h_entrada, $h_salida, $seccion, $dia ,$id]);
+        $stmt->execute([$materia, $aula, $seccion, $dias ,$id]);
 
         //Responder al JavaScript que todo salió bien
         echo json_encode(["success" => true, "message" => "Guardado con éxito"]);

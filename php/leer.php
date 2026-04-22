@@ -3,7 +3,8 @@ header('Content-Type: application/json');
 require "conexion.php";
 
 try {
-    $stmt = $pdo->query("SELECT nombre, descriptor FROM caras");
+    $stmt = $pdo->query("SELECT nombre, descriptores FROM caras WHERE descriptores IS NOT NULL 
+                     AND descriptores != ''");
     $usuarios = $stmt->fetchAll();
     
     // Enviamos los datos a JS

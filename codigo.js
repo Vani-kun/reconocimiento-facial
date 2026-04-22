@@ -113,9 +113,14 @@ async function cargarCatalogo() {
             horas.push(elemento);
             });
     // Convertimos cada usuario de la BD a descriptores etiquetados
-    const labels = usuarios.map(u => 
-        new faceapi.LabeledFaceDescriptors(u.nombre, [new Float32Array(JSON.parse(u.descriptor))])
-        );
+    const labels = usuarios.map(u => {
+        const MiFaces = JSON.parse(u.descriptores).map(e => {
+            return new Float32Array(Object.values(e));
+            });
+
+        return new faceapi.LabeledFaceDescriptors(u.nombre, MiFaces)
+        });
+
         // Creamos el comparador global (umbral 0.6)
         faceMatcher = new faceapi.FaceMatcher(labels, 0.6);
         console.log("Catálogo M.A.R.S. listo");

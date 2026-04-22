@@ -214,3 +214,19 @@ label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #94a3b8; }
         border-radius: 100%;
         font-weight: bold;
     }
+
+    .circle-btn{
+        width:20px;
+        height:20px;
+        text-align: center;
+        border-radius:100%;
+        border:0;
+        background-color: #B02936;
+        color: #FFFFFF;
+        }
+    .circle-btn:hover{
+        background-color: #E41924;
+        }
+    .previtem{
+        display:grid;
+        }
