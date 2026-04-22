@@ -29,6 +29,7 @@
     <title>M.A.R.S. - Asignación de Materias</title>
     <link rel="stylesheet" href="css/asignar-style.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sigeastyle.css">
 </head>
 <body>
     

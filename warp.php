@@ -7,6 +7,7 @@
     <script src="js/face-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sigeastyle.css">
 
     <style>
         

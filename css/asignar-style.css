@@ -1,5 +1,5 @@
 :root {
-    --bg: #81BA4E;
+    --bg: #0f172a;
     --panel: #ffffff;
     --prim:#275dff;
     --accent: #00f2ff;
@@ -28,15 +28,15 @@ body {
     }
 
 .drop-zone, .items-bank{
-    background: #f1f1f1;
-    border-left: 3px solid #81BA4E;  
-    border-right: 3px solid #81BA4E;  
+    background: #D1EAEC;
+    border-left: 3px solid #484D60;  
+    border-right: 3px solid #484D60;  
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
     }
 
 .drop-zone.hover {
     border: 2px dashed #B02936;
-    background: #e8e9e8;
+    background: #ADD8D5;
     }
 
 .items-bank{
@@ -44,12 +44,12 @@ body {
     }
 
 .draggable-item {
-    background: #81BA4E;
+    background: #83CDDD;
     margin: 10px 0;
     border-radius: 8px;
     cursor: grab;
     transition: 0.2s;
-    color: #000000;
+    color: #211E42;
     width: 100%;
     text-align: center;
     align-items: center;
@@ -62,7 +62,7 @@ body {
 .draggable-item:active { cursor: grabbing; }
 .draggable-item.dragging { opacity: 0.5; }
 
-label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #000000; }
+label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #94a3b8; }
 
 .grid-form {
     display: grid;
@@ -119,8 +119,8 @@ label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #000000; }
 .divsection{
     height:100%;
     width:50%;
-    background-color:#81BA4E;
-    color: #000000;
+    background-color:#69A8A3;
+    color: #0F495E;
     border-top-left-radius:10px;
     border-top-right-radius:10px;
     transition: 0.2s all;
@@ -145,8 +145,8 @@ label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #000000; }
     width: 45%;
     }
 .divsection-selected{
-    background-color:#81BA4E;
-    color: #000000;
+    background-color:#D1EAEC;
+    color: #211E42;
     }
 
 .itemsbcm{
@@ -164,16 +164,16 @@ label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #000000; }
     cursor: pointer;
     }
 .previtemselected{
-    background-color: #d93030;
+    background-color: #009FE3;
     color: #D1EAEC;
     }
 
 #recicle-bin{
-    color:#020202;
+    color:#484D60;
     position:absolute;
-    background-color:#ffffff;
+    background-color:#D1EAEC;
     border-radius: 5px;
-    border: 2px solid #81BA4E;
+    border: 2px solid #484D60;
     top: 85%;
     left: 47.5%;
     height: 9.5%;

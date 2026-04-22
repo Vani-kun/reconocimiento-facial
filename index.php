@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/camara.css">
     <link rel="stylesheet" href="css/index.css">
-    
+    <link rel="stylesheet" href="sigeastyle.css">
     <script>
         // Seguridad: Bloqueo de retroceso
         history.pushState(null, null, location.href);
@@ -21,7 +21,7 @@
 
     <main class="main-container" style="display:flex">
         <div style="min-height:80vh;width:40vw">
-            <div class="wrapper-visor" style="width:100%;height:100%"> 
+            <div class="wrapper-visor" style="width:100%;height:95%"> 
                 <div class="anillo-escaneo"></div>
                 <div class="visor-circular">
                     <p class="status-cam" id="estatus">ESPERANDO CÁMARA...</p>

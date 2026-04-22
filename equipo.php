@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="nosotros.css">
     <link rel="stylesheet" href="equipo.css">
-
+    <link rel="stylesheet" href="sigeastyle.css">
 </head>
 <body>
 

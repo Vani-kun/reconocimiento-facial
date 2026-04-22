@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/profesores.css">
     <link rel="stylesheet" href="css/horarios.css">
+    <link rel="stylesheet" href="sigeastyle.css">
     <script src="js/face-api.min.js"></script>
 
 </head>
