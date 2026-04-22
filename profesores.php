@@ -52,10 +52,10 @@
         margin-right:5px;
         }
     .active{
-        color: #0F495E;
+        color: #030303;
         }
     .inactive{
-        color: #6F868E;
+        color: #0b0c0c;
         }
     .invisible {
         display: none;
@@ -78,7 +78,7 @@
         height: 80vh;
         }
     .section-container{
-        background-color:#D1EAEC;
+        background-color:#ffffff;
         }
     </style>
 
@@ -208,7 +208,7 @@ function CrearCarta(prof){
 <div class="main-container section-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 20px; margin-left: 5%;">
     <section class="panel list-panel">
         <div class="panel-header input-group" style="width:100%;justify-content:center;">
-            <h2>Profesores Registrados</h2>
+            <h2 style="color: #000203;">Profesores Registrados</h2>
             <input type="text" placeholder="🔍 Buscar profesor..." id="search-prof" style="width:50%;">
         </div>
         <div class="scroll-area" id="professors-list">
@@ -618,7 +618,7 @@ function refreshFacesList(){
         btn.textContent = "X";
         btn.addEventListener("click", () => {
 
-            if(!confirm("Seguro que deseas eliminar el rostro "+(index+1))){return;}
+            if(!confirm("Seguro que deseas eliminar el rostro "+index)){return;}
 
                 FacesList.splice(index, 1);
                 fb.remove();

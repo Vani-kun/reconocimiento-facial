@@ -5,7 +5,7 @@ header("Pragma: no-cache"); // HTTP 1.0.
 header("Expires: 0"); // Proxies.
 
 // 2. Comprobar la sesión
-include 'includes/session_check.php';
+
 
 // Si el check de sesión falla, el usuario no verá NADA de lo que sigue abajo
 ?>
@@ -24,9 +24,12 @@ include 'includes/session_check.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.A.R.S. - Registro de Asistencia</title>
+    <title>IUJO - Registro de Asistencia</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/asistencia.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
 
@@ -441,23 +444,23 @@ async function inicializarOReferescarCalendario() {
     function descargarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape' });
-        doc.text("Registro de Asistencia M.A.R.S.", 14, 15);
+        doc.text("Registro de Asistencia IUJO", 14, 15);
         doc.autoTable({ html: '#tabla-asistencia', margin: { top: 25 } });
-        doc.save("asistencia_mars.pdf");
+        doc.save("Asistencia_IUJO.pdf");
         }
 
     function descargarExcel() {
         let tabla = document.getElementById("tabla-asistencia");
         let wb = XLSX.utils.table_to_book(tabla, {sheet: "Asistencia"});
-        XLSX.writeFile(wb, "asistencia_mars.xlsx");
+        XLSX.writeFile(wb, "Asistencia_IUJO.xlsx");
         }
 
     function descargarWord() {
         let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
              "xmlns:w='urn:schemas-microsoft-com:office:word' " +
              "xmlns='http://www.w3.org/TR/REC-html40'>" +
-             "<head><meta charset='utf-8'><title>Registro de Asistencia M.A.R.S.</title></head><body>" + 
-             "<h2>Registro de Asistencia M.A.R.S.</h2>";
+             "<head><meta charset='utf-8'><title>Registro de Asistencia IUJO.</title></head><body>" + 
+             "<h2>Registro de Asistencia IUJO</h2>";
         let footer = "</body></html>";
         
         let tablaHTML = document.getElementById("tabla-asistencia").outerHTML;
@@ -467,7 +470,7 @@ async function inicializarOReferescarCalendario() {
         let fileDownload = document.createElement("a");
         document.body.appendChild(fileDownload);
         fileDownload.href = source;
-        fileDownload.download = 'asistencia_mars.doc';
+        fileDownload.download = 'Asistencia_IUJO.doc';
         fileDownload.click();
         document.body.removeChild(fileDownload);
         }
