@@ -15,13 +15,14 @@
 
 .schedule-container{
     width:75%;
-    padding: 0.5vh 1vh 0.5vh 0.5vh;
     background-color: #D1EAEC;;
     height: 80.5vh;
     overflow: hidden;
     border-top-right-radius: 1vh;
     border-bottom-right-radius: 1vh;
+    overflow: none;
     }
+
 
 .scroll-area{
     overflow-y: scroll;
@@ -59,26 +60,17 @@
 .schedule{
     justify-self: center;
     background-color: #4F2054;
-    min-height: 87%;
-    max-height: 87%;
+    min-height: 80vh;
+    max-height: 80vh;
     width: 90%;
     border-radius: 2vh;
     display:grid;
     overflow-y: scroll;
-    grid-template-rows: 1fr 9fr;
+    grid-template-rows: auto 1fr;
     }
 
-.schedule-day-div{
-
-    width: 100%;
-    height: 100%;
-    border-left: 0.1vh #9A6DA5 dotted;
-    border-right: 0.1vh #9A6DA5 dotted;
-
-}
-
 .schedule-day-div-h{
-    width: 100%;
+    min-width: 100%;
     height: 100%;
     background-color:#9A6DA5;
     border: 0.1vh #4F2054 solid;
@@ -98,24 +90,46 @@
     grid-template-columns: 7fr 7fr 7fr 7fr 7fr 7fr 7fr;
     }
 
-.schedule-config{
-    height: 100%;
-    display:grid;
-    grid-template-columns: 7fr 7fr 7fr 7fr 7fr 7fr 7fr;
+.schedule-config {
+    display: flex;
+    align-items: stretch; /* Esto obliga a que todas las columnas midan lo mismo */
+    min-height: 30vh;
+    height: auto; 
+    overflow-y: visible; /* Deja que el contenido se desborde para que el scroll actúe */
 }
+.schedule-day-div {
+    display: flex;
+    width: 100%;
+    /* Eliminamos height: 100% porque bloquea el crecimiento */
+    min-height: 100%; 
+    border-left: 0.1vh #9A6DA5 dotted;
+    border-right: 0.1vh #9A6DA5 dotted;
+    flex: 1;
+    position: relative;
+}
+
 .schedule-div{
-
     height: 70%;
-
-}
+    transition: height 0.2s;
+    }
+.schedule-div.open{
+    height: 100%;
+    }
 
 .schedule-menu{
-
     height: 30%;
     width: 100%;
     border-top: 0.1vh #A7C4CE solid;
     align-content: center;
-}
+    transition: height 0.2s;
+    background-color: #D1EAEC;
+    position: relative;
+    z-index: 10;
+    }       
+
+.schedule-menu.open{
+    height: 0;
+    }
 
 .schedule-menu-scroll{
 
@@ -165,4 +179,52 @@
 
 .schedule-option-body{
     display:flex;
+    }
+
+.schedule-option-days {
+    width:70%;
+    text-align:left;
+    padding-left:2vh;
+    align-content:center;
+    height:100%;
+    border-left: 0.1vh #0F495E dotted;
+    }
+
+#openmenubtn{
+    background-color:#ADD8D5;
+    color:#1D1D1B; 
+    width:5%;
+    height:4.2vh;
+    position:absolute;
+    font-size: 4vh;
+    display:flex;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 2vh;
+    border-top-right-radius: 2vh;
+    user-select: none;
+    overflow: none;
+    transition: width 0.2s;
+    }
+
+#openmenubtn:hover{
+    cursor: pointer;
+    width:7%;
+    }
+
+.task-box{
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    background-color: #557535;
+    border: 0.125vw solid #81BA4E;
+    padding: 0.1vw;
+    color: white;
+    font-size: 1.8vh;
+    border-radius: 1vh;
+    z-index: 10;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
     }

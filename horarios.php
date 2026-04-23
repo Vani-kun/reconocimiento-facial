@@ -6,6 +6,11 @@
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
 
+     //traer todos los profesores
+    $sql = "SELECT id, asignatura, seccion, profesor, aula, dias FROM horario ORDER BY id ASC";
+    $stmt = $pdo->query($sql);
+    $horarios = $stmt->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -116,6 +121,7 @@
                     profCard.classList.remove("active");
                     profSelected = -1;
                     }
+                    ActualizarHorario();
                 });
 
             allProfesors.push({
@@ -150,8 +156,8 @@
     </section>
 
 
-    <section id="schedule-section" class="schedule-container">
-        <div class="schedule-div">
+    <section class="schedule-container">
+        <div id="schedule-section" class="schedule-div open">
             <div class="panel-header">
             <h2 style="font-size:3.5vh">Horario</h2>
             </div>
@@ -169,79 +175,174 @@
                 </div>
 
                 <div class="schedule-config">
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
-                    <div id="friday" class="schedule-day-div"></div>
+                    <div id="Lunes" class="schedule-day-div"></div>
+                    <div id="Martes" class="schedule-day-div"></div>
+                    <div id="Miercoles" class="schedule-day-div"></div>
+                    <div id="Jueves" class="schedule-day-div"></div>
+                    <div id="Viernes" class="schedule-day-div"></div>
+                    <div id="Sabado" class="schedule-day-div"></div>
+                    <div id="Domingo" class="schedule-day-div"></div>
                 </div>
 
             </div>
         </div>
-        <div class="schedule-menu">
+
         
+        <div id="openmenubtn">A</div>
+        <div id="schedule-menu" class="schedule-menu open">
+        
+
             <div class="schedule-menu-scroll">
 
-                <div class="schedule-option">
-            
+
+                <?php foreach ($horarios as $horario): ?>
+                <div class="schedule-option" id="<?= htmlspecialchars($horario['id']) ?>" profesor="<?= htmlspecialchars($horario['profesor']) ?>" dias="<?= htmlspecialchars($horario['dias']) ?>" nombre="<?= htmlspecialchars($horario['asignatura']) ?>">
                     <div class="schedule-option-header">
-                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Aaron García</p>
+                        <p style="margin-left:1vw;"><strong><?= htmlspecialchars($horario['asignatura']) ?>:</strong> <span class="schedule-option-pname"></span></p>
                     </div>
                     <div class="schedule-option-body">
                         <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
-                        <p>Sección C</p>
-                        <p>Aula 14</p>
+                        <p>Sección <?= htmlspecialchars($horario['seccion']) ?></p>
+                        <p>Aula <?= htmlspecialchars($horario['aula']) ?></p>
                         </div>
-                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
-                        <p><strong>Martes: </strong>2:15 - 4:35</p>
-                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="schedule-option">
-            
-                    <div class="schedule-option-header">
-                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Aaron García</p>
-                    </div>
-                    <div class="schedule-option-body">
-                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
-                        <p>Sección C</p>
-                        <p>Aula 14</p>
-                        </div>
-                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
-                        <p><strong>Martes: </strong>2:15 - 4:35</p>
-                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
+                        <div class="schedule-option-days">
+   
                         </div>
                     </div>
                 </div>
-
-                <div class="schedule-option">
-            
-                    <div class="schedule-option-header">
-                    <p style="margin-left:1vw;"><strong>Calculo I:</strong> Anderson Pichardo</p>
-                    </div>
-                    <div class="schedule-option-body">
-                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
-                        <p>Sección C</p>
-                        <p>Aula 14</p>
-                        </div>
-                        <div style="width:70%;text-align:left;padding-left:2vh;align-content:center;height:100%;border-left: 0.1vh #0F495E dotted;">
-                        <p><strong>Martes: </strong>2:15 - 4:35</p>
-                        <p><strong>Jueves: </strong>2:15 - 4:35</p>
-                        </div>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
-
         </div>
     </section>
 </main>
 
 <script>
+
+const starthour = "14:15";
+const endhour = "20:25";
+
+let HorarioList = [];
+
+ /**
+ * Crea y posiciona una tarea en el horario.
+ * @param {string} horaInicio - Formato "HH:MM" (ej: "03:15")
+ * @param {string} horaFin - Formato "HH:MM" (ej: "04:45")
+ * @param {string} titulo - Nombre de la actividad
+ * @param {string} carrilId - El ID del div del día (ej: "lunes-carril")
+ */
+function agregarTarea(horaInicio, horaFin, titulo, carrilId, Seccion = "", Aula = "") {
+
+    
+
+    // 1. Configuración de escala
+    const MINUTOS_INICIO_HORARIO = (14 * 60) + 15; // 2:15 PM en minutos
+    const PIXELES_POR_MINUTO = 0.19; // Ajusta esto para estirar/encoger el horario
+
+    // 2. Auxiliar para convertir "HH:MM" a minutos totales
+    const convertirAMinutos = (horaStr) => {
+        const [horas, minutos] = horaStr.split(':').map(Number);
+        return (horas * 60) + minutos;
+    };
+
+    const minInicio = convertirAMinutos(horaInicio);
+    const minFin = convertirAMinutos(horaFin);
+
+    // 3. Cálculos de posición y tamaño
+    const posicionTop = (minInicio - MINUTOS_INICIO_HORARIO) * PIXELES_POR_MINUTO;
+    const duracionPx = (minFin - minInicio) * PIXELES_POR_MINUTO;
+
+    // 4. Crear el elemento DOM
+    const taskBox = document.createElement('div');
+    taskBox.classList.add('task-box'); // Usa los estilos CSS que definimos antes
+
+    // Aplicar estilos dinámicos
+    Object.assign(taskBox.style, {
+        top: `${posicionTop}vh`,
+        height: `${duracionPx}vh`
+    });
+
+    taskBox.innerHTML = `<strong>${titulo}</strong><br>Sección: ${Seccion}<br>Aula: ${Aula}<br>${arreglarhora(horaInicio)} - ${arreglarhora(horaFin)}`;
+
+    // 5. Insertar en el carril correspondiente
+    const carril = document.getElementById(carrilId);
+    if (carril) {
+        carril.appendChild(taskBox);
+    } else {
+        console.error(`No se encontró el carril con ID: ${carrilId}`);
+    }
+}
+
+function LimpiarHorario(){
+document.getElementById("Lunes").textContent = "";
+document.getElementById("Martes").textContent = "";
+document.getElementById("Miercoles").textContent = "";
+document.getElementById("Jueves").textContent = "";
+document.getElementById("Viernes").textContent = "";
+document.getElementById("Sabado").textContent = "";
+document.getElementById("Domingo").textContent = "";
+}
+
+async function ActualizarHorario(){
+
+    LimpiarHorario();
+    if(profSelected == -1){return;}
+
+    const myid = profSelected.getAttribute("id");
+
+    try {
+        const respuesta = await fetch('php/horario/checkhorario.php', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+                },
+            body: JSON.stringify({
+            id: myid
+                }),
+            });
+
+        const resultado = await respuesta.json(); 
+        if (resultado.success) {
+            const data = Array.from(resultado.data);
+            
+            HorarioList = data;        
+
+            data.forEach(e => {
+                const name = e.asignatura;
+                const seccion = e.seccion;
+                const aula = e.aula;
+
+                const dias = JSON.parse(e.dias);
+                dias.forEach(i => {
+                    agregarTarea(i.HoraE,i.HoraS,name,i.Dia,seccion,aula);
+                    })
+                
+
+                });
+
+
+            } else {
+            alert("respuesta: " + resultado.error);
+            }
+        } catch (error) {
+        console.error("Error al enviar: ", error);
+        }  
+
+
+    }
+
+function arreglarhora(hora){
+
+    let hora24 = hora;
+    if(hora.length > 5){hora24 = hora.substring(0, 5)}  
+
+    const fechaTemp = new Date(`1970-01-01T${hora24}:00`);
+
+    return fechaTemp.toLocaleString('en-US', { 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        hour12: true 
+        });
+    }
 
 document.getElementById('search-prof').addEventListener('input', (e) => {
     refreshProfessorList(e.target.value);
@@ -310,6 +411,142 @@ function refreshProfessorList(search = ""){
         });
     }
 refreshProfessorList();
+
+const datosHorarios = document.getElementsByClassName("schedule-option");
+const profDatos = <?php echo json_encode($profesores); ?>;;
+
+
+for (let index = 0; index < datosHorarios.length; index++) {
+    const element = datosHorarios[index];
+
+    const myprofid = element.getAttribute("profesor");
+    const mydays = JSON.parse(element.getAttribute("dias"));                
+    const myid = element.getAttribute("id");
+
+    const namespan = element.querySelector('.schedule-option-pname');
+    if(myprofid){
+        namespan.textContent = Array.from(profDatos).find((e) => e.id == myprofid).nombre;
+        }
+    
+    const diasdiv = element.querySelector('.schedule-option-days');
+    
+    mydays.forEach(e => {
+        const p = document.createElement("p");
+
+        const strong = document.createElement("strong")
+        strong.textContent = e.Dia+": ";
+        
+        const span = document.createElement("span");
+        span.textContent = arreglarhora(e.HoraE) + " - " + arreglarhora(e.HoraS);
+        
+        p.appendChild(strong);
+        p.appendChild(span);
+
+        diasdiv.appendChild(p);
+        });
+
+    element.addEventListener("click", async () => {
+
+        const myprofid = element.getAttribute("profesor");
+        const nombre = element.getAttribute("nombre");
+        let reemplace = -1;
+
+        if(profSelected == -1){return;}
+
+        /*Comprobar que no choque con un horario ya existente*/
+        if (HorarioList.length > 0) {
+            let continuar = 1;
+
+            mainLoop: 
+            for (const element of HorarioList) {
+                const HLdias = JSON.parse(element.dias);
+                if(element.id != myid){
+                    for (const i of HLdias) {
+                        for (const j of mydays) {
+                            if (j.Dia == i.Dia) {
+                                if ((i.HoraE > j.HoraE && i.HoraE < j.HoraS) || 
+                                    (i.HoraS > j.HoraE && i.HoraS < j.HoraS) || 
+                                    (i.HoraS == j.HoraS && i.HoraE == j.HoraE)) {
+                        
+                                    continuar = confirm("La materia "+nombre+" choca con " + element.asignatura +" deseas sobreescribirla?");
+                                    reemplace = element.id;
+                                    break mainLoop; 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            if(!continuar){
+                return;
+                }
+            }
+
+        let newprofid = profSelected.getAttribute("id");
+
+        if(myprofid == newprofid){
+            newprofid = "";
+            }
+
+        if(myprofid != profSelected.getAttribute("id") && myprofid){
+            if(!confirm("Esta sección ya tiene un profesor asignado, deseas sobreescribirlo?")){
+                return;
+                }
+            }
+
+
+        try {
+            const respuesta = await fetch('php/horario/update_prof.php', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                    },
+                body: JSON.stringify({
+                id: myid,
+                prof: newprofid,
+                reemplace: reemplace
+                    }),
+                });
+
+            const resultado = await respuesta.json(); 
+            if (resultado.success) {
+                if(newprofid){
+                    namespan.textContent = profSelected.getAttribute("nombre");
+                    element.setAttribute("profesor",profSelected.getAttribute("id"));
+                    }else{
+                    namespan.textContent = "";
+                    element.setAttribute("profesor","");
+                    }
+                if(reemplace != -1){
+                    const section = Array.from(document.getElementsByClassName("schedule-option")).find(e => e.getAttribute("id") == reemplace);
+                    section.setAttribute("profesor","");
+                    section.querySelector('.schedule-option-pname').textContent = "";
+                    }
+
+                    ActualizarHorario();
+                } else {
+                alert("respuesta: " + resultado.error);
+                }
+            } catch (error) {
+            console.error("Error al enviar: ", error);
+            }           
+
+        })
+
+    }
+
+    document.getElementById("openmenubtn").addEventListener("click", () => {
+
+        if(!document.getElementById("schedule-section").classList.contains("open")){
+            document.getElementById("schedule-section").classList.add("open");
+            document.getElementById("schedule-menu").classList.add("open");
+            }else{
+            document.getElementById("schedule-section").classList.remove("open");
+            document.getElementById("schedule-menu").classList.remove("open");    
+            }
+
+        })
+
 
 
 </script>

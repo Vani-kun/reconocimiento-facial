@@ -18,7 +18,7 @@ if (isset($data['materia'])) {
 
     try{
         // Preparar la consulta SQL y ejecutarla
-        $sql = "UPDATE horario SET asignatura = ?, aula = ?, seccion = ?, dias = ? WHERE id = ?";
+        $sql = 'UPDATE horario SET asignatura = ?, aula = ?, seccion = ?, profesor = "", dias = ? WHERE id = ?';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$materia, $aula, $seccion, $dias ,$id]);
 

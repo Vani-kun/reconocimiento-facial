@@ -4,15 +4,7 @@ header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 header("Pragma: no-cache"); // HTTP 1.0.
 header("Expires: 0"); // Proxies.
 
-// 2. Comprobar la sesión
-
-
-// Si el check de sesión falla, el usuario no verá NADA de lo que sigue abajo
-?>
-
-<?php
     include "php/conexion.php";
-
     $sql = "SELECT id, nombre, tags FROM caras WHERE activo = 1 ORDER BY nombre ASC";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
