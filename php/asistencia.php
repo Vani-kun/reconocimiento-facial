@@ -48,13 +48,42 @@ try {
             break;
     }
 
+// 2. Verificar si ya existen registros para hoy
+$check = $pdo->prepare("SELECT COUNT(*) FROM asistencia WHERE fecha = ?");
+$check->execute([$fechaHoy]);
+
+if ($check->fetchColumn() == 0) {
+    
+    // Preparamos el JSON de búsqueda para el día actual
+    $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
+
+    // 3. Inserción Masiva Optimizada
+    // Usamos DISTINCT para que si un profesor tiene varias clases hoy, solo se cree un registro de asistencia
+    $sqlInitial = "INSERT INTO asistencia (profesorID, entrada, salida, fecha, estado, tardanza)
+                   SELECT DISTINCT profesor, '00:00:00', '00:00:00', ?, 0, 0
+                   FROM horario 
+                   WHERE JSON_CONTAINS(dias, ?) 
+                   AND profesor IS NOT NULL 
+                   AND profesor != ''";
+    
+    try {
+        $stmtPopulate = $pdo->prepare($sqlInitial);
+        $stmtPopulate->execute([$fechaHoy, $jsonBusqueda]);
+
+    } catch (PDOException $e) {
+        error_log("Error en Lazy Cron: " . $e->getMessage());
+    }
+}
+
 $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
 
-$stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario WHERE profesor = ? AND JSON_CONTAINS(dias, ?)");
+
+    //Va a sacar todos las horas que le toquen al profesor actual
+    $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario WHERE profesor = ? AND JSON_CONTAINS(dias, ?)");
     $stmt->execute([$profesorID, $jsonBusqueda]);
     $horarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if(!$horarios){
+    if(!$horarios){//Si no hay ninguna las dejara asi
         echo json_encode([
             'success' => true, 
             'message' => "No hay materias conocidas del profesor $nombre para hoy $diaSemana",
@@ -65,7 +94,8 @@ $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario W
         exit;
         }
 
-    $openhour = "24:00:00";
+    
+    $openhour = "24:00:00";//Esto determinará a que hora tiene que entrar el profesor
     $closehour = "00:00:00";
 
     foreach ($horarios as $hour) {
@@ -93,7 +123,7 @@ $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario W
         }
 
 
-    // 1. BUSCAR REGISTRO DE HOY
+    //Se busca si hay un registro listo para hoy
     $stmt = $pdo->prepare("SELECT id, estado, entrada FROM asistencia WHERE profesorID = ? AND fecha = ? LIMIT 1");
     $stmt->execute([$profesorID, $fechaHoy]);
     $registro = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -114,9 +144,8 @@ $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario W
     } 
     else {
         $estadoActual = (int)$registro['estado'];
-        
+        $idReg = $registro['id'];
         if($estadoActual === 0){
-
         $sql = "UPDATE asistencia SET entrada = ?, tardanza = ?, estado = 1 WHERE id = ?";
         $pdo->prepare($sql)->execute([$horaActual, $tardanza, $idReg]);
 
@@ -130,7 +159,6 @@ $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario W
         ]);
 
         }else if ($estadoActual === 1) {
-            $idReg = $registro['id'];
             $horaEntrada = $registro['entrada']; // Formato HH:MM:SS
             // --- LÓGICA DE LOS 5 MINUTOS ---
             $entradaTimestamp = strtotime($fechaHoy . ' ' . $horaEntrada);
@@ -138,7 +166,7 @@ $stmt = $pdo->prepare("SELECT id, asignatura, seccion, aula, dias FROM horario W
             $diferenciaSegundos = $ahoraTimestamp - $entradaTimestamp;
             $esperaRequerida = 5 * 60; // 300 segundos
 
-            if ($diferenciaSegundos < $esperaRequerida) {
+           if ($diferenciaSegundos < $esperaRequerida) {
                 $faltanteSegundos = $esperaRequerida - $diferenciaSegundos;
                 $minutos = ceil($faltanteSegundos / 60);
                 

@@ -1,5 +1,11 @@
-
 :root {
+    --azul-vibrante: #0052ff;
+    --azul-hover: #003ccb;
+    --fondo-suave: #f0f4f8;
+    --blanco: #ffffff;
+    --texto-oscuro: #1a202c;
+    --texto-gris: #4a5568;
+    --brillo-livelula: rgba(0, 212, 255, 0.8);
     --e-azul: #2563eb;
     --e-azul-oscuro: #062aa0;
     --e-celeste: #77abe7;
@@ -10,6 +16,13 @@
     --e-blanco: #ffffff;
 }
 
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+    .card { flex-direction: column; text-align: center; }
+    .card-image img { margin: 0 0 20px 0; }
+    .hero-header h1 { font-size: 2rem; }
+}
+
 body {
     margin: 0;
     font-family: 'Quicksand', sans-serif;
@@ -17,7 +30,107 @@ body {
     color: #211E42;
 }
 
-/* Navbar */
+/* --- HERO HEADER (CENTRO AZUL) --- */
+.hero-header {
+    background: linear-gradient(135deg, #F9C127 0%, #E41924 100%);
+    color: var(--blanco);
+    padding: 80px 20px;
+    text-align: center;
+}
+
+/* NUEVA CLASE: Logo Livelula Bicolor con Brillo */
+.hero-logo-livelula {
+    height: 250px; /* Tamaño destacado */
+    width: auto;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+    /* Efecto de resplandor para que resalte sobre el azul */
+    filter: drop-shadow(0 0 15px var(--brillo-livelula));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.hero-logo-livelula:hover {
+    transform: scale(1.08); /* Crece un poco al pasar el mouse */
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+}
+
+.hero-header h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 15px auto 0;
+}
+
+/* --- CONTENEDOR Y TARJETAS --- */
+.container {
+    max-width: 900px;
+    margin: -40px auto 60px; /* Sube las tarjetas sobre el fondo azul */
+    padding: 0 20px;
+}
+
+.team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--blanco);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.card-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 30px;
+    border: 3px solid var(--azul-vibrante);
+}
+
+.name {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--texto-oscuro);
+}
+
+.role {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 5px 0 12px;
+}
+
+.azul-text { color: var(--azul-vibrante); }
+.verde-text { color: #10b981; }
+
+.bio {
+    color: var(--texto-gris);
+    font-size: 0.95rem;
+}
+
 .equipo-nav {
     background: var(--e-blanco);
     padding: 15px 0;

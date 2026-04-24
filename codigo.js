@@ -1,4 +1,5 @@
 let ultimosMarcajes = {}; // Guardará { "Nombre": Timestamp }
+let realtime = "00:00:00";
 // Cargar modelos
 function cargarModelos(){
     const url = './models';
@@ -137,7 +138,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 }
 async function intentarAsistencia(Profesor) {
 
-    console.log("aca")
+    console.log(realtime)
 
     try {
     const res = await fetch('php/asistencia.php', {
@@ -146,7 +147,7 @@ async function intentarAsistencia(Profesor) {
         body: JSON.stringify({
             id: Profesor.id,
             nombre: Profesor.nombre,
-            hora: document.getElementById('reloj').textContent,
+            hora: realtime,
             threshold: 20//Tiempo de gracia para llegar tarde (en minutos)
         })
     });
@@ -168,7 +169,7 @@ async function intentarAsistencia(Profesor) {
         ultimosMarcajes[Profesor.id] = Date.now(); 
         if(respuesta.estado == 1 || respuesta.estado == 2){
         document.getElementById("detected-state").textContent = respuesta.message;
-        document.getElementById("detected-hour").textContent = respuesta.hora;
+        document.getElementById("detected-hour").textContent = arreglarhora(respuesta.hora);
         document.getElementById("detected-name").textContent = Profesor.nombre;
         document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
 
@@ -294,6 +295,7 @@ function actualizarReloj() {
     minutos = minutos < 10 ? '0' + minutos : minutos;
     segundos = segundos < 10 ? '0' + segundos : segundos;
 
+    realtime = `${horas}:${minutos}:${segundos}`;
 
     if(horas > 12){
         horas -= 12;
