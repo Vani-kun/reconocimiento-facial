@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-04-2026 a las 01:10:47
+-- Tiempo de generación: 25-04-2026 a las 01:14:18
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,8 +42,7 @@ CREATE TABLE `asistencia` (
 --
 
 INSERT INTO `asistencia` (`id`, `profesorID`, `entrada`, `salida`, `fecha`, `estado`, `tardanza`) VALUES
-(1, 13, '18:47:23', '18:53:54', '2026-04-24', '2', 1),
-(2, 8, '00:00:00', '00:00:00', '2026-04-24', '0', 0);
+(1, 13, '18:47:23', '18:53:54', '2026-04-24', '2', 1);
 
 -- --------------------------------------------------------
 
