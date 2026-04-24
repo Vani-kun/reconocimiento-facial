@@ -50,7 +50,7 @@
                 <button class="btn">Asistencias historicas</button>
             </a>
             <a href="profesores.php"><button class="btn">Modificar profesores</button></a>
-            <a href="horarios.php"><button class="btn btn-danger">🛠 Definir horarios</button></a>
+            <a href="horarios.php"><button class="btn">Definir horarios</button></a>
             <a href="asignar.php"><button class="btn">Crear secciones</button></a>
             <a href="config.php"><button class="btn btn-danger">🛠 Configuración de pagina</button></a>
         

@@ -129,15 +129,16 @@ video, img, canvas {
     content: '';
     position: absolute;
     width: 0;
-    height: 0.2vh;
-    bottom: -0.5vh;
-    left: 0;
-    background-color: #e100ff;
-    box-shadow: 0 0 1vh #ff00c3; 
-    transition: width 0.3s;
+    height: 0.025vh;
+    bottom: 0.25vh;
+    left: -0.25vw;
+    background-color: #009FE3;
+    box-shadow: 0 0 0.025vw 0.025vw #009FE3;
+    transition: left,width 0.3s;
     }
 .nav-link:hover::after {
     width: 100%;
+    left: 0;
     }
 .nav-link img{
     filter: drop-shadow(10vw 0 0 #211E42);
@@ -172,17 +173,26 @@ video, img, canvas {
 
 .nav-btn-div:hover .nav-link::after {
     width: 100%;
+    left: 0;
     }  
 
 .nav-btn-div:hover .nav-link{
     transform: translateY(-0.3vh);
+    color: #0F495E;
+    transform: translateY(-3px);
+    }
+
+.nav-btn-div:hover img{
+    filter: drop-shadow(10vw 0 0 #0F495E);
+    transform: translateX(-10vw);
     }
 
 .main-container {
+    font-size: 1.5vw;
     text-align: center; 
     padding: 3vh;
     margin: 1vh;
-    border-radius: 20px;
+    border-radius: 4vw;
     min-height: 79.3vh;
     }
 
@@ -201,14 +211,14 @@ video, img, canvas {
     font-weight: bold; 
     border-radius: 3vh; 
     text-transform: uppercase; 
-    letter-spacing: 1px;
+    letter-spacing: 0.05vw;
     height: 6vh;
     transition: 0.2s box-shadow,transform;
     }
 
 .btn-small{
-    font-size: 10px; 
-    padding: 9px 19.5px;
+    font-size: 1.5vh; 
+    padding: 0.8vh 3.4vw;
     }
 
 .btn:hover {
@@ -302,13 +312,11 @@ video, img, canvas {
     background: #D1EAEC;
     padding: 30px;
     border-radius: 3vh;
-    width: 700px;
-    max-width: 90%;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 .modal-body {
     display: flex; /* Dividir en dos columnas */
-    gap: 30px;
+    justify-content: center;
     }
 .modal-footer {
     margin-top: 20px;
@@ -330,7 +338,7 @@ video, img, canvas {
 .input-group select { width: 100%; padding: 1vh; margin-top: 1vh; }
 
 .input-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.2vh;
     }
 input,select{
     height: 6vh;
@@ -357,4 +365,18 @@ input:focus,select:focus {
 }
 input:focus::placeholder,select:focus::placeholder{
     color: #D1EAEC;  
+}
+
+input[type="text" i] {
+    padding-block: 0.2vh;
+    padding-inline: 1vw;
+}
+
+input[type="time" i], select {
+    padding-inline-start: 0.2vh;
+    padding-block: 0.2vh;
+    padding-inline: 1vw;
+    overflow:visible;
+    padding: 2px 5px;
+    width: 100%;
 }

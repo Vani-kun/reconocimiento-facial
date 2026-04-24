@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 require "conexion.php";
 
 try {
-    $stmt = $pdo->query("SELECT nombre, descriptores FROM caras WHERE descriptores IS NOT NULL 
+    $stmt = $pdo->query("SELECT id, nombre, descriptores, tags FROM caras WHERE descriptores IS NOT NULL 
                      AND descriptores != ''");
     $usuarios = $stmt->fetchAll();
     

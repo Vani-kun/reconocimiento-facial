@@ -34,9 +34,10 @@
 <body>
     
 <?php include 'php/extras/navbar.php'; ?>
-
-<div style="position:absolute; left:-5px; margin-top:60px; width:45%; height:100%">
-    <div class="itemsbcm divsection-master" style="margin-left:5px">
+<div style="min-height:100vh">
+    
+<div style="position:absolute; left:-1vw; margin-top:6vh; width:45%; height:100%">
+    <div class="itemsbcm divsection-master" style="margin-left:0.8vw">
         <div class="divsection itemsbc divsection-selected" id="msectionbutton">
         Materias
         </div>
@@ -58,11 +59,11 @@
         </div>
     </div>
     <section class="items-bank" style="height:70%;max-height:70%">    
-        <div style="padding: 2rem;">
+        <div style="padding: 2vh;">
 
-            <div id="MateriaSection" style="display:grid">
+            <div id="MateriaSection">
                 <div>
-                    <div id="materias-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(4, 1fr);gap: 15px;">
+                    <div id="materias-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(4, 1fr);gap: 0.5vh;">
                         <?php foreach ($materias as $materia): ?>
                         <div class="draggable-item item-materia" draggable="true" data-materia="<?= htmlspecialchars($materia['nombre']) ?>">
                         <?= htmlspecialchars($materia['nombre']) ?>
@@ -105,7 +106,7 @@
             </div>
 
             <div id="SeccionSection" style="display:none;">
-                <div id="secciones-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(8, 1fr);gap: 15px;">
+                <div id="secciones-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(8, 1fr);gap: 2vw;">
                     <?php foreach ($secciones as $seccion): ?>
                         <div class="draggable-item item-seccion" draggable="true" data-seccion="<?= htmlspecialchars($seccion['numero']) ?>">
                         <?= htmlspecialchars($seccion['numero']) ?>
@@ -118,7 +119,7 @@
                 </div>
             </div>
             <div id="DiaSection" style="display:none;">
-                <div id="dia-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(3, 1fr);gap: 15px;">
+                <div id="dia-items-bank" class="scroll-area" style="display: grid;grid-template-columns: repeat(3, 1fr);gap: 0.5vw;">
                     <div class="draggable-item item-dia" draggable="true" data-dia="Lunes">
                     Lunes
                     </div>
@@ -148,7 +149,7 @@
     </section>
 </div>
 
-<div style="position:absolute; left:55%; margin-top:60px; width:45%; height:100%">
+<div style="position:absolute; left:55%; margin-top:6vh; width:45%; height:100%">
     <div class="divsection-master">
         <div id="EditSectionBtn" class="divsection divsection-selected">
         Edición
@@ -158,12 +159,12 @@
         Banco
         </div>
     </div>
-    <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%;border-bottom-left-radius: 5px;">        
-        <div id="mutear" style="padding: 2rem;">
+    <section id="drop-target" class="drop-zone" style="height:70%;max-height:70%;border-bottom-left-radius: 0.5vw;">        
+        <div id="mutear" style="padding: 2vh;">
             <div id="SectionConfig">
-            <h3>Configuración de Asignación</h3>
             <form id="form-asignacion" method="POST">
-                
+                <div style="height:55vh;min-height:55vh;margin-top: 2vh;">
+                <h3>Configuración de Asignación</h3>
                 <div class="grid-form">
                     <div class="input-group">
                         <label>Materia Seleccionada:</label>
@@ -189,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid-form" style="grid-template-columns: 3fr 3fr 3fr;">
+                <div class="grid-form" style="grid-template-columns: repeat(3, minmax(0, 1fr)) !important;">
                     <div class="input-group">
                         <label for="dia">Dia:</label>
                         <input id="dia-input" type="text" name="dia" readonly placeholder="Arrastra aquí..." required>
@@ -202,7 +203,8 @@
                         <label>Hora Salida:</label>
                         <input id="hora-salida" type="time" name="h_salida" readonly required>
                     </div>
-                </div>           
+                </div>   
+                </div>        
                 <div class="actions-bar">
                     <button type="submit" id="btn-save" class="btn btn-success">Guardar</button>
                     <button type="button" id="btn-clean" class="btn btn-cancel">Vaciar</button>
@@ -218,7 +220,6 @@
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <br>
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
                     <button id="editmbtn" class="btn btn-success" style="bottom:0;width:50%">Editar</button>
                     <button id="erasembtn" class="btn btn-cancel" style="bottom:0;width:50%">Eliminar</button>
@@ -229,11 +230,11 @@
 </div>
 
 
-<div id="recicle-bin" style="font-size:40px;">🗑</div>
+<div id="recicle-bin" style="font-size:4vw;">🗑</div>
 
-<div id="MateriaMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
-    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-        <form id="materiaform">
+<div id="MateriaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
+    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+        <form id="materiaform" style="justify-content: center;display: grid;">
             <label for="MateriaName">Nombre:</label>
             <input type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia" required>
             <div style="display:flex; justify-content:center;">        
@@ -244,9 +245,9 @@
     </section>
 </div>
 
-<div id="HorarioMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
-    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-        <form id="horarioform">
+<div id="HorarioMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
+    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+        <form id="horarioform" style="justify-content: center;display: grid;">
             <label for="HorarioE">Hora de Entrada:</label>
             <input type="time" id="HorarioE" name="entrada" placeholder="Ingrese la hora de entrada" required>
 
@@ -261,9 +262,9 @@
     </section>
 </div>
 
-<div id="AulaMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
-    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-        <form id="aulaform">
+<div id="AulaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
+    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+        <form id="aulaform" style="justify-content: center;display: grid;">
             <label for="AulaNumber">Numero del Aula:</label>
             <input type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula" required>
 
@@ -275,9 +276,9 @@
     </section>
 </div>
 
-<div id="SeccionMenu" class="oculto" style="position: fixed; margin-top: 20px; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center">
-    <section style="background-color: white; padding: 20px; border-radius: 8px; width: 300px;">
-        <form id="seccionform">
+<div id="SeccionMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
+    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+        <form id="seccionform" style="justify-content: center;display: grid;">
             <label for="SeccionNumber">Numero de la sección:</label>
             <input type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección" required>
 
@@ -290,7 +291,7 @@
 </div>
 
 
-<div style="min-height:100vh"></div>
+</div>
 
     <script>
         const DayListElement = document.getElementById('diaselect-input');

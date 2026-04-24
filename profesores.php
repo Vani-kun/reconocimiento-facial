@@ -47,8 +47,8 @@
 
     .btn {
         width:33%;
-        margin-left:5px;
-        margin-right:5px;
+        margin-left:1vw;
+        margin-right:1vw;
         }
     .active{
         color: #0F495E;
@@ -62,14 +62,14 @@
         }
     .section-container{
         overflow: clip;
-        margin-top: 20px;
+        margin-top: 2vh;
         }
     .panel {
-        border-radius: 12px;
+        border-radius: 2vw;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        padding: 2rem;
+        padding: 4vh;
         }
     .list-panel{
         width:100%;
@@ -204,7 +204,7 @@ function CrearCarta(prof){
     }
 </script>
 
-<div class="main-container section-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 20px; margin-left: 5%;">
+<div class="main-container section-container" style="width:90%; height:90%; justify-self:center; display:flex; flex-direction: column; align-items: center; padding: 4vh; margin-left: 5%;">
     <section class="panel list-panel">
         <div class="panel-header input-group" style="width:100%;justify-content:center;">
             <h2>Profesores Registrados</h2>
@@ -237,9 +237,9 @@ function CrearCarta(prof){
                         <video id="video" width="600" height="600" autoplay muted></video>
                         <canvas id="canvas"></canvas>
                     </div>
-                    <div style="display:flex">
-                    <button class="btn btn-cancel" id="btncancelface" style="width:48%;margin:0 1%;">Cancelar</button>
-                    <button class="btn btn-success" id="btnconfirmface" style="width:48%;margin:0 1%;">Confirmar</button>
+                    <div style="display:flex;width: 70%;">
+                    <button class="btn btn-small btn-cancel" id="btncancelface" style="width:48%;margin:0 1%;">Cancelar</button>
+                    <button class="btn btn-small btn-success" id="btnconfirmface" style="width:48%;margin:0 1%;">Confirmar</button>
                     </div>
                 </div>
                 <div id="allfaces">

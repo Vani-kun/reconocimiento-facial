@@ -145,7 +145,7 @@
                         
             </div>
 
-            <div class="search-box">
+            <div class="search-box" style="font-size: 0.1vh;">
                 <input type="text" id="search-prof" placeholder="🔍Buscar por nombre o ID...">
             </div>
             <div class="infodiv">
@@ -164,24 +164,24 @@
 
             <div class="schedule">
 
-                <div class="schedule-header">
-                    <div class="schedule-day-div-h">Lunes</div>
-                    <div class="schedule-day-div-h">Martes</div>
-                    <div class="schedule-day-div-h">Miercoles</div>
-                    <div class="schedule-day-div-h">Jueves</div>
-                    <div class="schedule-day-div-h">Viernes</div>
-                    <div class="schedule-day-div-h">Sabado</div>
-                    <div class="schedule-day-div-h">Domingo</div>
+                <div id="schedule-header" class="schedule-header" style="grid-template-columns: repeat(0, 1fr);">
+                    <div id="hLunes" class="schedule-day-div-h oculto">Lunes</div>
+                    <div id="hMartes" class="schedule-day-div-h oculto">Martes</div>
+                    <div id="hMiercoles" class="schedule-day-div-h oculto">Miercoles</div>
+                    <div id="hJueves" class="schedule-day-div-h oculto">Jueves</div>
+                    <div id="hViernes" class="schedule-day-div-h oculto">Viernes</div>
+                    <div id="hSabado" class="schedule-day-div-h oculto">Sabado</div>
+                    <div id="hDomingo" class="schedule-day-div-h oculto">Domingo</div>
                 </div>
 
-                <div class="schedule-config">
-                    <div id="Lunes" class="schedule-day-div"></div>
-                    <div id="Martes" class="schedule-day-div"></div>
-                    <div id="Miercoles" class="schedule-day-div"></div>
-                    <div id="Jueves" class="schedule-day-div"></div>
-                    <div id="Viernes" class="schedule-day-div"></div>
-                    <div id="Sabado" class="schedule-day-div"></div>
-                    <div id="Domingo" class="schedule-day-div"></div>
+                <div id="schedule-range" class="schedule-config">
+                    <div id="Lunes" class="schedule-day-div oculto"></div>
+                    <div id="Martes" class="schedule-day-div oculto"></div>
+                    <div id="Miercoles" class="schedule-day-div oculto"></div>
+                    <div id="Jueves" class="schedule-day-div oculto"></div>
+                    <div id="Viernes" class="schedule-day-div oculto"></div>
+                    <div id="Sabado" class="schedule-day-div oculto"></div>
+                    <div id="Domingo" class="schedule-day-div oculto"></div>
                 </div>
 
             </div>
@@ -201,7 +201,7 @@
                         <p style="margin-left:1vw;"><strong><?= htmlspecialchars($horario['asignatura']) ?>:</strong> <span class="schedule-option-pname"></span></p>
                     </div>
                     <div class="schedule-option-body">
-                        <div style="width:30%;text-align:left;padding-left:2vh;align-content:center;height:100%;">
+                        <div class="schedule-option-otherinfo">
                         <p>Sección <?= htmlspecialchars($horario['seccion']) ?></p>
                         <p>Aula <?= htmlspecialchars($horario['aula']) ?></p>
                         </div>
@@ -211,15 +211,87 @@
                     </div>
                 </div>
                 <?php endforeach; ?>
+                
             </div>
         </div>
     </section>
 </main>
 
 <script>
+/*Estas 3 variables seran configurables desde config de pagina*/
 
-const starthour = "14:15";
-const endhour = "20:25";
+const starthour = "14:15";//Hora de inicio del horario
+const endhour = "20:25";//Hora donde terminara el horario
+const qdias = 5;//Cantidad de dias que tendra el horario desde lunes hasta el domingo (5 es hasta el viernes)
+
+let sh = Number(starthour.split(":")[0]);
+let sm = Number(starthour.split(":")[1]);
+
+let eh = Number(endhour.split(":")[0]);
+let em = Number(endhour.split(":")[1]);
+
+if(sh > eh){
+temp = sh;
+sh = eh;
+eh = temp;
+
+temp = sm;
+sm = em;
+em = temp;
+}else if(sh == eh){
+const temp = sh;
+    if(sm > em){    
+        const temp = sm;
+        sm = em;
+        em = temp;
+        }
+    }
+
+let maxh = eh-sh;
+let maxhm = em-sm;
+if(maxhm < 0){
+    maxh--; 
+    maxhm += 60;
+    }
+const START_HOUR = sh;
+const START_MINUTE = sm;                
+const MAX_HOUR = maxh+(maxhm/60);
+
+const PIXELES_POR_MINUTO = 1.084/MAX_HOUR;
+
+if(qdias >= 1){
+document.getElementById("Lunes").classList.remove("oculto");
+document.getElementById("hLunes").classList.remove("oculto");
+}
+if(qdias >= 2){
+document.getElementById("Martes").classList.remove("oculto");
+document.getElementById("hMartes").classList.remove("oculto");
+}
+if(qdias >= 3){
+document.getElementById("Miercoles").classList.remove("oculto");
+document.getElementById("hMiercoles").classList.remove("oculto");
+}
+if(qdias >= 4){
+document.getElementById("Jueves").classList.remove("oculto");
+document.getElementById("hJueves").classList.remove("oculto");
+}
+if(qdias >= 5){
+document.getElementById("Viernes").classList.remove("oculto");
+document.getElementById("hViernes").classList.remove("oculto");
+}
+if(qdias >= 6){
+document.getElementById("Sabado").classList.remove("oculto");
+document.getElementById("hSabado").classList.remove("oculto");
+}
+if(qdias >= 7){
+document.getElementById("Domingo").classList.remove("oculto");
+document.getElementById("hDomingo").classList.remove("oculto");
+}
+
+document.getElementById("schedule-header").style="grid-template-columns: repeat("+qdias+", 1fr);";
+
+
+
 
 let HorarioList = [];
 
@@ -230,32 +302,24 @@ let HorarioList = [];
  * @param {string} titulo - Nombre de la actividad
  * @param {string} carrilId - El ID del div del día (ej: "lunes-carril")
  */
-function agregarTarea(horaInicio, horaFin, titulo, carrilId, Seccion = "", Aula = "") {
-
-    
-
-    // 1. Configuración de escala
-    const MINUTOS_INICIO_HORARIO = (14 * 60) + 15; // 2:15 PM en minutos
-    const PIXELES_POR_MINUTO = 0.19; // Ajusta esto para estirar/encoger el horario
-
-    // 2. Auxiliar para convertir "HH:MM" a minutos totales
-    const convertirAMinutos = (horaStr) => {
+const convertirAMinutos = (horaStr) => {
         const [horas, minutos] = horaStr.split(':').map(Number);
         return (horas * 60) + minutos;
     };
 
+function agregarTarea(horaInicio, horaFin, titulo, carrilId, Seccion = "", Aula = "") {           
+
+    const MINUTOS_INICIO_HORARIO = (START_HOUR * 60) + START_MINUTE; // 2:15 PM en minutos
+
     const minInicio = convertirAMinutos(horaInicio);
     const minFin = convertirAMinutos(horaFin);
 
-    // 3. Cálculos de posición y tamaño
     const posicionTop = (minInicio - MINUTOS_INICIO_HORARIO) * PIXELES_POR_MINUTO;
     const duracionPx = (minFin - minInicio) * PIXELES_POR_MINUTO;
 
-    // 4. Crear el elemento DOM
     const taskBox = document.createElement('div');
-    taskBox.classList.add('task-box'); // Usa los estilos CSS que definimos antes
+    taskBox.classList.add('task-box');
 
-    // Aplicar estilos dinámicos
     Object.assign(taskBox.style, {
         top: `${posicionTop}vh`,
         height: `${duracionPx}vh`
@@ -263,7 +327,6 @@ function agregarTarea(horaInicio, horaFin, titulo, carrilId, Seccion = "", Aula 
 
     taskBox.innerHTML = `<strong>${titulo}</strong><br>Sección: ${Seccion}<br>Aula: ${Aula}<br>${arreglarhora(horaInicio)} - ${arreglarhora(horaFin)}`;
 
-    // 5. Insertar en el carril correspondiente
     const carril = document.getElementById(carrilId);
     if (carril) {
         carril.appendChild(taskBox);
@@ -273,6 +336,8 @@ function agregarTarea(horaInicio, horaFin, titulo, carrilId, Seccion = "", Aula 
 }
 
 function LimpiarHorario(){
+document.getElementById("schedule-range").style = "";
+
 document.getElementById("Lunes").textContent = "";
 document.getElementById("Martes").textContent = "";
 document.getElementById("Miercoles").textContent = "";
@@ -285,9 +350,11 @@ document.getElementById("Domingo").textContent = "";
 async function ActualizarHorario(){
 
     LimpiarHorario();
+    
     if(profSelected == -1){return;}
 
     const myid = profSelected.getAttribute("id");
+    let _Maxhour = "00:00:00";
 
     try {
         const respuesta = await fetch('php/horario/checkhorario.php', {
@@ -314,12 +381,19 @@ async function ActualizarHorario(){
                 const dias = JSON.parse(e.dias);
                 dias.forEach(i => {
                     agregarTarea(i.HoraE,i.HoraS,name,i.Dia,seccion,aula);
+                    if(i.HoraS > _Maxhour){
+                        _Maxhour = i.HoraS;
+                        }
                     })
                 
 
                 });
 
+                _Maxhour = convertirAMinutos(_Maxhour)-convertirAMinutos(START_HOUR+":"+START_MINUTE);
 
+                _Maxhour = Math.max(_Maxhour * PIXELES_POR_MINUTO, 65);    
+
+                document.getElementById("schedule-range").style = `min-height:${_Maxhour}vh;`;   
             } else {
             alert("respuesta: " + resultado.error);
             }
@@ -327,6 +401,7 @@ async function ActualizarHorario(){
         console.error("Error al enviar: ", error);
         }  
 
+        
 
     }
 
@@ -414,7 +489,7 @@ refreshProfessorList();
 
 const datosHorarios = document.getElementsByClassName("schedule-option");
 const profDatos = <?php echo json_encode($profesores); ?>;;
-
+console.log(Array.from(profDatos))
 
 for (let index = 0; index < datosHorarios.length; index++) {
     const element = datosHorarios[index];
@@ -425,7 +500,7 @@ for (let index = 0; index < datosHorarios.length; index++) {
 
     const namespan = element.querySelector('.schedule-option-pname');
     if(myprofid){
-        namespan.textContent = Array.from(profDatos).find((e) => e.id == myprofid).nombre;
+        namespan.textContent = Array.from(profDatos).find((e) => e.id == myprofid)?.nombre ?? "unknown";
         }
     
     const diasdiv = element.querySelector('.schedule-option-days');

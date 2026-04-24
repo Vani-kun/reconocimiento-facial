@@ -103,22 +103,14 @@ async function cargarCatalogo() {
     if(respuesta.success){
     const usuarios = respuesta.usuarios;
     if (usuarios.length === 0) return console.log("Base de datos vacía");
-        usuarios.forEach(u => {
-            // Creamos un objeto que combina la IA con tus datos de negocio
-            const elemento = {
-                id: u.id,
-                nombre: u.nombre
-                };
-            // Lo agregamos a nuestro nuevo array
-            horas.push(elemento);
-            });
+
     // Convertimos cada usuario de la BD a descriptores etiquetados
     const labels = usuarios.map(u => {
         const MiFaces = JSON.parse(u.descriptores).map(e => {
             return new Float32Array(Object.values(e));
             });
 
-        return new faceapi.LabeledFaceDescriptors(u.nombre, MiFaces)
+        return new faceapi.LabeledFaceDescriptors(JSON.stringify({id: u.id,nombre: u.nombre,tags: u.tags}), MiFaces)
         });
 
         // Creamos el comparador global (umbral 0.6)
@@ -143,33 +135,25 @@ navigator.mediaDevices.getUserMedia(constraints)
 .then(stream => { video.srcObject = stream; camara=true; })
 .catch(err => console.error("Error al acceder a la cámara:", err));
 }
-async function intentarAsistencia(nombreProfesor) {
-    const ahora = Date.now();
-    const cincoMinutos = 5 * 60 * 1000;
+async function intentarAsistencia(Profesor) {
 
-    // VALIDACIÓN DE TIEMPO (Escudo de 5 minutos)
-    if (ultimosMarcajes[nombreProfesor]) {
-        const tiempoTranscurrido = ahora - ultimosMarcajes[nombreProfesor];
-        if (tiempoTranscurrido < cincoMinutos) {
-            const segundosRestantes = Math.ceil((cincoMinutos - tiempoTranscurrido) / 1000);
-            estatus.textContent = `Espere ${segundosRestantes} seg para registrar salida`;
-            return; 
-        }
-    }
+    console.log("aca")
 
     try {
     const res = await fetch('php/asistencia.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            nombre: nombreProfesor,
-            hora: document.getElementById('reloj').textContent
+            id: Profesor.id,
+            nombre: Profesor.nombre,
+            hora: document.getElementById('reloj').textContent,
+            threshold: 20//Tiempo de gracia para llegar tarde (en minutos)
         })
     });
 
     // 1. Primero obtenemos el texto plano
     const textoRaw = await res.text();
-    console.log("Respuesta bruta del servidor:", textoRaw);
+    //console.log("Respuesta bruta del servidor:", textoRaw);
     //alert(textoRaw);
 
     // 2. Intentamos convertirlo manualmente
@@ -180,14 +164,60 @@ async function intentarAsistencia(nombreProfesor) {
 
     const respuesta = JSON.parse(textoRaw);
     if (respuesta.success) {
-        document.getElementById("detected-hour").textContent = respuesta.message;
-        document.getElementById("detected-name").textContent = respuesta.nombre;
-        ultimosMarcajes[nombreProfesor] = Date.now(); 
+        sonido(1);
+        ultimosMarcajes[Profesor.id] = Date.now(); 
+        if(respuesta.estado == 1 || respuesta.estado == 2){
+        document.getElementById("detected-state").textContent = respuesta.message;
+        document.getElementById("detected-hour").textContent = respuesta.hora;
+        document.getElementById("detected-name").textContent = Profesor.nombre;
+        document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
+
+        }else if(respuesta.estado == 3 || respuesta.estado == 4){
+
+        document.getElementById("detected-state").textContent = "⚠️ " + respuesta.message;
+        document.getElementById("detected-name").textContent = Profesor.nombre;
+        document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
+
+        }else if(respuesta.estado == 5){
+            document.getElementById("detected-name").textContent = Profesor.nombre;
+            document.getElementById("detected-state").textContent = respuesta.message;
+            document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
+        }
+
+        document.getElementById("schedule-menu-scroll").textContent = "";
+
+        respuesta.horarios.forEach(e => {
+            const newHorario = document.createElement("div");
+            let htmltext = `
+                <div class="schedule-option">
+                    <div class="schedule-option-header">
+                        <p style="margin-left:1vw;"><strong>${e.asignatura}</strong></p>
+                    </div>
+                    <div class="schedule-option-body">
+                        <div class="schedule-option-otherinfo">
+                        <p>Sección ${e.seccion}</p>
+                        <p>Aula ${e.aula}</p>
+                        </div>
+                        <div class="schedule-option-days">`
+                    JSON.parse(e.dias).forEach(i => {
+    htmltext += `<p><strong>${i.Dia}:</strong><span>${arreglarhora(i.HoraE)} - ${arreglarhora(i.HoraS)}</span></p>`
+                        });
+                    
+            htmltext += `</div>
+                    </div>
+                </div>`;
+        newHorario.innerHTML = htmltext;
+
+        document.getElementById("schedule-menu-scroll").appendChild(newHorario);
+        });
+
     } else {
+        console.log(respuesta.horarios);
         // Aquí se mostrará el mensaje de "Faltan X minutos"
         console.warn(respuesta.error);
-        document.getElementById("detected-hour").textContent = "⚠️ " + respuesta.error;
-        document.getElementById("detected-name").textContent = respuesta.nombre;
+        document.getElementById("detected-state").textContent = "⚠️ " + respuesta.error;
+        document.getElementById("detected-name").textContent = Profesor.nombre;
+        document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
         // Opcional: sonido de error
         sonido(0); 
     }
@@ -198,49 +228,42 @@ async function intentarAsistencia(nombreProfesor) {
 
 //la captura de rostro a travez de la camara
 async function proceso(){                
-    //detectar
     const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
     const datos = await faceapi.detectAllFaces(video,opcionesTiny)     
     .withFaceLandmarks()    
     .withFaceDescriptors()
-    //.withFaceExpressions(); 
     if (datos.length > 0) {
         descriptorActual = datos[0].descriptor; 
        
-        // --- DETECCIÓN CONSTANTE ---
-        /*if (faceMatcher) {
-            const match = faceMatcher.findBestMatch(descriptorActual,0.7);
-            ///const text = match.label === 'unknown' ? "Desconocido" : match.label;
-            if(match.label==='unknown'){
-                det.classList.remove("active")     
-                nodet.classList.add("active")  
-                 btn.disabled = false; if(!sonar){sonido(0);sonar=true}  
-            }else{
-                det.classList.add("active")     
-                nodet.classList.remove("active")
-                btn.disabled = true;if(sonar){sonido(1);sonar=false}
-            }
-            estatus.textContent=match.label;
-        }*/
        if (faceMatcher) {
         const match = faceMatcher.findBestMatch(descriptorActual,0.7);
        if (match.label !== 'unknown') {
-            det.classList.add("active");
+            const mydata = JSON.parse(match.label);
+            if(!det.classList.contains("active")){
+                    det.classList.add("active")
+                    }
             nodet.classList.remove("active");
             btn.disabled = true;
             
-            if (sonar) { 
-                sonido(1); 
-                sonar = false; 
-                // Intentar registrar asistencia automáticamente al reconocer
-                intentarAsistencia(match.label);
+            const ahora = Date.now();
+            const cincoMinutos = 10 * 1000;
+
+            if (ultimosMarcajes[mydata.id]) {
+                const tiempoTranscurrido = ahora - ultimosMarcajes[mydata.id];
+                if (tiempoTranscurrido < cincoMinutos) {
+                    return; 
+                }
             }
-            estatus.textContent = match.label;
+
+            intentarAsistencia(mydata);
+            
+            estatus.textContent = mydata.nombre;
         }else{
-                det.classList.add("active")     
-                nodet.classList.remove("active")
+                det.classList.remove("active")     
+                if(!nodet.classList.contains("active")){
+                    nodet.classList.add("active")
+                    }
                 btn.disabled = true;//if(sonar){sonido(1);sonar=false}
-                sonar = true; // Al ser desconocido, permitimos que el sistema vuelva a intentar detectar
                 estatus.textContent = "---";
             }
         }
@@ -263,6 +286,7 @@ function actualizarReloj() {
     let horas = ahora.getHours();
     let minutos = ahora.getMinutes();
     let segundos = ahora.getSeconds();
+    let m = "AM";
 
     // Formateo: Si el número es menor a 10, le agregamos un "0" a la izquierda
     // Ejemplo: 9:5:2 -> 09:05:02
@@ -270,8 +294,14 @@ function actualizarReloj() {
     minutos = minutos < 10 ? '0' + minutos : minutos;
     segundos = segundos < 10 ? '0' + segundos : segundos;
 
+
+    if(horas > 12){
+        horas -= 12;
+        m = "PM";
+    }
+
     // Juntamos todo en un string
-    const tiempoString = `${horas}:${minutos}:${segundos}`;
+    const tiempoString = `${horas}:${minutos}:${segundos} ${m}`;
 
     // Lo escribimos en el div
     document.getElementById('reloj').textContent = tiempoString;
@@ -282,3 +312,19 @@ actualizarReloj();
 
 // Configuramos el intervalo para que se ejecute cada segundo
 setInterval(actualizarReloj, 1000);
+
+function arreglarhora(hora){
+
+            let hora24 = hora;
+            if(hora.length > 5){hora24 = hora.substring(0, 5)}  
+
+            // Creamos un objeto Date falso para poder formatearlo
+            // (Usamos una fecha cualquiera, lo importante es la hora)
+            const fechaTemp = new Date(`1970-01-01T${hora24}:00`);
+
+            return fechaTemp.toLocaleString('en-US', { 
+            hour: 'numeric', 
+            minute: 'numeric', 
+            hour12: true 
+            });
+        }

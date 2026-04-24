@@ -12,7 +12,7 @@
 <body>
 
 <?php include 'php/extras/navbar.php'; ?>
-
+<div style="min-height:100vh">
     <header class="hero-header">
         <div class="header-content">
            <img src="img/logo-livelula.png" alt="Logo Proyecto Livelula" class="hero-logo-livelula">
@@ -80,6 +80,8 @@
             </section>
         </div>
     </main>
+
+</div>
 
 <?php include 'php/extras/footer.php'; ?>
 
