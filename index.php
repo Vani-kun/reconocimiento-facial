@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/horarios.css">
     <link rel="stylesheet" href="sigeastyle.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         // Seguridad: Bloqueo de retroceso
         history.pushState(null, null, location.href);
@@ -18,7 +20,9 @@
 </head>
 <body>
 
-<?php include 'php/extras/navbar.php'; ?>
+<!--?php include 'php/extras/navbar.php'; ?-->
+<?php include 'newBarra.php'; ?>
+<?php include 'newCamara.php'; ?>
 <div style="min-height:100vh">
     <main class="main-container" style="display:flex">
         <div style="min-height:80vh;width:40vw">
@@ -26,8 +30,8 @@
                 <div class="anillo-escaneo"></div>
                 <div class="visor-circular">
                     <p class="status-cam" id="estatus">ESPERANDO CÁMARA...</p>
-                    <video id="video" width="600" height="600" autoplay muted></video>
-                    <canvas id="canva"></canvas>
+                    <video id="video2" width="600" height="600" autoplay muted></video>
+                    <canvas id="canva2"></canvas>
                 </div>
             </div> 
         
