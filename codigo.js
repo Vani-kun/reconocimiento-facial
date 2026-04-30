@@ -19,22 +19,26 @@ let descriptorActual = null;
 let faceMatcher = null; // El objeto que comparará en tiempo real
 
 let video = document.getElementById("video");
-const c = document.getElementById("canva");
+const c = document.getElementById("canvas");
 let estatus = document.getElementById("estatus");
 let det = document.getElementById("det");
 let nodet = document.getElementById("nodet");
 let displaySize,ctx;
 let horas =[];
 sonar=true;
-video.addEventListener("play",()=>{
-    displaySize = { width: video.videoWidth, height: video.videoHeight };
-    faceapi.matchDimensions(c, displaySize);
-    
-    ctx = c.getContext('2d');
-    ctx.translate(displaySize.width, 0);
-    ctx.scale(-1, 1);
-    setInterval(proceso,100);
+document.addEventListener('DOMContentLoaded', () => {
+    if(c){
+    video.addEventListener("play",()=>{
+        displaySize = { width: video.videoWidth, height: video.videoHeight };
+        faceapi.matchDimensions(c, displaySize);
+        
+        ctx = c.getContext('2d');
+        ctx.translate(displaySize.width, 0);
+        ctx.scale(-1, 1);
+        setInterval(proceso,100);
+    });}else{alert("no existe el canvas")}
 });
+
 function sonido(tipo) {
     const d = document.getElementById('detect');
     const nd = document.getElementById('nodetect');
