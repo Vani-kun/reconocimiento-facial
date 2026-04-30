@@ -84,18 +84,3 @@
     box-shadow: none;
     opacity: 0.6;
     }
-#reloj {
-    align-items: center;
-    justify-content: center;
-    height:12%;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 5vh;
-    font-weight: bold;
-    color: #D1EAEC;
-    background: #484D60;
-    padding: 3vh;
-    border-radius: 2vh;
-    display: flex;
-    text-align: center;
-    min-width: 100%;
-    }

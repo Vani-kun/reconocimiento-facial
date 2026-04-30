@@ -194,3 +194,33 @@ tbody tr { animation: fadeRow 0.3s ease both; }
 .dropdown:hover .dropdown-content {
     display: block;
     }
+
+#main-panel-container {
+    position: fixed;
+    overflow: hidden;
+    top: 70px;
+    right: -700px; 
+    width: 45%;
+    height: 45%;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background: #265d63;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+    background-color:#e0f2f1;
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+    #main-panel-container.active {
+        right: 0;
+    }
+
+
+/* Ajuste para que el calendario ocupe todo el espacio blanco */
+#section-calendario {
+    background: white;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}

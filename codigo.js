@@ -26,6 +26,7 @@ let nodet = document.getElementById("nodet");
 let displaySize,ctx;
 let horas =[];
 sonar=true;
+let opcionesTiny;
 document.addEventListener('DOMContentLoaded', () => {
     if(c){
     video.addEventListener("play",()=>{
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx = c.getContext('2d');
         ctx.translate(displaySize.width, 0);
         ctx.scale(-1, 1);
+        opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
         setInterval(proceso,100);
     });}else{alert("no existe el canvas")}
 });
@@ -100,7 +102,6 @@ if (!descriptorActual || !faceMatcher) return null;
     // Comparamos usando el catálogo que ya está en memoria
     return faceMatcher.findBestMatch(descriptorActual,0.7);
 }
-
 async function cargarCatalogo() {
     //faceMatcher.labeledDescriptors[0]._label
     const res = await fetch('php/leer.php');
@@ -124,10 +125,7 @@ async function cargarCatalogo() {
         }else{
             console.log("Error:",respuesta.error);
             }
-    }
-
-
-//la camara
+}
 async function iniciarCamara(){
 const constraints = {
 video: {
@@ -142,6 +140,9 @@ navigator.mediaDevices.getUserMedia(constraints)
 }
 async function intentarAsistencia(Profesor) {
 
+    /*
+    Esta función registra la asistencia al servidor
+    */
     console.log(realtime)
 
     try {
@@ -169,29 +170,35 @@ async function intentarAsistencia(Profesor) {
 
     const respuesta = JSON.parse(textoRaw);
     if (respuesta.success) {
+        //Si pudo registrar correctamente hace el sonido y marca en la lista 
+        // para no poder volver a registrar al mismo profesor almenos 10 segundos despues
+        // (En el servidor el profesor no puede marcar hasta 5 minutos despues.)
         sonido(1);
         ultimosMarcajes[Profesor.id] = Date.now(); 
-        if(respuesta.estado == 1 || respuesta.estado == 2){
+
+
+        if(respuesta.estado == 1 || respuesta.estado == 2){//Si registro entrada o salida correctamente
         document.getElementById("detected-state").textContent = respuesta.message;
         document.getElementById("detected-hour").textContent = arreglarhora(respuesta.hora);
         document.getElementById("detected-name").textContent = Profesor.nombre;
         document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
 
-        }else if(respuesta.estado == 3 || respuesta.estado == 4){
+        }else if(respuesta.estado == 3 || respuesta.estado == 4){//Si hubo alguna advertencia (no necesariamente error)
 
         document.getElementById("detected-state").textContent = "⚠️ " + respuesta.message;
         document.getElementById("detected-name").textContent = Profesor.nombre;
         document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
 
-        }else if(respuesta.estado == 5){
+        }else if(respuesta.estado == 5){//Si el profesor no tiene ninguna materia asignada para el dia de hoy
             document.getElementById("detected-name").textContent = Profesor.nombre;
             document.getElementById("detected-state").textContent = respuesta.message;
             document.getElementById("detected-tags").textContent = "Tags: "+JSON.parse(Profesor.tags).filter(e => !(e == "activo" || e == "inactivo")).join(", ");
         }
 
         document.getElementById("schedule-menu-scroll").textContent = "";
+        //Se agarra el div donde se muestran las fichas de las materias
 
-        respuesta.horarios.forEach(e => {
+        respuesta.horarios.forEach(e => {//Por cada materia que agarre el servidor
             const newHorario = document.createElement("div");
             let htmltext = `
                 <div class="schedule-option">
@@ -204,19 +211,19 @@ async function intentarAsistencia(Profesor) {
                         <p>Aula ${e.aula}</p>
                         </div>
                         <div class="schedule-option-days">`
-                    JSON.parse(e.dias).forEach(i => {
+                    JSON.parse(e.dias).forEach(i => {//Luego cada materia puede tener varios dias configurados, 
+                    // esto dice que por cada dia que tenga configurada la materia va a mostrar la hora y el dia
     htmltext += `<p><strong>${i.Dia}:</strong><span>${arreglarhora(i.HoraE)} - ${arreglarhora(i.HoraS)}</span></p>`
                         });
-                    
             htmltext += `</div>
                     </div>
                 </div>`;
         newHorario.innerHTML = htmltext;
 
-        document.getElementById("schedule-menu-scroll").appendChild(newHorario);
+        document.getElementById("schedule-menu-scroll").appendChild(newHorario);//Aca se agrega al apartado donde van las fichas
         });
 
-    } else {
+    } else {//Si hay error
         console.log(respuesta.horarios);
         // Aquí se mostrará el mensaje de "Faltan X minutos"
         console.warn(respuesta.error);
@@ -226,111 +233,47 @@ async function intentarAsistencia(Profesor) {
         // Opcional: sonido de error
         sonido(0); 
     }
-} catch (error) {
+} catch (error) {//Si hay mas errores
     console.error("Error detallado:", error);
 }
 }
+async function proceso(){                  
+    const datos = await faceapi.detectSingleFace(video, opcionesTiny)
+    .withFaceLandmarks()
+    .withFaceDescriptor();
 
-//la captura de rostro a travez de la camara
-async function proceso(){                
-    const opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-    const datos = await faceapi.detectAllFaces(video,opcionesTiny)     
-    .withFaceLandmarks()    
-    .withFaceDescriptors()
-    if (datos.length > 0) {
-        descriptorActual = datos[0].descriptor; 
-       
+    if (!datos) {return;}
+
+    ///aqui se dibuja
+    ctx.clearRect(0, 0, c.width, c.height);
+    const resizedDetections = faceapi.resizeResults(datos, displaySize);
+    faceapi.draw.drawDetections(c, resizedDetections);
+    faceapi.draw.drawFaceLandmarks(c, resizedDetections);
+
+    ///logica d detectar y comparar
+    if (datos) {
+        descriptorActual = datos.descriptor; 
        if (faceMatcher) {
         const match = faceMatcher.findBestMatch(descriptorActual,0.7);
-       if (match.label !== 'unknown') {
-            const mydata = JSON.parse(match.label);
-            if(!det.classList.contains("active")){
-                    det.classList.add("active")
+        if (match.label !== 'unknown') {
+                const mydata = JSON.parse(match.label);
+                detecta("si");
+                
+                ///esto lo desconosco imagino  q  es algo para la asistencai
+                const ahora = Date.now();
+                const cincoMinutos = 10 * 1000;
+                if (ultimosMarcajes[mydata.id]) {
+                    const tiempoTranscurrido = ahora - ultimosMarcajes[mydata.id];
+                    if (tiempoTranscurrido < cincoMinutos) {
+                        return; 
                     }
-            nodet.classList.remove("active");
-            btn.disabled = true;
-            
-            const ahora = Date.now();
-            const cincoMinutos = 10 * 1000;
-
-            if (ultimosMarcajes[mydata.id]) {
-                const tiempoTranscurrido = ahora - ultimosMarcajes[mydata.id];
-                if (tiempoTranscurrido < cincoMinutos) {
-                    return; 
                 }
-            }
-
-            intentarAsistencia(mydata);
-            
-            estatus.textContent = mydata.nombre;
-        }else{
-                det.classList.remove("active")     
-                if(!nodet.classList.contains("active")){
-                    nodet.classList.add("active")
-                    }
-                btn.disabled = true;//if(sonar){sonido(1);sonar=false}
-                estatus.textContent = "---";
+                intentarAsistencia(mydata);
+                //estatus.textContent = mydata.nombre;
+            }else{
+                    detecta("no");    
+                    //estatus.textContent = "---";
             }
         }
     } 
-    //debug
-   // console.log(datos);
-    //reescala antes de dibujar
-    const resizedDetections = faceapi.resizeResults(datos, displaySize);
-    ctx.clearRect(0, 0, c.width, c.height);
-    //dibujar
-    faceapi.draw.drawDetections(c,resizedDetections);//datos
-    faceapi.draw.drawFaceLandmarks(c, resizedDetections);
-    //faceapi.draw.drawFaceExpressions(c, datos);
 }
-
-function actualizarReloj() {
-    const ahora = new Date();
-    
-    // Obtenemos horas, minutos y segundos
-    let horas = ahora.getHours();
-    let minutos = ahora.getMinutes();
-    let segundos = ahora.getSeconds();
-    let m = "AM";
-
-    // Formateo: Si el número es menor a 10, le agregamos un "0" a la izquierda
-    // Ejemplo: 9:5:2 -> 09:05:02
-    horas = horas < 10 ? '0' + horas : horas;
-    minutos = minutos < 10 ? '0' + minutos : minutos;
-    segundos = segundos < 10 ? '0' + segundos : segundos;
-
-    realtime = `${horas}:${minutos}:${segundos}`;
-
-    if(horas > 12){
-        horas -= 12;
-        m = "PM";
-    }
-
-    // Juntamos todo en un string
-    const tiempoString = `${horas}:${minutos}:${segundos} ${m}`;
-
-    // Lo escribimos en el div
-    document.getElementById('reloj').textContent = tiempoString;
-}
-
-// Llamamos a la función una vez al principio para que no empiece en blanco
-actualizarReloj();
-
-// Configuramos el intervalo para que se ejecute cada segundo
-setInterval(actualizarReloj, 1000);
-
-function arreglarhora(hora){
-
-            let hora24 = hora;
-            if(hora.length > 5){hora24 = hora.substring(0, 5)}  
-
-            // Creamos un objeto Date falso para poder formatearlo
-            // (Usamos una fecha cualquiera, lo importante es la hora)
-            const fechaTemp = new Date(`1970-01-01T${hora24}:00`);
-
-            return fechaTemp.toLocaleString('en-US', { 
-            hour: 'numeric', 
-            minute: 'numeric', 
-            hour12: true 
-            });
-        }

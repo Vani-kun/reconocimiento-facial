@@ -6,7 +6,7 @@
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     background-color: rgba(0, 0, 0, 0);
-    z-index: 9999;
+    z-index: 99;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
     display: flex;
     align-items: center;
@@ -42,7 +42,7 @@
 }
 
 .camera-center { left: 50%; transform: translate(-50%, 0); }
-.camera-left   { left: 20%; transform: translate(-50%, 0); }
+.camera-left   { left: 33%; transform: translate(-50%, 0); }
 .camera-left2  { left: 0%;  transform: translate(-100%, 0); }
 
 .main-circle {
@@ -77,12 +77,9 @@
     cursor: pointer;
     font-weight: bold;
 }
-.circle-text {
-    position: relative;
-    top: 60%;
-        color: red;
-        text-shadow: 0 0 10px red;
-}
+.deteccion {position: relative;top: 60%;}
+.deteccion{color: red;text-shadow: 0 0 10px red;}
+.deteccion.si{color: #00ff22;text-shadow: 0 0 10px #00ff22;}
 #video{transform: scaleX(-1);z-index: 10; }
 #video, #canvas {
     position: absolute;
@@ -110,25 +107,31 @@
 <div id="full-screen-panel" class="overlay-panel ">
     <div class="geometric-background"></div>
     
-    <div class="panel-controls">
+    <!--div class="panel-controls">
         <button onclick="moveCamera('hide')">Ocultar Cámara</button>
         <button onclick="moveCamera('left')">Izquierda</button>
         <button onclick="moveCamera('center')">Centro</button>
          <button onclick="moveCamera('ocultar')">Ocultar</button>
         
-    </div>
+    </div-->
     
     <div id="camera-wrapper" class="camera-center">
         <div class="main-circle">
             <video id="video" width="250" height="250" autoplay muted></video>
             <canvas id="canvas" width="250" height="250"></canvas>
-            <span class="circle-text">● DETECTADO</span>
+            <span class="deteccion" id="deteccion">● DETECTADO</span>
         </div>
     </div>
 </div>
 
 
 <script>
+    function detecta(s){
+        dt=document.getElementById("deteccion");
+        if(s=="si"){dt.classList.add("si");dt.textContent="● DETECTADO";}
+        else
+        if(s=="no"){dt.classList.remove("si");dt.textContent="● NO DETECTADO";}
+    }
 function toggleFullScreenPanel() {
     const panel = document.getElementById('full-screen-panel');
     panel.classList.toggle('hidden');
@@ -157,6 +160,5 @@ function moveCamera(position) {
         document.getElementById('full-screen-panel').classList.toggle('hidden');
     }
 }
-
-document.getElementById('open-panel-btn').addEventListener('click', toggleFullScreenPanel);
+//document.getElementById('open-panel-btn').addEventListener('click', toggleFullScreenPanel);
 </script>

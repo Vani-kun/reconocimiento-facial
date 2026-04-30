@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/camara.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/horarios.css">
-    <link rel="stylesheet" href="sigeastyle.css">
+    <!--link rel="stylesheet" href="sigeastyle.css"-->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -23,6 +23,7 @@
 <!--?php include 'php/extras/navbar.php'; ?-->
 <?php include 'newBarra.php'; ?>
 <?php include 'newCamara.php'; ?>
+<?php include 'newProfesores.php'; ?>
 <div style="min-height:100vh">
     <main class="main-container" style="display:flex">
         <div style="min-height:80vh;width:40vw">
@@ -47,13 +48,10 @@
                 <h3 id="detected-hour" style="color:#81BA4E"></h3>
                 <h3 id="detected-state" style="color:#E41924"></h3>
                 <div id="schedule-menu-scroll" class="schedule-menu-scroll" style="width:80%;height:100%;justify-self: center;grid-template-columns: 1fr;">
-
-
-
                 </div>
                 <br>
             </div>
-            <div id="reloj">00:00:00</div>
+            
             <div class="btnconte">
                 <button id="btn" class="boton oculto">GUARDAR BIOMETRÍA</button>
             </div>
@@ -69,7 +67,7 @@
     <script src="codigo.js"></script>
 
     <?php include 'php/extras/footer.php';?>
-
+    <?php include 'reloj.php';?>
 
 </body>
 </html>

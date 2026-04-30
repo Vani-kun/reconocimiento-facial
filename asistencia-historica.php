@@ -1,10 +1,17 @@
 <?php
-// 1. Evitar que el navegador almacene la página en el historial (Caché)
-header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-header("Pragma: no-cache"); // HTTP 1.0.
-header("Expires: 0"); // Proxies.
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
 
+// 2. Comprobar la sesión
+include 'includes/session_check.php';
+
+// Si el check de sesión falla, el usuario no verá NADA de lo que sigue abajo
+?>
+
+<?php
     include "php/conexion.php";
+
     $sql = "SELECT id, nombre, tags FROM caras WHERE activo = 1 ORDER BY nombre ASC";
     $stmt = $pdo->query($sql);
     $profesores = $stmt->fetchAll();
@@ -16,37 +23,44 @@ header("Expires: 0"); // Proxies.
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IUJO - Registro de Asistencia</title>
+    <title>M.A.R.S. - Registro de Asistencia</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/asistencia.css">
-    <link rel="stylesheet" href="sigeastyle.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 </head>
 <body>
 
 <?php include 'php/extras/navbar.php'; ?>
 
-<div id="profesorlist" class="oculto" style="overflow:hidden;position:absolute;width:50%;max-height:50%;min-height:50%;background-color:white;top:70px;right:20px;border-radius:10px;">
-    <div class="search-wrap" style="margin-top:10px;">
-        <input class="search-input" type="text" id="buscador" placeholder="🔍 Buscar profesor...">
-    </div>
-    <div style="display: flex;height: 230px;">
-        <div id="profesorcontainer" style="display:block; width:100%;margin-top:10px;" class="scrolleable">
-        
-        </div>
-    </div>
-</div>
+    <div id="main-panel-container">
 
-<div id="calendardiv" class="" style="display:flex;overflow:hidden;position:absolute;width:50%;max-height:50%;min-height:50%;background-color:white;top:70px;right:20px;border-radius:10px;justify-content:center">
-    <div style="width:100%;background-color:white;border-radius:50px;align-items:center;display:block;justify-self:center">
-        <div style="padding-top:5px;padding-left:50px;padding-right:50px;max-height:50px;">
-            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-            <div id="calendar" style="width: 100%; height: 100%; max-height:280px;"></div>
+        <div style="display: flex; background-color: #265d63; padding: 5px 10px 0 10px;">
+            <div id="tab-profesores" class="tab-item active" onclick="switchTab('profesores')" style="padding: 10px 20px; cursor: pointer; background: #e0f2f1; border-radius: 10px 10px 0 0; font-weight: bold; color: #265d63; margin-right: 5px;">
+                Profesores
+            </div>
+            <div id="tab-calendario" class="tab-item" onclick="switchTab('calendario')" style="padding: 10px 20px; cursor: pointer; background: #60949a; border-radius: 10px 10px 0 0; font-weight: bold; color: white;">
+                Calendario
+            </div>
+        </div>
+
+        <div id="panel-content" style="flex-grow: 1; padding: 10px; position: relative; height: calc(100% - 40px);">
+
+            <div id="section-profesores" style="display: none; height: 100%; width:100%;">
+                <div class="search-wrap" style="margin-bottom:10px;">
+                    <input class="search-input" type="text" id="buscador" placeholder="🔍 Buscar profesor..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div id="profesorcontainer" class="scrolleable" style="height: calc(100% - 50px); overflow-y: auto;">
+                </div>
+            </div>
+
+            <div id="section-calendario" style="display: none; height: 100%; width: 100%;">
+                <div style="background: white; border-radius: 10px; padding: 5px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column;">
+                    <div id="calendar" style="height: 100%; width: 100%;"></div>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
 
 <main class="main">
     <div style="display:grid;width:50%;">
@@ -83,8 +97,7 @@ header("Expires: 0"); // Proxies.
 
     <div class="toolbar" style="justify-content: flex-end;">
         <div class="toolbar-actions">
-            <button class="btn btn-white" onclick="toggleCalendar()">Calendario</button>
-            <button class="btn btn-white" onclick="togglePList()">Profesores</button>
+            <button class="btn btn-white" onclick="toggleCalendar()">Filtro</button>
             <div class="toolbar-actions">
             <button class="btn btn-white" onclick="cargarDatos()">Recargar</button>
                 <div class="dropdown">
@@ -132,7 +145,6 @@ header("Expires: 0"); // Proxies.
 let profesorName = -1;
 
 const registrydiv = document.getElementById("registrydiv");
-const calendardiv = document.getElementById("calendardiv");
 
 const inputstart = document.getElementById("filtrostart");
 const inputend = document.getElementById("filtroend");
@@ -147,36 +159,37 @@ const hoy = `${yyyy}-${mm}-${dd}`;
 inputstart.value = hoy;
 inputend.value = hoy;
 
-inputstart.addEventListener("click", (e) => {
-e.preventDefault();
-
-if(!inputstart.classList.contains("selected")){
-    inputstart.classList.add("selected");
+function toggleCalendar() {
+    const panel = document.getElementById('main-panel-container');
+    if (panel.classList.contains('active')) {
+        panel.classList.remove('active');
+    } else {
+        panel.classList.add('active');
+        switchTab('calendario');
+        if (calendar) {
+            setTimeout(() => calendar.updateSize(), 420);
+        } else {
+            inicializarOReferescarCalendario();
+        }
     }
+}
 
-inputend.classList.remove("selected");
-
-document.getElementById("calendardiv").classList.remove("oculto");
-    calendar.updateSize();
-    if(!document.getElementById("profesorlist").classList.contains("oculto")){document.getElementById("profesorlist").classList.add("oculto");}
-    })
+// --- ESTE ES EL QUE DEBE QUEDAR ---
+inputstart.addEventListener("click", (e) => {
+    e.preventDefault();
+    inputstart.classList.add("selected");
+    inputend.classList.remove("selected");
+    
+    toggleCalendar(); // Esta función ya abre el panel y pone la pestaña correcta
+});
 
 inputend.addEventListener("click", (e) => {
-e.preventDefault();
-
-if(!inputend.classList.contains("selected")){
+    e.preventDefault();
     inputend.classList.add("selected");
-    }
-
-inputstart.classList.remove("selected");
-document.getElementById("calendardiv").classList.remove("oculto");
-    calendar.updateSize();
-    if(!document.getElementById("profesorlist").classList.contains("oculto")){document.getElementById("profesorlist").classList.add("oculto");}       
-    })
-
-    document.addEventListener('DOMContentLoaded', async function() {
-    inicializarOReferescarCalendario();
-        });
+    inputstart.classList.remove("selected");
+    
+    toggleCalendar();
+});
 
 let calendar;
 let fechasGlobales = [];
@@ -208,11 +221,22 @@ async function inicializarOReferescarCalendario() {
     if (!calendar) {
         const calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'es',
-            // Pasamos la referencia de la función
-            dayCellDidMount: function(info) {
-                aplicarIluminacionCeldas(info);
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                },
+                // --- MEJORAS DE TAMAÑO ---
+                height: '100%',        
+                expandRows: true,      
+                aspectRatio: 0.5,      
+                handleWindowResize: true,
+                stickyHeaderDates: true,
+    
+                dayCellDidMount: function(info) {
+                    aplicarIluminacionCeldas(info);
                 },
             dateClick: function(info) {
                 if (fechasGlobales.includes(info.dateStr)) {
@@ -246,10 +270,6 @@ async function inicializarOReferescarCalendario() {
             }
     }
 
-    function togglePList(){
-        document.getElementById("profesorlist").classList.toggle("oculto");
-        if(!document.getElementById("calendardiv").classList.contains("oculto")){document.getElementById("calendardiv").classList.add("oculto");}
-        }
 
     let todosLosRegistros = [];
 
@@ -266,7 +286,7 @@ async function inicializarOReferescarCalendario() {
         }
 
     function renderTabla(registros) {
-        let nmb = 0;
+        registros.map((r,i) => `<tr>...<td> ${i + 1}</td>...1`);
         const tbody = document.getElementById('tbody');
         if (registros.length === 0) {
             tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px;">Sin registros</td></tr>`;
@@ -430,30 +450,29 @@ async function inicializarOReferescarCalendario() {
             if(include === 2){
                 listContainer.appendChild(prof.element);
                 }
-            console.log(prof.nombre, include);
         });
     }
 
     function descargarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape' });
-        doc.text("Registro de Asistencia IUJO", 14, 15);
+        doc.text("Registro de Asistencia M.A.R.S.", 14, 15);
         doc.autoTable({ html: '#tabla-asistencia', margin: { top: 25 } });
-        doc.save("Asistencia_IUJO.pdf");
+        doc.save("asistencia_mars.pdf");
         }
 
     function descargarExcel() {
         let tabla = document.getElementById("tabla-asistencia");
         let wb = XLSX.utils.table_to_book(tabla, {sheet: "Asistencia"});
-        XLSX.writeFile(wb, "Asistencia_IUJO.xlsx");
+        XLSX.writeFile(wb, "asistencia_mars.xlsx");
         }
 
     function descargarWord() {
         let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
              "xmlns:w='urn:schemas-microsoft-com:office:word' " +
              "xmlns='http://www.w3.org/TR/REC-html40'>" +
-             "<head><meta charset='utf-8'><title>Registro de Asistencia IUJO.</title></head><body>" + 
-             "<h2>Registro de Asistencia IUJO</h2>";
+             "<head><meta charset='utf-8'><title>Registro de Asistencia M.A.R.S.</title></head><body>" + 
+             "<h2>Registro de Asistencia M.A.R.S.</h2>";
         let footer = "</body></html>";
         
         let tablaHTML = document.getElementById("tabla-asistencia").outerHTML;
@@ -463,7 +482,7 @@ async function inicializarOReferescarCalendario() {
         let fileDownload = document.createElement("a");
         document.body.appendChild(fileDownload);
         fileDownload.href = source;
-        fileDownload.download = 'Asistencia_IUJO.doc';
+        fileDownload.download = 'asistencia_mars.doc';
         fileDownload.click();
         document.body.removeChild(fileDownload);
         }
@@ -502,14 +521,69 @@ async function inicializarOReferescarCalendario() {
             }
         })(window);
 
-    refreshProfessorList();
+    // --- Lógica para el control de la Interfaz de Pestañas ---
 
-    function toggleCalendar(){
-        document.getElementById("calendardiv").classList.toggle("oculto");
-        calendar.updateSize();
-        if(!document.getElementById("profesorlist").classList.contains("oculto")){document.getElementById("profesorlist").classList.add("oculto");}
+function switchTab(tabName) {
+    const sectionProf = document.getElementById('section-profesores');
+    const sectionCal = document.getElementById('section-calendario');
+    const tabProf = document.getElementById('tab-profesores');
+    const tabCal = document.getElementById('tab-calendario');
+
+    // Colores basados en tu imagen de referencia
+    const colorActivoBg = '#e0f2f1'; // Fondo claro
+    const colorActivoTexto = '#265d63'; // Verde oscuro
+    const colorInactivoBg = '#60949a'; // Verde medio/opaco
+    const colorInactivoTexto = '#ffffff'; // Blanco
+
+    if (tabName === 'profesores') {
+        sectionProf.style.display = 'block';
+        sectionCal.style.display = 'none';
+        
+        // Estilo Pestaña Profesor Activa
+        tabProf.style.backgroundColor = colorActivoBg;
+        tabProf.style.color = colorActivoTexto;
+        
+        // Estilo Pestaña Calendario Inactiva
+        tabCal.style.backgroundColor = colorInactivoBg;
+        tabCal.style.color = colorInactivoTexto;
+    } else {
+        sectionProf.style.display = 'none';
+        sectionCal.style.display = 'block';
+        
+        // Estilo Pestaña Calendario Activa
+        tabCal.style.backgroundColor = colorActivoBg;
+        tabCal.style.color = colorActivoTexto;
+        
+        // Estilo Pestaña Profesor Inactiva
+        tabProf.style.backgroundColor = colorInactivoBg;
+        tabProf.style.color = colorInactivoTexto;
+        
+        // CRÍTICO: Reajustar el calendario para que no se vea pequeño
+        if (typeof calendar !== 'undefined' && calendar !== null) {
+            setTimeout(() => {
+                calendar.updateSize();
+            }, 0);
         }
+    }
+}
 
+// Sobrescribimos tus funciones de botones del Navbar para que controlen el nuevo panel
+function togglePList() {
+    const panel = document.getElementById('main-panel-container');
+    if (panel.classList.contains('active')) {
+        panel.classList.remove('active');
+    } else {
+        panel.classList.add('active');
+        switchTab('profesores');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Esto prepara el calendario internamente aunque el panel esté oculto
+    inicializarOReferescarCalendario();
+});
+
+    refreshProfessorList();
     cargarDatos()
 </script>
 
