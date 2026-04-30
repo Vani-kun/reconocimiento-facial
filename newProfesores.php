@@ -235,6 +235,24 @@
     </div>
 
     <script>
+
+        // Funcionalidad para traer profesores
+        datosProfesores=[];<?php //echo json_encode($profesores); ?>;
+        window.onload = () => {cargarProfesores(); };
+        async function cargarProfesores() {
+            const response = await fetch('php/profesores/leer_profesores.php');
+            datosProfesores = await response.json(); // Actualiza la variable global
+            listarProfesores();
+        }
+        function listarProfesores(){
+            // 1. Validar que la variable sea un array y no esté vacía
+            if (!Array.isArray(datosProfesores) || datosProfesores.length === 0) {
+                console.warn("La lista de profesores está vacía o no se ha cargado aún.");
+                return; 
+            }
+            datosProfesores.forEach(prof => {CrearCarta(prof);});
+        }
+        
         // --- LÓGICA DEL PANEL ---
         function togglePanel() {
             const panel = document.getElementById('panelGestion');
@@ -255,14 +273,7 @@
             
             }
         }
-        // Funcionalidad para traer profesores
-        const datosProfesores = <?php echo json_encode($profesores); ?>;
-
-        function listarProfesores(){
-            datosProfesores.forEach(prof => {CrearCarta(prof);});
-        }
         
-
         function CrearCarta(prof) {
             const { id, nombre, activo } = prof;
 
@@ -348,91 +359,36 @@
                 console.error("Error al enviar: ", error);
                 }
         }
-    function capturarImagenDeVideo(videoElement, targetContainer) {
-        // 1. Crear un canvas invisible
-        const canvas = document.createElement('canvas');
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
 
-        // 2. Dibujar el frame actual del video en el canvas
-        const context = canvas.getContext('2d');
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-        // 3. Convertir el canvas a una imagen (formato Base64)
-        const dataURL = canvas.toDataURL('image/png');
-
-        // 4. Crear el elemento imagen
-        const nuevaImagen = document.createElement('img');
-        nuevaImagen.src = dataURL;
-        
-        // Estilo para que encaje bien en tus slots suaves
-        nuevaImagen.style.width = '100%';
-        nuevaImagen.style.height = '100%';
-        nuevaImagen.style.objectFit = 'cover';
-        nuevaImagen.style.borderRadius = '12px'; // A juego con tu diseño suave
-
-        // 5. Hacer append al elemento destino
-        // Opcional: limpiar el contenedor antes de añadir la nueva imagen
-        targetContainer.innerHTML = ''; 
-        targetContainer.appendChild(nuevaImagen);
-    }
-    FacesList = [];
-  async function guardarProfesor(){
-    if (descriptorActual) {
-        // Determinamos qué slot toca (1, 2 o 3)
-        const slotIndex = FacesList.length + 1;
-        const slotElement = document.getElementById(`scan${slotIndex}`);
-
-        if (slotElement && FacesList.length < 3) {
-            // Capturamos la foto y la metemos en el slot
-            capturarImagenDeVideo(video, slotElement);
-            
-            // Aquí deberías pushear el descriptor al array para que la cuenta suba
-             FacesList.push(descriptorActual); 
-            
-            console.log(`Snapshot ${slotIndex} guardado en el panel.`);
-        } else {
-            console.warn("Límite de capturas alcanzado o slot no encontrado.");
-        }
-        
-        descriptorActual = null; // Limpiamos para el siguiente escaneo
-    } else {
-        alert("No se detectó ningún rostro. Intenta ajustar la iluminación.");
-    }
     
-/*
-    validarnuevoprofesor();
-    if(FacesList.length == 0){alert("Guarda al menos un rostro");return;}
+  async function guardarProfesor(_nombre,_tag,_listaCaras){
+        //alert("datos validos")
+        if(_listaCaras.length == 0){alert("Guarda al menos un rostro");return;}
 
-    let _Page = 'php/profesores/guardar_profesor.php';
-    let datosEnvio = {
-            nombre:cnombre.value, 
-            tags: tags,
-            descriptor: JSON.stringify(FacesList)
-            };
+        let _Page = 'php/profesores/guardar_profesor.php';
+        let datosEnvio = {
+                nombre:_nombre, 
+                tags: _tag,
+                descriptor: JSON.stringify(_listaCaras)
+                };
 
-    try {
-        const respuesta = await fetch(_Page, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datosEnvio)
-        });
-
-        const resultado = await respuesta.json(); 
-        if (resultado.success) {
-            console.log(datosEnvio);
-            alert("respuesta: "+ resultado.message);
-        } else {
-            alert("respuesta: " + resultado.error);
+        try {
+            const respuesta = await fetch(_Page, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(datosEnvio)
+            });
+            const resultado = await respuesta.json(); 
+            if (resultado.success) {
+                console.log(datosEnvio);
+                alert("respuesta: "+ resultado.message);
+            } else {
+                alert("respuesta: " + resultado.error);
+            }
+        } catch (error) {
+            console.error("Error al enviar: ", error);
         }
-    } catch (error) {
-        console.error("Error al enviar: ", error);
-    }*/
-}      
-        
-        listarProfesores();
+    }      
     </script>
 
 <?php include 'newAgregaEdita.php'; ?>

@@ -129,9 +129,30 @@
             gap: 12px;
             margin-bottom: 25px;
         }
-       .btn22 {
-            height: 32px;
+       .btn-bio {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.2s;
+            background: transparent; color: #94a3b8; 
+            box-shadow: 0 0.1vh 0.6vh rgba(0, 0, 0, 0.8);
+            width: 40px;
+            height: 40px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            color: white;
+            cursor: pointer; /* Cambia el cursor al pasar por encima */
+            transition: all 0.3s ease; /* Transición suave para todos los estados */
         }
+         .btn-bio:hover { opacity: 0.8; box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);}
         .bio-slot {
             width: 60px;
             height: 60px;
@@ -172,36 +193,107 @@
             <div class="bio-slot" id="scan1">SCAN</div>
             <div class="bio-slot" id="scan2">SCAN</div>
             <div class="bio-slot" id="scan3">SCAN</div>
-             <button class="btn btn22 btn-cancel" >+</button>
+             <button class="btn-bio" onclick="addScan()">+</button>
         </div>
 
         <h2>Nuevo Profesor</h2>
         
         <div class="input-wrap">
-            <input type="text" placeholder="Nombre completo">
+            <input type="text" placeholder="Nombre completo" id="pro_nombre">
         </div>
 
         <div class="input-wrap">
-            <input type="text" placeholder="Especialidad">
+            <input type="text" placeholder="Especialidad(es)" id="pro_tag">
         </div>
 
         <div class="btn-group">
             <button class="btn btn-cancel" onclick="togglexPanel()">Cerrar</button>
-            <button class="btn btn-save" onclick="handleSave()">Confirmar</button>
+            <button class="btn btn-save" onclick="validaSave()">Confirmar</button>
         </div>
 
     </div>
 
     <script>
+        FacesList = [];
         const subpanel = document.getElementById('sidePanel');
         
         function togglexPanel() {
             subpanel.classList.toggle('active');
         }
 
-        function handleSave() {
-        guardarProfesor();    
-        //alert("Datos sincronizados correctamente");
-            //togglexPanel();
+        function addScan() {
+                 moveCamera("left")
+                if (descriptorActual) {
+                    // Determinamos qué slot toca (1, 2 o 3)
+                    const slotIndex = FacesList.length + 1;
+                    const slotElement = document.getElementById(`scan${slotIndex}`);
+
+                    if (slotElement && FacesList.length < 3) {
+                        // Capturamos la foto y la metemos en el slot
+                        capturarImagenDeVideo(video, slotElement);
+                        
+                        // Aquí deberías pushear el descriptor al array para que la cuenta suba
+                        FacesList.push(descriptorActual); 
+                        
+                        console.log(`Snapshot ${slotIndex} guardado en el panel.`);
+                    } else {
+                        alert("Límite de Descriptores alcanzado");
+                    }
+                    
+                    descriptorActual = null; // Limpiamos para el siguiente escaneo
+                } else {
+                    alert("No se detectó ningún rostro. Intenta ajustar la iluminación.");
+                }
+            //guardarProfesor();    
         }
+         function capturarImagenDeVideo(videoElement, targetContainer) {
+            // 1. Crear un canvas invisible
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+
+            // 2. Dibujar el frame actual del video en el canvas
+            const context = canvas.getContext('2d');
+            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+            // 3. Convertir el canvas a una imagen (formato Base64)
+            const dataURL = canvas.toDataURL('image/png');
+
+            // 4. Crear el elemento imagen
+            const nuevaImagen = document.createElement('img');
+            nuevaImagen.src = dataURL;
+            
+            // Estilo para que encaje bien en tus slots suaves
+            nuevaImagen.style.width = '100%';
+            nuevaImagen.style.height = '100%';
+            nuevaImagen.style.objectFit = 'cover';
+            nuevaImagen.style.borderRadius = '12px'; // A juego con tu diseño suave
+
+            // 5. Hacer append al elemento destino
+            // Opcional: limpiar el contenedor antes de añadir la nueva imagen
+            targetContainer.innerHTML = ''; 
+            targetContainer.appendChild(nuevaImagen);
+        }
+
+        function validaSave() {
+            const pro_nombre = document.getElementById('pro_nombre').value.trim();
+            const pro_tag = document.getElementById('pro_tag').value.trim();
+            // Validación de longitud (entre 5 y 29 caracteres)
+            const nombreValido = pro_nombre.length > 4 && pro_nombre.length < 30;
+            const tagValida = pro_tag.length > 4 && pro_tag.length < 30;
+
+            if (!nombreValido ) {alert("El nombre debe tener entre 5 y 29 caracteres.");
+            }else
+            if (!tagValida) {alert("la especialidad debe tener entre 5 y 29 caracteres.");
+            }else 
+            if (FacesList.length <=0) {alert("debes agregar almenos un descrictor.");
+            }else {guardarProfesor(pro_nombre,pro_tag,FacesList);togglexPanel();}
+        }
+
+
+        //togglexPanel();
+
+
+
+       
     </script>

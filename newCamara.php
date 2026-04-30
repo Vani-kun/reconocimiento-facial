@@ -58,6 +58,7 @@
     color: white;
     font-size: 18px;
     font-weight: bold;
+    
 }
 
 .panel-controls {
