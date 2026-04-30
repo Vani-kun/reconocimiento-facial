@@ -26,7 +26,7 @@
 <div style="min-height:100vh">
     <main class="main-container" style="display:flex">
         <div style="min-height:80vh;width:40vw">
-            <div class="wrapper-visor" style="width:100%;height:95%"> 
+            <!--div class="wrapper-visor" style="width:100%;height:95%"> 
                 <div class="anillo-escaneo"></div>
                 <div class="visor-circular">
                     <p class="status-cam" id="estatus">ESPERANDO CÁMARA...</p>
@@ -38,7 +38,7 @@
             <div class="indicadores-estado">
                 <div class="estado-item detectado" id="det"><span>●</span> Detectado</div>
                 <div class="estado-item no-detectado active" id="nodet"><span>●</span> No Detectado</div>
-            </div>
+            </div-->
         </div>
         <div style="background-color:#D1EAEC;border-radius:5vh;min-height:80vh;width:59vw;display:block;margin-left:1vw;">
             <div style="height:88%;width:100%;font-size:2.5vh;display:grid;grid-template-rows: 10% 10% 10% 10% 50% 10%;align-items: center;">

@@ -1,6 +1,6 @@
 <style>
         :root { --p: #00d4ff; --bg: #0a0f14; --h: 120px; --r: 160px; }
-        body { margin: 0; background:#797979;; color: #fff; font: 14px sans-serif; }
+
         
             /* NAV */
     /* NAV ACTUALIZADO: Blanco a Gris con Sombra */
@@ -15,6 +15,12 @@
         position: relative; 
         /* Sombra negra sólida hacia abajo */
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
+        
+        position: fixed; 
+        top: 0;         
+        left: 0;         
+        width: 100%;     
+        z-index: 100;   /* Lo coloca "al frente" de los demás elementos */
     }
 
     .nav-contenedor { 
