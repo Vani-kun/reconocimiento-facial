@@ -376,3 +376,7 @@ input[type="time" i], select {
     padding: 2px 5px;
     width: 100%;
 }
+
+.SecurityHidden{
+    display: none !important;
+}

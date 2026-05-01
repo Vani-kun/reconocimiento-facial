@@ -20,10 +20,11 @@
 </head>
 <body>
 
-<!--?php include 'php/extras/navbar.php'; ?-->
 <?php include 'newBarra.php'; ?>
 <?php include 'newCamara.php'; ?>
 <?php include 'newProfesores.php'; ?>
+<?php include 'Secciones.php'; ?>
+
 <div style="min-height:100vh">
     <main class="main-container" style="display:flex">
         <div style="min-height:80vh;width:40vw">
@@ -41,7 +42,7 @@
                 <div class="estado-item no-detectado active" id="nodet"><span>●</span> No Detectado</div>
             </div-->
         </div>
-        <div style="background-color:#D1EAEC;border-radius:5vh;min-height:80vh;width:59vw;display:block;margin-left:1vw;">
+        <div class="oculto" style="background-color:#D1EAEC;border-radius:5vh;min-height:80vh;width:59vw;display:block;margin-left:1vw;">
             <div style="height:88%;width:100%;font-size:2.5vh;display:grid;grid-template-rows: 10% 10% 10% 10% 50% 10%;align-items: center;">
                 <h1 id="detected-name">Esperando...</h1>
                 <h2 id="detected-tags" style="color:#ADD8D5">Tags:</h2>

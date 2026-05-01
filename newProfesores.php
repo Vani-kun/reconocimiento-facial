@@ -27,10 +27,12 @@
 
         /* --- LAYOUT PRINCIPAL --- */
         .main-wrapper {
+            position: absolute;
             display: flex;
             width: 100vw;
             height: 100vh;
             margin: 0;padding: 0;box-sizing: border-box;user-select: none; 
+            left:0;top:0;
         }
 
         .panel-izquierdo {
@@ -68,7 +70,7 @@
 
      
         /* --- ELEMENTOS DEL PANEL --- */
-        #toggle-panel {
+        .btn-toggle-panel {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -206,7 +208,7 @@
 
 
     <div class="main-wrapper">
-        <button id="toggle-panel" onclick="togglePanel()" class="ocultoboton">☰</button>
+        <button id="toggle-panel" onclick="togglePanel()" class="btn-toggle-panel ocultoboton">☰</button>
 
         <div class="panel-izquierdo">
             <h1>LIVELULA</h1>

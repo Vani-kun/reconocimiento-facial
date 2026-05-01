@@ -22,21 +22,13 @@
     $AllSeccions = $stmt->fetchAll();
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>M.A.R.S. - Asignación de Materias</title>
-    <link rel="stylesheet" href="css/asignar-style.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="sigeastyle.css">
-</head>
-<body>
-    
-<?php include 'php/extras/navbar.php'; ?>
-<div style="min-height:100vh">
-    
-<div style="position:absolute; left:-1vw; margin-top:6vh; width:45%; height:100%">
+<link rel="stylesheet" href="css/asignar-style.css">
+
+<div id="seccion-wraper" class="main-wrapper hidden secciones">
+
+<button id="seccion-toggle-panel" class="btn-toggle-panel oculto">✕</button>
+
+<div style="position:absolute; left:-1vw; margin-top:12vh; width:45%; height:100%">
     <div class="itemsbcm divsection-master" style="margin-left:0.8vw">
         <div class="divsection itemsbc divsection-selected" id="msectionbutton">
         Materias
@@ -149,7 +141,7 @@
     </section>
 </div>
 
-<div style="position:absolute; left:55%; margin-top:6vh; width:45%; height:100%">
+<div style="position:absolute; left:55%; margin-top:12vh; width:45%; height:100%">
     <div class="divsection-master">
         <div id="EditSectionBtn" class="divsection divsection-selected">
         Edición
@@ -294,6 +286,20 @@
 </div>
 
     <script>
+
+        document.getElementById('seccion-toggle-panel').addEventListener("click", ()=>{
+
+            if(!document.getElementById("seccion-wraper").classList.contains("hidden")){
+                document.getElementById("seccion-wraper").classList.add("hidden");
+                }
+
+             if(!document.getElementById("seccion-toggle-panel").classList.contains("oculto")){
+                document.getElementById("seccion-toggle-panel").classList.add("oculto");
+                }
+
+        moveCamera("center");
+        });
+
         const DayListElement = document.getElementById('diaselect-input');
         let DayList = [];
 
@@ -1208,7 +1214,4 @@
 
     </script>
     
-    <?php include 'php/extras/footer.php';?>
-
-</body>
-</html>
+  

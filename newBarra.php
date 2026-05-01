@@ -51,15 +51,16 @@
         transform: rotate(360deg); 
     }
     /* MENU */
-    #hexOverlay { position: fixed; inset: 0; background:rgb(0 6 255 / 70%); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+    #hexOverlay { background: linear-gradient(180deg, #0F495E00 0%, #904192AF 100%); position: fixed; inset: 0; backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 2000; }
     .menu-wrapper { position: relative; width: var(--h); height: 135px; }
     .hexagon { 
+        color: white;
         position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; 
         background: #0a141e; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-        transition: .5s cubic-bezier(.68,-.55,.26,1.55); border: 1px solid var(--p); opacity: 0; scale: 0; cursor: pointer;
+        transition: .5s cubic-bezier(.68,-.55,.26,1.55); border: 1px solid #4F2054; opacity: 0; scale: 0; cursor: pointer;
     }
-    .hexagon i { font-size: 1.8rem; color: var(--p); }
-    .core { opacity: 1; scale: 1.1; z-index: 10; background: radial-gradient(#005f73, #000); }
+    .hexagon i { font-size: 1.8rem; color: #904192; }
+    .core { opacity: 1; scale: 1.1; z-index: 10; background: radial-gradient(#4F2054, #000); }
     
     /* POSICIONES (Simplificadas) */
     .expanded .hexagon { opacity: 1; scale: 1; }
@@ -68,8 +69,9 @@
     .expanded .p3 { transform: translate(var(--r), 0); }
     .expanded .p4 { transform: translate(calc(var(--r) * -.7), var(--r)); }
     .expanded .p5 { transform: translate(calc(var(--r) * .7), var(--r)); }
-    .hexagon:hover { background: var(--p); color: #000; }
-    .hexagon:hover i { color: #000; }
+    .expanded .p6 { transform: translate(0, calc(var(--r))); }
+    .hexagon:hover { background: #926EA7; color: #FFF; }
+    .hexagon:hover i { color: #FFF; }
 
     /*Menu de usuario*/
     .user-menu-wrapper{
@@ -90,22 +92,21 @@
 
 </style>
 
-
 <nav>
     <div class="nav-contenedor"></div>
     <img src="img/IUJO.gif" height="50" style="filter:drop-shadow(0 0 5px var(--p))">
-    <button id="openUserBtn" style="display:none;" class="nav-btn user-btn" onclick="openUserMenu(1)"><i class="fa-solid fa-circle-user"></i></button>
-    <button id="openMenuBtn" style="display:none;" class="nav-btn" onclick="toggle(1)"><i class="fa-solid fa-atom"></i></button>
+    <button id="openUserBtn" class="nav-btn user-btn OnlyNoSecurityLevel SecurityHidden" onclick="openUserMenu(1)"><i class="fa-solid fa-circle-user"></i></button>
+    <button id="openMenuBtn" class="nav-btn SecurityLevel1 SecurityHidden" onclick="toggle(1)"><i class="fa-solid fa-atom"></i></button>
 </nav>
 
 <div id="hexOverlay" onclick="toggle(0)">
     <div class="menu-wrapper" id="mw" onclick="event.stopPropagation()">
-        <div class="hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
-        <div class="viewer admin hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
-        <div class="viewer hexagon p2"> <i class="fa-solid fa-address-card"></i> Reg </div>
-        <div class="viewer hexagon p3"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
-        <div class="viewer hexagon p4"> <i class="fa-solid fa-gear"></i> Ctrl </div>
-        <div class="viewer hexagon p5"> <i class="fa-solid fa-lock"></i> Ses </div>
+        <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
+        <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
+        <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-card"></i> Reg </div>
+        <div id="HorBtn" class="SecurityLevel2 hexagon p3"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
+        <div id="CtrlBtn" class="SecurityLevel5 hexagon p4"> <i class="fa-solid fa-gear"></i> Ctrl </div>
+        <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
     </div>
 </div>
 
@@ -120,7 +121,7 @@
                     <label for="passinput">Contraseña:</label>
                         <input type="password" id="passinput" name="passinput" require><br>
                     <div id="LoginDiv">
-                        <label for="keep-sesion">Mantener la sesion iniciada:</label><br>
+                        <label for="keep-sesion">Mantener la sesion iniciada:</label>
                         <div style="width:100%;display:flex;justify-content:start;">
                             <input type="checkbox" id="keep-sesion" name="keep-sesion" style="width: 3vh;height: 3vh;">
                         </div>
@@ -138,30 +139,7 @@
 
 <script src="js/loginfunctions.js" type="module"></script>
 
-<script type="module">
-    import { verificarSesion } from './js/loginfunctions.js';
-
-    const res = await verificarSesion();
-
-    if(!res.logged){
-    document.getElementById("openMenuBtn").style = "display:none";
-    document.getElementById("openUserBtn").style = "";
-    }else{
-    document.getElementById("openUserBtn").style = "display:none";  
-    document.getElementById("openMenuBtn").style = "";
-    }
-
-</script>
-
-
 <script>
-
-    document.getElementById("keep-sesion").addEventListener("click", (e) =>{
-
-    console.log(document.getElementById("keep-sesion").checked)
-
-    })
-
     Loginmode = 1;
 
     const o = document.getElementById('hexOverlay'), w = document.getElementById('mw');
@@ -176,6 +154,15 @@
         moveCamera("left");
         toggle(0);
         togglePanel();
+    }
+
+    function showSecciones(){
+        
+        toggle(0);
+        moveCamera("hide");
+        document.getElementById("seccion-wraper").classList.remove("hidden");
+        document.getElementById("seccion-toggle-panel").classList.remove("oculto");
+
     }
 
     /////esto es de secciones y usuarios 
@@ -202,58 +189,95 @@
     const username = document.getElementById("userinput").value;
     const password = document.getElementById("passinput").value;
     
-
         if(Loginmode){
         const checkKeep = document.getElementById("keep-sesion").checked ? 1 : 0;
-        const sessionID = Math.random().toString(36).substring(2) + Date.now();
+        
+        const res = await login(username,password,checkKeep);
 
-        const respuesta = await fetch('php/usuarios/login-user.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                usuario: username,
-                password: password,
-                token_sesion: sessionID,
-                keep_sesion: checkKeep // true o false del checkbox
-            })
-        });
+        if(res.success){openUserMenu(0);}
 
-        const res = await respuesta.json();
-    
-            if (res.success) {
-            localStorage.setItem('user_rol', res.user.rol);
-            localStorage.setItem('mytoken', sessionID);
-            openUserMenu(0);
-            } else {
-            alert(res.error);
-            }
         }else{
 
         const passwordverify = document.getElementById("passverifyinput").value;
 
         if(password != passwordverify){
-            alert("las contraseñas no coinciden")
+            alert("las contraseñas no coinciden");
             return;
             }
 
-            const respuesta = await fetch('php/usuarios/create-user.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    usuario: username,
-                    password: password
-                })
-            });
-    
-            const resultado = await respuesta.json();
-            if(resultado.success) {
-                alert("¡Listo! Usuario creado.");
+        const res = await register(username,password);
+
+        if(res.success) {
                 openUserMenu(0);
                 Loginmode = 1;
-            } else {
-                alert("Error: " + resultado.error);
-            }
-
+            } 
         }
     })
+
+    window.addEventListener('load', () => {
+        if (typeof addUpdateLevelEventListener === 'function') {
+            addUpdateLevelEventListener((e) => {
+
+            const ProfBtn = document.getElementById("ProfBtn");
+            const RegBtn = document.getElementById("RegBtn");
+            const HorBtn = document.getElementById("HorBtn");
+            const CtrlBtn = document.getElementById("CtrlBtn");
+            const LogOutBtn = document.getElementById("LogOutBtn");
+
+            const MyArray = [ProfBtn, RegBtn, HorBtn, CtrlBtn, LogOutBtn];
+
+                for (let i = 1; i <= 6; i++) {
+
+                    MyArray.forEach(element => {
+                    element.classList.remove(`p${i}`);
+                        });
+                    }
+
+            console.log(e);
+
+            switch (e.level) {
+                case 0:
+                LogOutBtn.classList.add("p6");
+                    break;
+
+                case 1:
+                LogOutBtn.classList.add("p6");
+                    break;
+    
+                case 2:
+                HorBtn.classList.add("p1");
+                LogOutBtn.classList.add("p6");
+                    break;
+
+                case 3:
+                RegBtn.classList.add("p2");
+                HorBtn.classList.add("p3");
+                LogOutBtn.classList.add("p6");
+                    break;
+
+                case 4:
+                RegBtn.classList.add("p2");
+                HorBtn.classList.add("p3");
+                LogOutBtn.classList.add("p6");
+                    break;
+
+                case 5:
+                ProfBtn.classList.add("p1");
+                RegBtn.classList.add("p2");
+                HorBtn.classList.add("p3");
+                CtrlBtn.classList.add("p4");
+                LogOutBtn.classList.add("p5");
+                    break;
+
+                default:
+                ProfBtn.classList.add("p1");
+                RegBtn.classList.add("p2");
+                HorBtn.classList.add("p3");
+                CtrlBtn.classList.add("p4");
+                LogOutBtn.classList.add("p5");
+                    break;
+                }
+            });
+        }
+    });
 </script>

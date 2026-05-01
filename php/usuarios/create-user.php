@@ -17,7 +17,7 @@ try {
 
     $user = trim($data['usuario']);
     $pass = $data['password'];
-    // Si no mandas rol, por defecto será 'viewer'
+    // Si no mandas nivel, por defecto será 1
     
     // 1. Encriptamos la contraseña (¡NUNCA guardes texto plano!)
     $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
@@ -33,10 +33,10 @@ try {
 
     // 3. Insertamos en la base de datos
     // Nota: 'actual_sesion' y 'time-up' pueden ser NULL según tu captura
-    $stmt = $pdo->prepare("INSERT INTO usuarios (usuario, password, rol, keep_sesion) VALUES (?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO usuarios (usuario, password, level, keep_sesion) VALUES (?, ?, ?, ?)");
     
     // keep_sesion por defecto en 0 (false)
-    if ($stmt->execute([$user, $passwordHash, "viewer", 0])) {
+    if ($stmt->execute([$user, $passwordHash, 1, 0])) {
         echo json_encode([
             "success" => true, 
             "message" => "Usuario registrado exitosamente"

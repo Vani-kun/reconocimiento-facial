@@ -1,6 +1,7 @@
 <?php
 // login_user.php
 header('Content-Type: application/json');
+date_default_timezone_set('America/Caracas');
 session_start();
 
 require "../conexion.php";
@@ -17,10 +18,11 @@ try {
     $user = trim($data['usuario']);
     $pass = $data['password'];
     $tokenSesion = $data['token_sesion']; // El ID de sesión que viene del JS
+    $tokenHash = password_hash($data['token_sesion'], PASSWORD_BCRYPT);
     $mantenerSesion = $data['keep_sesion'] ? 1 : 0; // Booleano: 1 o 0
 
     // 1. Buscamos al usuario por su nombre
-    $stmt = $pdo->prepare("SELECT id, usuario, password, rol FROM usuarios WHERE usuario = ?");
+    $stmt = $pdo->prepare("SELECT id, usuario, password, level FROM usuarios WHERE usuario = ?");
     $stmt->execute([$user]);
     $usuarioDB = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -32,21 +34,23 @@ try {
         $update = $pdo->prepare("UPDATE usuarios SET 
             actual_sesion = ?, 
             keep_sesion = ?, 
-            `time-up` = NOW() 
+            `time-up` = NOW()
             WHERE id = ?");
         
         $update->execute([$tokenSesion, $mantenerSesion, $usuarioDB['id']]);
 
         // Guardamos datos básicos en la sesión de PHP por seguridad
         $_SESSION['user_id'] = $usuarioDB['id'];
-        $_SESSION['rol'] = $usuarioDB['rol'];
+        $_SESSION['level'] = $usuarioDB['level'];
 
         echo json_encode([
             "success" => true,
             "message" => "Acceso concedido",
+            "token" => $tokenHash,
             "user" => [
                 "nombre" => $usuarioDB['usuario'],
-                "rol" => $usuarioDB['rol']
+                "id" => $usuarioDB['id'],
+                "level" => $usuarioDB['level']
             ]
         ]);
     } else {
