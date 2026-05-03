@@ -10,14 +10,12 @@ try {
     if (isset($data['id']) && isset($data['activo'])) {
         $id = $data['id'];
         $activo = $data['activo'];
-        $tags = isset($data['tag']) ? json_encode($data['tag']) : json_encode([]);
 
-        // CORRECCIÓN: Se añadió la coma entre activo y tags
-        $sql = "UPDATE caras SET activo = ?, tags = ? WHERE id = ?";
+        $sql = "UPDATE caras SET activo = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$activo, $tags, $id]);
+        $stmt->execute([$activo, $id]);
 
-        echo json_encode(["success" => true, "message" => "Actualizado con éxito"]);
+        echo json_encode(["success" => true, "message" => "Activado/Desactivado con éxito"]);
     } else {
         echo json_encode(["success" => false, "error" => "Datos incompletos"]);
     }

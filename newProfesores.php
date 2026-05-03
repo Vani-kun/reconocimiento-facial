@@ -1,12 +1,3 @@
-<?php
-    include "php/conexion.php";
-
-    // 1. Consultamos todos los registros
-    $sql = "SELECT id, descriptores, nombre, activo, tags FROM caras ORDER BY activo DESC, nombre ASC";
-    $stmt = $pdo->query($sql);
-    $profesores = $stmt->fetchAll();
-?>
-
     <style>
         :root {
             --accent-blue: #00f2ff;
@@ -232,7 +223,7 @@
                 </div>
             </div>
 
-            <button class="btn-agregar" onclick="togglexPanel()">+ REGISTRAR</button>
+            <button class="btn-agregar" onclick="togglexPanel(0,0)">+ REGISTRAR</button>
         </div>
     </div>
 
@@ -240,6 +231,8 @@
 
         // Funcionalidad para traer profesores
         datosProfesores=[];<?php //echo json_encode($profesores); ?>;
+        editar=0;
+        ideditar=0;
         window.onload = () => {cargarProfesores(); };
         async function cargarProfesores() {
             const response = await fetch('php/profesores/leer_profesores.php');
@@ -248,6 +241,7 @@
         }
         function listarProfesores(){
             // 1. Validar que la variable sea un array y no esté vacía
+            document.getElementById("listado").innerHTML="";
             if (!Array.isArray(datosProfesores) || datosProfesores.length === 0) {
                 console.warn("La lista de profesores está vacía o no se ha cargado aún.");
                 return; 
@@ -301,19 +295,27 @@
             const btnEdit = document.createElement('button');
             btnEdit.classList.add('btn-action', 'btn-edit');
             btnEdit.textContent = '✎';
-            btnEdit.onclick = () => console.log("Editar:", id);
+            btnEdit.addEventListener('click', async () => { console.log("Editar: ", id);togglexPanel(1,id)});
             profActions.appendChild(btnEdit);
             // Botón Desactivar (Off)
             const btnOff = document.createElement('button');
             btnOff.classList.add('btn-action', 'btn-off');
             btnOff.textContent = (activo == 1) ? '⭘' : '⬤';
-            btnOff.onclick = () => console.log("Toggle Estado:", id);
+    
+            if (activo == 1){console.log("Desactivar id:", id);
+                btnOff.addEventListener('click', async () => {  
+                if(!confirm("Seguro que quieres Desactivar a "+nombre)){return;}
+                await activarProfesor(id,0);});
+            }else{ console.log("activar id:", id);
+                btnOff.addEventListener('click', async () => {  
+                await activarProfesor(id,1);});
+            }
+
             profActions.appendChild(btnOff);
             // Botón Eliminar
             const btnDel = document.createElement('button');
             btnDel.classList.add('btn-action', 'btn-del');
             btnDel.textContent = '✕';
-            btnDel.onclick = () => console.log("Eliminar:", id);
             profActions.appendChild(btnDel);
 
             // Inserción al DOM
@@ -325,54 +327,65 @@
 
 
             ////funcionalidad de botones
-            btnDel.addEventListener('click', async () => {  
+            btnDel.addEventListener('click', async () => {console.log("Eliminar id:", id);  
                 if(!confirm("Seguro que quieres eliminar a "+nombre)){return;}
                 if(prompt(`Para eliminar a ${nombre}, escribe: ELIMINAR`) != "ELIMINAR"){return;}
                 await BorrarProfesor(id);
             });
         }
 
-        async function BorrarProfesor(_ID){
-            try {
-                const respuesta = await fetch('php/profesores/eliminar_profesor.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                        },
-                    body: JSON.stringify({id:_ID})
-                    });
-                const resultado = await respuesta.json(); 
-                if (resultado.success) {
-                        console.log(resultado.message);
-                        alert("respuesta: "+ resultado.message); 
-                        document.getElementById("listado").innerHTML = "";  
-                        // 1. Buscamos el índice (posición) del profesor en el array
-                        const indice = datosProfesores.findIndex(p => p.id == _ID);
-                       ///muy bien ya esta optima borrar ahora agrgar 
-                        // 2. Si lo encuentra (el índice no es -1), lo borra
-                        if (indice !== -1) {
-                            datosProfesores.splice(indice, 1); // (posición, cuántos elementos borrar)
-                        }  
-                        listarProfesores();
-                    } else {
-                    alert("respuesta: " + resultado.error);
-                    }
-            } catch (error) {
-                console.error("Error al enviar: ", error);
+    async function BorrarProfesor(_ID){
+        try {
+            const respuesta = await fetch('php/profesores/eliminar_profesor.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify({id:_ID})
+                });
+            const resultado = await respuesta.json(); 
+            if (resultado.success) {
+                    console.log(resultado.message);
+                    alert("respuesta: "+ resultado.message); 
+                    document.getElementById("listado").innerHTML = "";  
+                    // 1. Buscamos el índice (posición) del profesor en el array
+                    const indice = datosProfesores.findIndex(p => p.id == _ID);
+                    ///muy bien ya esta optima borrar ahora agrgar 
+                    // 2. Si lo encuentra (el índice no es -1), lo borra
+                    if (indice !== -1) {
+                        datosProfesores.splice(indice, 1); // (posición, cuántos elementos borrar)
+                    }  
+                    cargarProfesores();
+                } else {
+                alert("respuesta: " + resultado.error);
                 }
-        }
-
-    
-  async function guardarProfesor(_nombre,_tag,_listaCaras){
+        } catch (error) {
+            console.error("Error al enviar: ", error);
+            }
+    }
+    async function guardarProfesor(_nombre,_tag,_listaCaras,edi){
         //alert("datos validos")
         if(_listaCaras.length == 0){alert("Guarda al menos un rostro");return;}
 
-        let _Page = 'php/profesores/guardar_profesor.php';
+        let _Page ='';
+         let datosEnvio='';
+
+        if (edi==1) { _Page ='php/profesores/editar_profesor.php';
         let datosEnvio = {
                 nombre:_nombre, 
                 tags: _tag,
                 descriptor: JSON.stringify(_listaCaras)
                 };
+        }else
+        if (edi==0) { _Page ='php/profesores/guardar_profesor.php';
+            let datosEnvio = {
+                    id:ideditar,
+                    nombre:_nombre, 
+                    tags: _tag,
+                    descriptor: JSON.stringify(_listaCaras)
+                    };
+        }
+
 
         try {
             const respuesta = await fetch(_Page, {
@@ -383,6 +396,7 @@
             const resultado = await respuesta.json(); 
             if (resultado.success) {
                 console.log(datosEnvio);
+                 cargarProfesores();
                 alert("respuesta: "+ resultado.message);
             } else {
                 alert("respuesta: " + resultado.error);
@@ -390,7 +404,28 @@
         } catch (error) {
             console.error("Error al enviar: ", error);
         }
-    }      
+    }   
+    async function activarProfesor(id, estado) {
+        //estado 0 desactivalo //1 activalo
+        try {
+            const respuesta = await fetch('php/profesores/activar_profesor.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: id,
+                    activo: estado,
+                    tag: ""
+                }),
+            })
+            const resultado = await respuesta.json(); 
+            if (resultado.success) {
+                console.log("Servidor respondió:",resultado.message)
+                cargarProfesores();
+            } else {
+                console.log("respuesta: " + resultado.error);
+            }
+        } catch (error) {console.error("Error al Activar/desactivar", error);}
+    }
     </script>
 
 <?php include 'newAgregaEdita.php'; ?>
