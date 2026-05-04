@@ -9,7 +9,6 @@
 
 
         body {
-            background-color: var(--bg-dark);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white;
             overflow: hidden;
@@ -41,7 +40,7 @@
             margin: 0;padding: 0;box-sizing: border-box;user-select: none; 
             width: 450px;
             height: 100%;
-            background: linear-gradient(180deg, #d1eaec 0%, #7c898a 100%);
+            background: var(--newpoligono);
             border-left: 1px solid rgba(0, 242, 255, 0.1);
             padding: 25px;
             display: flex;

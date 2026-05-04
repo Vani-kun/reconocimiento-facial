@@ -24,7 +24,7 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: linear-gradient(135deg, #ffffff 0%, #1a252f 100%);
+    background: var(--newpoligono);
     /* 5 puntos definen las 3 puntas: Esquina Sup, Punta Central, Esquina Inf */
     clip-path: polygon(0% 0%, 25% 0%, 45% 50%, 25% 100%, 0% 100%);
     z-index: 1;

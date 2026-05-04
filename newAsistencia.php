@@ -67,7 +67,7 @@ position: fixed;
         }
 </style>
 <!-- Botón para controlar el panel -->
-<button id="btnTogglee" class="btn-primary">Ver Profesor</button>
+<button id="btnTogglee" class="btn-primary" style="display:none;">Ver Profesor</button>
 
 <!-- Contenedor de información -->
 <div id="profesorrPanel" class="profe-info hidden">
@@ -119,6 +119,40 @@ position: fixed;
         }
         
     }
+
+async function asistencia(id,nombre) {
+    try {
+        const res = await fetch('asistencia.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pid: id, nombre: nombre })
+        });
+        const resultado = await res.json();
+
+        if (resultado.success) {
+            document.getElementById("entrada").textContent=" "+resultado.entro;
+            document.getElementById("salida").textContent=" "+resultado.salio;
+            document.getElementById("estado").textContent=" "+resultado.tipo;
+
+            console.log("Sistema:", resultado.msg);
+            //alert(resultado.msg);
+        }else{console.log("Sistema:", resultado.error);}
+        
+   } catch (e) {
+        //console.error("Error en asistencia:", e);
+   } 
+}
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////esto esta sin uso pero lo deje por temas de los horarios en las asisteancvias
 
 
     /*
@@ -234,28 +268,5 @@ async function intentarAsistencia(Profesor){
 } catch (error) {//Si hay mas errores
     console.error("Error detallado:", error);
 }
-}
-
-async function asistencia(id,nombre) {
-    try {
-        const res = await fetch('asistencia.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pid: id, nombre: nombre })
-        });
-        const resultado = await res.json();
-
-        if (resultado.success) {
-            document.getElementById("entrada").textContent=" "+resultado.entro;
-            document.getElementById("salida").textContent=" "+resultado.salio;
-            document.getElementById("estado").textContent=" "+resultado.tipo;
-
-            console.log("Sistema:", resultado.msg);
-            //alert(resultado.msg);
-        }else{console.log("Sistema:", resultado.error);}
-        
-   } catch (e) {
-        //console.error("Error en asistencia:", e);
-   } 
 }
 </script>

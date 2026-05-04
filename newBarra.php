@@ -1,14 +1,13 @@
 <style>
-        :root { --p: #00d4ff; --bg: #0a0f14; --h: 120px; --r: 160px; }
+    :root { --p: #00d4ff; --bg: #0a0f14; --h: 120px; --r: 160px; }
 
-        
-            /* NAV */
     /* NAV ACTUALIZADO: Blanco a Gris con Sombra */
     nav { 
         height: 70px; 
         padding: 0 40px; 
         /* Degradado de blanco puro a un gris suave hacia abajo */
-        background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%); 
+        background: var(--newbarra); 
+        color:var(--newletras);/* Color oscuro para contraste */
         display: flex; 
         justify-content: space-between; 
         align-items: center; 
@@ -21,6 +20,7 @@
         left: 0;         
         width: 100%;     
         z-index: 100;   /* Lo coloca "al frente" de los demás elementos */
+
     }
 
     .nav-contenedor { 
@@ -34,7 +34,7 @@
 
     /* Ajuste del botón para que resalte sobre el fondo claro */
     .nav-btn { 
-        color: #333; /* Color oscuro para contraste */
+        
         font-size: 1.8rem; 
         background: none; 
         border: none; 
@@ -89,12 +89,14 @@
         color:#211E42;
         }
 
-
+.sombralogo{
+    filter:drop-shadow(0 0 5px var(--newprima))
+}
 </style>
 
 <nav>
     <div class="nav-contenedor"></div>
-    <img src="img/IUJO.gif" height="50" style="filter:drop-shadow(0 0 5px var(--p))">
+    <img src="img/IUJO.gif" height="50" class="sombralogo">
     <button id="openUserBtn" class="nav-btn user-btn OnlyNoSecurityLevel SecurityHidden" onclick="openUserMenu(1)"><i class="fa-solid fa-circle-user"></i></button>
     <button id="openMenuBtn" class="nav-btn SecurityLevel1 SecurityHidden" onclick="toggle(1)"><i class="fa-solid fa-atom"></i></button>
 </nav>
@@ -105,7 +107,7 @@
         <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
         <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-card"></i> Reg </div>
         <div id="HorBtn" class="SecurityLevel2 hexagon p3"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
-        <div id="CtrlBtn" class="SecurityLevel5 hexagon p4"> <i class="fa-solid fa-gear"></i> Ctrl </div>
+        <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
         <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
     </div>
 </div>
@@ -148,7 +150,7 @@
         if(s) { o.style.display = 'flex'; setTimeout(() => w.classList.add('expanded'), 10); }
         else { w.classList.remove('expanded'); setTimeout(() => o.style.display = 'none', 400); }
     }
-    ////esto es para mostrar profesores
+
     function sowProfesores(){
         enpanelprofesor=true;
         showAsistencia(0);
@@ -156,7 +158,12 @@
         toggle(0);
         togglePanel();
     }
-
+    function showControl(){
+        enpanelprofesor=true;showAsistencia(0);
+        moveCamera("hide");
+        toggle(0);
+        togglexxPanel();
+    }
     function showSecciones(){
         
         toggle(0);

@@ -1,6 +1,5 @@
 <style>
     :root {
-        --color-neon: #00f2ff; /* Cyan tecnológico */
         --bg-hex: rgba(26, 32, 44, 0.9);
     }
 
@@ -8,7 +7,7 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.3));
+        filter: drop-shadow(0 0 10px var(--newprima));
         z-index: 99;
         user-select: none;          
         cursor: default;
@@ -16,7 +15,7 @@
 
     #reloj {
         background: var(--bg-hex);
-        color: var(--color-neon);
+        color: var(--newprima);
         font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         font-size: 16px;
         font-weight: 300;
@@ -27,7 +26,7 @@
         justify-content: center;
         /* Forma de Hexágono */
         clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-        border-left: 2px solid var(--color-neon);
+        border-left: 2px solid var(--newprima);
         min-width: 64px;
         backdrop-filter: blur(5px);
     }

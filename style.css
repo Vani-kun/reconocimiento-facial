@@ -15,14 +15,21 @@
     --text-dim: #7a8bbf;
     --red: #601ae2;
     --text: #2c3e6b;
-    }
+
+    /*estas son las verdaderas variabkles de estilo unificadas orientadas al colsors*/
+    --newfondo:#0f495e;
+    --newbarra:linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+    --newletras: #333;
+    --newpoligono: linear-gradient(135deg, #ffffff 0%, #1a252f 100%);
+    --newprima:#00f3ff;
+}
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', system-ui, Tahoma,sans-serif;
-    background: #0F495E;
-    color: var(--text);
+    background:var(--newfondo);
+    color: var(--newletras);
     line-height: 1.6;
     text-align: center;
     min-height: 100vh;
