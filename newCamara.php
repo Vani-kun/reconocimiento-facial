@@ -127,11 +127,28 @@
 
 
 <script>
-    function detecta(s){
+    async function detecta(s){
         dt=document.getElementById("deteccion");
-        if(s=="si"){dt.classList.add("si");dt.textContent="● DETECTADO";}
-        else
-        if(s=="no"){dt.classList.remove("si");dt.textContent="● NO DETECTADO";}
+        if(s=="si"){
+            if (Detex!=="detectado") {
+            Detex="detectado";
+            if(!enpanelprofesor){
+            //intentarAsistencia(profesorGlobal);
+            await asistencia(profesorGlobal.id,profesorGlobal.nombre);
+            showAsistencia(1);}else{showAsistencia(0);}
+            moveCamera("left");
+            sonido(1);
+            dt.classList.add("si");dt.textContent="● DETECTADO";
+            }
+        }else
+        if(s=="no"){
+             if (Detex!=="nodetectado" && ttt<=0) {
+                Detex="nodetectado";
+                showAsistencia(0); if(!enpanelprofesor){moveCamera("center")}
+                sonido(0);ttt=100;
+                dt.classList.remove("si");dt.textContent="● NO DETECTADO";
+            }
+        }
     }
 function toggleFullScreenPanel() {
     const panel = document.getElementById('full-screen-panel');

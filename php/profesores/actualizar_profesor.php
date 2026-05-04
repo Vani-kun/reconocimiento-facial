@@ -11,9 +11,8 @@ try {
         $id = $data['id'];
         $nombre = $data['nombre'];
         $descriptor = $data['descriptor'];
-        $tags = isset($data['tags']) ? json_encode($data['tags']) : json_encode([]);
+        $tags =json_encode($data['tags']);
 
-        // CORRECCIÓN: Se añadió la coma entre activo y tags
         $sql = "UPDATE caras SET nombre = ?, descriptores = ?, tags = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$nombre, $descriptor, $tags, $id]);

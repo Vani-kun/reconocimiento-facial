@@ -150,7 +150,8 @@
     }
     ////esto es para mostrar profesores
     function sowProfesores(){
-        
+        enpanelprofesor=true;
+        showAsistencia(0);
         moveCamera("left");
         toggle(0);
         togglePanel();

@@ -9,7 +9,7 @@
         bottom: 20px;
         right: 20px;
         filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.3));
-        z-index: 9999;
+        z-index: 99;
         user-select: none;          
         cursor: default;
     }

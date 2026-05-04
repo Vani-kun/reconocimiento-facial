@@ -261,6 +261,7 @@
                 boton.innerHTML = '☰';
                 document.getElementById('toggle-panel').classList.add('ocultoboton');
                 moveCamera("center");
+                enpanelprofesor=false;
                 
             } else {
                 boton.innerHTML = '✕';
@@ -295,7 +296,10 @@
             const btnEdit = document.createElement('button');
             btnEdit.classList.add('btn-action', 'btn-edit');
             btnEdit.textContent = '✎';
-            btnEdit.addEventListener('click', async () => { console.log("Editar: ", id);togglexPanel(1,id)});
+            btnEdit.addEventListener('click', async () => { 
+            ideditar=id;
+            console.log("Editar: ", id);togglexPanel(1,id)
+            });
             profActions.appendChild(btnEdit);
             // Botón Desactivar (Off)
             const btnOff = document.createElement('button');
@@ -370,16 +374,17 @@
         let _Page ='';
          let datosEnvio='';
 
-        if (edi==1) { _Page ='php/profesores/editar_profesor.php';
-        let datosEnvio = {
+        if (edi==1) { _Page ='php/profesores/actualizar_profesor.php';
+        datosEnvio = {
+                id:ideditar,
                 nombre:_nombre, 
                 tags: _tag,
                 descriptor: JSON.stringify(_listaCaras)
                 };
         }else
         if (edi==0) { _Page ='php/profesores/guardar_profesor.php';
-            let datosEnvio = {
-                    id:ideditar,
+            datosEnvio = {
+                   
                     nombre:_nombre, 
                     tags: _tag,
                     descriptor: JSON.stringify(_listaCaras)

@@ -184,7 +184,7 @@
                 </div>
                 <div class="grid-form" style="grid-template-columns: repeat(3, minmax(0, 1fr)) !important;">
                     <div class="input-group">
-                        <label for="dia">Dia:</label>
+                        <label for="dia-input">Dia:</label>
                         <input id="dia-input" type="text" name="dia" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">

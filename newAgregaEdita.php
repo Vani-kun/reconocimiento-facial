@@ -224,6 +224,14 @@
     nombreimagenprofesor="yovani";
     const subpanel = document.getElementById('sidePanel');
     
+            for(let i=1;i<=3;i++){
+                const slotElement = document.getElementById('scan'+i);
+                slotElement.addEventListener("click",()=>{
+                    //alert('scan'+i);
+                    removeScan(i)
+                });
+            }
+
     function togglexPanel(edi,id) {editar=edi;
         if (edi==1){
             ///traer los datos del ´profesor para ediotarlos
@@ -246,6 +254,10 @@
             document.getElementById('pro_nombre').value="";
             document.getElementById('pro_tag').value="";
             FacesList =[];
+            for(i=1;i<=3;i++){
+                const slotElement = document.getElementById('scan'+i);
+                slotElement.innerHTML="SCAN";
+            }
             document.getElementById("ttl-subpanel").textContent="Nuevo";
         }
         subpanel.classList.toggle('active');
@@ -274,6 +286,13 @@
         } else {
             alert("No se detectó ningún rostro. Intenta ajustar la iluminación.");
         }   
+    }
+    function removeScan(ii) {
+        moveCamera("left")
+            const slotElement = document.getElementById('scan'+ii);
+            FacesList[ii-1]=undefined;
+            //FacesList.splice(ii-1, 1);
+            slotElement.innerHTML="SCAN";
     }
     async function capturarImagenDeVideo(videoElement, targetContainer) {
         // 1. Crear un canvas invisible
