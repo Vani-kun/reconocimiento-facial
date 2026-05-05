@@ -17,17 +17,18 @@
     $stmt = $pdo->query($sql);
     $secciones = $stmt->fetchAll();
 
-    $sql = "SELECT id, asignatura, seccion, aula, dias FROM horario";
+    $sql = "SELECT id, asignatura, seccion, profesor, aula, dias FROM horario";
     $stmt = $pdo->query($sql);
     $AllSeccions = $stmt->fetchAll();
 ?>
 
-<link rel="stylesheet" href="css/asignar-style.css">
-
 <div id="seccion-wraper" class="main-wrapper hidden secciones">
 
+<!-- Boton para cerrar -->
 <button id="seccion-toggle-panel" class="btn-toggle-panel oculto">✕</button>
 
+
+<!-- Panel de la derecha (el que se encarga de los moldes para crear secciones) -->
 <div style="position:absolute; left:-1vw; margin-top:12vh; width:45%; height:100%">
     <div class="itemsbcm divsection-master" style="margin-left:0.8vw">
         <div class="divsection itemsbc divsection-selected" id="msectionbutton">
@@ -65,7 +66,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-materia" class="btn" style="bottom:0;">Agregar Materia</button>
+                    <button id="open-menu-materia" class="btn btn-cancel" style="bottom:0;">Agregar Materia</button>
                 </div>
             </div>
 
@@ -79,7 +80,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-aula" class="btn" style="bottom:0;">Agregar Aula</button>
+                    <button id="open-menu-aula" class="btn btn-cancel" style="bottom:0;">Agregar Aula</button>
                 </div>
             </div>
 
@@ -93,7 +94,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-horario" class="btn" style="bottom:0;">Agregar Horario</button>
+                    <button id="open-menu-horario" class="btn btn-cancel" style="bottom:0;">Agregar Horario</button>
                 </div>
             </div>
 
@@ -107,7 +108,7 @@
                 </div>
 
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="open-menu-seccion" class="btn" style="bottom:0;">Agregar Sección</button>
+                    <button id="open-menu-seccion" class="btn btn-cancel" style="bottom:0;">Agregar Sección</button>
                 </div>
             </div>
             <div id="DiaSection" style="display:none;">
@@ -141,6 +142,7 @@
     </section>
 </div>
 
+<!-- Panel de la izquierda (El que tiene la información de las secciones ya creadas) -->
 <div style="position:absolute; left:55%; margin-top:12vh; width:45%; height:100%">
     <div class="divsection-master">
         <div id="EditSectionBtn" class="divsection divsection-selected">
@@ -160,20 +162,20 @@
                 <div class="grid-form">
                     <div class="input-group">
                         <label>Materia Seleccionada:</label>
-                        <input type="text" id="materia-input" name="materia" readonly placeholder="Arrastra aquí...">
+                        <input class="inputt" type="text" id="materia-input" name="materia" readonly placeholder="Arrastra aquí...">
                     </div>
                     <div class="input-group">
                         <label>Sección:</label>
-                        <input id="seccion-input" type="text" name="seccion" readonly placeholder="Arrastra aquí..." required>
+                        <input class="inputt" id="seccion-input" type="text" name="seccion" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
                         <label>Aula:</label>
-                        <input id="aula-input" type="text" name="aula" readonly placeholder="Arrastra aquí..." required>
+                        <input class="inputt" id="aula-input" type="text" name="aula" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
                         <label>Selector de dias:</label>
                         <div style="display:flex">
-                            <select id="diaselect-input" style="width:100%;">
+                            <select class="inputt"  id="diaselect-input" style="width:100%;">
                                 <option value="0" selected>Dia 1</option>
                             </select>
                             <div class="oculto" id="dayerasediv" style="display:flex;justify-content:center;align-items:center;width:15%;">
@@ -185,20 +187,20 @@
                 <div class="grid-form" style="grid-template-columns: repeat(3, minmax(0, 1fr)) !important;">
                     <div class="input-group">
                         <label for="dia-input">Dia:</label>
-                        <input id="dia-input" type="text" name="dia" readonly placeholder="Arrastra aquí..." required>
+                        <input class="inputt" id="dia-input" type="text" name="dia" readonly placeholder="Arrastra aquí..." required>
                     </div>
                     <div class="input-group">
                         <label>Hora Entrada:</label>
-                        <input id="hora-entrada" type="time" name="h_entrada" readonly required>
+                        <input class="inputt" id="hora-entrada" type="time" name="h_entrada" readonly required>
                     </div>
                     <div class="input-group">
                         <label>Hora Salida:</label>
-                        <input id="hora-salida" type="time" name="h_salida" readonly required>
+                        <input class="inputt" id="hora-salida" type="time" name="h_salida" readonly required>
                     </div>
                 </div>   
                 </div>        
                 <div class="actions-bar">
-                    <button type="submit" id="btn-save" class="btn btn-success">Guardar</button>
+                    <button type="submit" id="btn-save" class="btn btn-save">Guardar</button>
                     <button type="button" id="btn-clean" class="btn btn-cancel">Vaciar</button>
                 </div>
                 
@@ -207,13 +209,13 @@
             <div id="SectionBank" style="display:none">
                 <div id="mold-items-bank" class="scroll-area">
                     <?php foreach ($AllSeccions as $mySec): ?>
-                        <div class="draggable-item previtem" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dias="<?= htmlspecialchars($mySec['dias']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>">
-
+                        <div class="draggable-item previtem schedule-option" materia="<?= htmlspecialchars($mySec['asignatura']) ?>" aula="<?= htmlspecialchars($mySec['aula']) ?>" seccion="<?= htmlspecialchars($mySec['seccion']) ?>" dias="<?= htmlspecialchars($mySec['dias']) ?>" myid="<?= htmlspecialchars($mySec['id']) ?>" profesor="<?= htmlspecialchars($mySec['profesor']) ?>">
+                        
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <div style="height: 10%; display: flex; align-items: center; justify-content: center;">
-                    <button id="editmbtn" class="btn btn-success" style="bottom:0;width:50%">Editar</button>
+                    <button id="editmbtn" class="btn btn-save" style="bottom:0;width:50%">Editar</button>
                     <button id="erasembtn" class="btn btn-cancel" style="bottom:0;width:50%">Eliminar</button>
                 </div>
             </div>
@@ -221,9 +223,10 @@
     </section>
 </div>
 
+<!-- Papelera para borrar los moldes -->
+<div id="recicle-bin" ><i class="fa-solid fa-trash"></i><!--🗑--></div>
 
-<div id="recicle-bin" style="font-size:4vw;">🗑</div>
-
+<!-- Menu para crear moldes de materias -->
 <div id="MateriaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
     <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
         <form id="materiaform" style="justify-content: center;display: grid;">
@@ -237,6 +240,7 @@
     </section>
 </div>
 
+<!-- Menu para crear moldes de horarios -->
 <div id="HorarioMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
     <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
         <form id="horarioform" style="justify-content: center;display: grid;">
@@ -254,6 +258,7 @@
     </section>
 </div>
 
+<!-- Menu para crear moldes de aulas -->
 <div id="AulaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
     <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
         <form id="aulaform" style="justify-content: center;display: grid;">
@@ -268,6 +273,7 @@
     </section>
 </div>
 
+<!-- Menu para crear moldes de secciones -->
 <div id="SeccionMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
     <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
         <form id="seccionform" style="justify-content: center;display: grid;">
@@ -284,9 +290,9 @@
 
 
 </div>
-
     <script>
 
+        /*Cerrar el panel de las secciones*/
         document.getElementById('seccion-toggle-panel').addEventListener("click", ()=>{
 
             if(!document.getElementById("seccion-wraper").classList.contains("hidden")){
@@ -300,9 +306,9 @@
         moveCamera("center");
         });
 
+        //#region Logica para configurar varios dias                
         const DayListElement = document.getElementById('diaselect-input');
         let DayList = [];
-
         DayListElement.addEventListener("change", () => {
             
             horarioEInput.value = DayList[DayListElement.value].HoraE;
@@ -319,8 +325,6 @@
                 DayListElement.style = "width:100%;"
                 }
             })
-
-
 
         function CleanDayList(){
 
@@ -384,8 +388,9 @@
                 IncreaseDayList();        
                 }
             }
-
+        //#endregion
         
+        //#region Funcion para cambiar la hora de 24 horas a un formato de 12 horas
         function arreglarhora(hora){
 
             let hora24 = hora;
@@ -401,6 +406,7 @@
             hour12: true 
             });
         }
+        //#endregion                
 
         const mutear = document.getElementById("mutear");                
         const draggables = document.querySelectorAll('.draggable-item');
@@ -418,28 +424,6 @@
         CleanDayList();
 
         ItemSelected = -1;                
-
-        console.log(prevItems);
-
-        prevItems.forEach(element => {
-           
-            element.addEventListener("click", () => {
-            
-            const prevItems2 = document.querySelectorAll(".previtem");
-
-                prevItems2.forEach(element => {
-                element.classList.remove("previtemselected");
-                });     
-                if(!element.classList.contains("previtemselected")){
-                    ItemSelected = element;
-                    element.classList.add("previtemselected");   
-                    }else{
-                    ItemSelected = -1; 
-                    element.classList.remove("previtemselected");    
-                    }
-                });           
-
-            });                
 
         draggables.forEach(item => {
             item.addEventListener('dragstart', () => {
@@ -633,6 +617,8 @@
 
                         element.textContent = "";
 
+                        const div = document.createElement("div");
+                        div.classList.add("schedule-option-pname");
                         const add1 = document.createElement("div");
                         add1.style = "display:flex";
                         const add2 = document.createElement("strong"); 
@@ -640,6 +626,7 @@
                         const add3 = document.createElement("p"); 
                         add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
 
+                        element.appendChild(div);
                         add1.appendChild(add2); 
                         add1.appendChild(add3); 
                         element.appendChild(add1);     
@@ -714,6 +701,8 @@
 
                         element.textContent = "";
 
+                        const div = document.createElement("div");
+                        div.classList.add("schedule-option-pname");
                         const add1 = document.createElement("div");
                         add1.style = "display:flex";
                         const add2 = document.createElement("strong"); 
@@ -721,6 +710,7 @@
                         const add3 = document.createElement("p"); 
                         add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
 
+                        element.appendChild(div);
                         add1.appendChild(add2); 
                         add1.appendChild(add3); 
                         element.appendChild(add1);     
@@ -1174,6 +1164,8 @@
         const se = element.getAttribute('seccion');
         const di = JSON.parse(element.getAttribute('dias'));
 
+        const div = document.createElement("div");
+        div.classList.add("schedule-option-pname");
         const add1 = document.createElement("div");
         add1.style = "display:flex";
         const add2 = document.createElement("strong"); 
@@ -1181,6 +1173,7 @@
         const add3 = document.createElement("p"); 
         add3.textContent = `🖈Seccion ${se} 🖈Aula ${au}`;
 
+        element.appendChild(div); 
         add1.appendChild(add2); 
         add1.appendChild(add3); 
         element.appendChild(add1);       
@@ -1212,6 +1205,131 @@
 
         })
 
-    </script>
+        let datosHorarios = document.getElementsByClassName("schedule-option");              
+        async function schedulerecharge(){
+        datosHorarios = document.getElementsByClassName("schedule-option"); 
+        const profDatos = datosProfesores;
+        for (let index = 0; index < datosHorarios.length; index++) {
+            const element = datosHorarios[index];
+
+            const myprofid = element.getAttribute("profesor");
+            const namespan = element.querySelector('.schedule-option-pname');
+
+            element.classList.remove("previtemselected");
+            ItemSelected = -1;
+            if(myprofid){
+                namespan.textContent = Array.from(profDatos).find((e) => e.id == myprofid)?.nombre ?? "";
+                }
     
-  
+            element.addEventListener("click", () => sectionclick(element))
+
+            }
+        }
+
+        async function sectionclick(element){
+            if(Horario == 0){
+            const prevItems2 = document.querySelectorAll(".previtem");
+            prevItems2.forEach(e => {
+                e.classList.remove("previtemselected");
+                });     
+                if(!element.classList.contains("previtemselected")){
+                    ItemSelected = element;
+                    element.classList.add("previtemselected");   
+                    }else{
+                    ItemSelected = -1; 
+                    element.classList.remove("previtemselected");    
+                    }
+                    return;
+                }
+            if(profSelected == -1){return;}
+
+            const myid = element.getAttribute("myid");
+            const myprofid = element.getAttribute("profesor");
+            const nombre = element.getAttribute("materia");
+            const mydays = JSON.parse(element.getAttribute("dias"));  
+            const namespan = element.querySelector('.schedule-option-pname');
+            let reemplace = -1;
+
+            /*Comprobar que no choque con un horario ya existente*/
+            if (HorarioList.length > 0) {
+                let continuar = 1;
+
+                mainLoop: 
+                for (const element of HorarioList) {
+                    const HLdias = JSON.parse(element.dias);
+                    if(element.id != myid){
+                        for (const i of HLdias) {
+                            for (const j of mydays) {
+                                if (j.Dia == i.Dia) {
+                                    if ((i.HoraE > j.HoraE && i.HoraE < j.HoraS) || 
+                                        (i.HoraS > j.HoraE && i.HoraS < j.HoraS) || 
+                                        (i.HoraS == j.HoraS && i.HoraE == j.HoraE)) {
+                        
+                                        continuar = confirm("La materia "+nombre+" choca con " + element.asignatura +" deseas sobreescribirla?");
+                                        reemplace = element.id;
+                                        break mainLoop; 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                if(!continuar){
+                    return;
+                    }
+                }
+
+            let newprofid = profSelected.getAttribute("id");
+
+            if(myprofid == newprofid){
+                newprofid = "";
+                }
+
+            if(myprofid != profSelected.getAttribute("id") && myprofid){
+                if(!confirm("Esta sección ya tiene un profesor asignado, deseas sobreescribirlo?")){
+                    return;
+                    }
+                }
+
+
+            try {
+                const respuesta = await fetch('php/horario/update_prof.php', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                        },
+                    body: JSON.stringify({
+                    id: myid,
+                    prof: newprofid,
+                    reemplace: reemplace
+                        }),
+                    });
+
+                const resultado = await respuesta.json(); 
+                if (resultado.success) {
+                    if(newprofid){
+                        namespan.textContent = profSelected.getAttribute("nombre");
+                        element.setAttribute("profesor",profSelected.getAttribute("id"));
+                        }else{
+                        namespan.textContent = "";
+                        element.setAttribute("profesor","");
+                        }
+                    if(reemplace != -1){
+                        const section = Array.from(datosHorarios).find(e => e.getAttribute("myid") == reemplace);
+                        section.setAttribute("profesor","");
+                        section.querySelector('.schedule-option-pname').textContent = "";
+                        console.log("section",section)
+                        }
+
+                        ActualizarHorario();
+                    } else {
+                    alert("respuesta: " + resultado.error);
+                    }
+                } catch (error) {
+                console.error("Error al enviar: ", error);
+                }           
+
+            }
+
+            
+    </script>

@@ -22,6 +22,8 @@
     --newletras: #333;
     --newpoligono: linear-gradient(135deg, #ffffff 0%, #1a252f 100%);
     --newprima:#00f3ff;
+    --newsecu:#1c5ea8;
+    --newnucle:#904192AF;
 }
 
 body {
@@ -343,47 +345,10 @@ body {
 .input-group {
     margin-bottom: 1.2vh;
     }
-input,select{
-    height: 6vh;
-    width: 100%;
-    padding: 1.2vh;
-    background:#69A8A3;
-    border: 0.1vh solid #009FE3;
-    color: #D1EAEC;
-    border-radius: 1vh;
-    box-sizing: border-box;
-    font-weight: bold;
-    font-size: 2.1vh; 
-    }
-input[readonly] { border-color: #009FE3; color: #D1EAEC;}
-input::placeholder{color: #ADD8D5}
 
 .noclickeable{
     pointer-events: none;
     }
-
-input:focus,select:focus {
-    outline: none;
-    border: 0.1vh solid #000;
-}
-input:focus::placeholder,select:focus::placeholder{
-    color: #D1EAEC;  
-}
-
-input[type="text" i] {
-    padding-block: 0.2vh;
-    padding-inline: 1vw;
-}
-
-input[type="time" i], select {
-    padding-inline-start: 0.2vh;
-    padding-block: 0.2vh;
-    padding-inline: 1vw;
-    overflow:visible;
-    padding: 2px 5px;
-    width: 100%;
-}
-
 .SecurityHidden{
     display: none !important;
 }

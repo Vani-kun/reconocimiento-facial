@@ -38,7 +38,7 @@
         /* --- PANEL DERECHO DESLIZABLE --- */
         .panel-derecho {
             margin: 0;padding: 0;box-sizing: border-box;user-select: none; 
-            width: 450px;
+            width: 35%;
             height: 100%;
             background: var(--newpoligono);
             border-left: 1px solid rgba(0, 242, 255, 0.1);
@@ -65,14 +65,14 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: var(--panel-bg);
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
+            background: var(--newfondo);
+            border: 1px solid var(--newprima);
+            color: var(--newprima);
             width: 45px;
             height: 45px;
             border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 15px rgba(104, 104, 104, 0.1);
         }
 
         .search-bar {
@@ -80,11 +80,13 @@
             padding: 10px;
             margin: 20px 0;
             background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(0, 242, 255, 0.3);
+            border: 1px solid rgba(0,0,0,0.3);
             color: white;
             border-radius: 5px;
         }
-
+        .search-bar:active {
+            border: 1px solid var(--newprima);
+        }
         .lista-profesores {
             flex-grow: 1;
             overflow-y: auto;
@@ -101,10 +103,19 @@
             font-size: 0.9rem;
         }
 
+        .lista-profesores.schedulepl .profesor-card:hover{
+            background: rgba(255, 255, 255, 0.1);
+            cursor:pointer;
+        }
+        .lista-profesores.schedulepl .profesor-card.active{
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+
         .avatar {
             width: 32px; height: 32px;
-            background: var(--accent-blue);
-            color: black;
+            background: var(--newprima);
+            color: var(--newletras);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -115,11 +126,15 @@
 
         .acciones { margin-left: auto; display: flex; gap: 5px; }
 
+        .lista-profesores.schedulepl .btn-action{
+            display:none;
+        }
+
         .btn-action {
             border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; color: white;
         }
 
-        .btn-edit { background: var(--accent-blue); color: black; }
+        .btn-edit { background: var(--newprima); color: black; }
         .btn-del { background: #7A1525 }
         .btn-off {
             background: #757575; /* Usando la variable que definimos antes */
@@ -149,7 +164,6 @@
     /* Estilo Tecnológico Suave */
     background-color: rgba(72, 77, 96, 0.8); /* Tu color base con transparencia */
     color: #D1EAEC;
-    border: 1px solid rgba(0, 242, 255, 0.3); /* Borde neón sutil */
     border-radius: 12px; /* Redondeado suave, no exagerado */
     
     /* Tipografía */
@@ -165,31 +179,25 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     outline: none;
 }
-
-/* Estado Hover (Al pasar el mouse) */
 .btn-agregar:hover {
-    background-color: #484D60;
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+    background-color:var(--newprima);
+    border-color: var(--newprima);
+    box-shadow: 0 0 20px var(--newprima);
     transform: translateY(2px); /* Eleva un poco el botón */
+    color:var(--newletras);
 }
-
-/* Estado Active (Efecto de hundirse al presionar) */
 .btn-agregar:active {
     transform: translateY(2px) scale(0.97); /* Se hunde y se encoge un poco */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* La sombra se achica */
-    background-color: #363a49; /* Se oscurece al tacto */
 }
 
-        .btn-agregar:hover { background: var(--accent-blue); color: black; }
 
         /* Scrollbar minimalista */
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-blue); }
+        ::-webkit-scrollbar-thumb { background: var(--newprima); }
 
         .titulo{
             margin-top: 50px;
-            color:#0F495E;
+            color:var(--newletras);
         }
         .ocultoboton{
             display:none;
@@ -208,7 +216,7 @@
 
         <div id="panelGestion" class="panel-derecho hidden">
             <h3 class="titulo">DOCENTES</h3>
-            <input type="text" class="search-bar" placeholder="Buscar profesor...">
+            <input id="lupa" type="text" class="search-bar" placeholder="Buscar profesor...">
 
             <div class="lista-profesores" id="listado">
                 <div class="profesor-card">
@@ -222,7 +230,7 @@
                 </div>
             </div>
 
-            <button class="btn-agregar" onclick="togglexPanel(0,0)">+ REGISTRAR</button>
+            <button id="BTNProfRegistry" class="btn-agregar" onclick="togglexPanel(0,0)">+ REGISTRAR</button>
         </div>
     </div>
 
@@ -245,9 +253,22 @@
                 console.warn("La lista de profesores está vacía o no se ha cargado aún.");
                 return; 
             }
-            datosProfesores.forEach(prof => {CrearCarta(prof);});
+            ///filtar busqueda por la bbarr 
+            const buscador = document.getElementById('lupa');
+            const valorBusqueda = buscador.value.toLowerCase(); //minúsculas       
+            const profesoresFiltrados = datosProfesores.filter(prof => {
+                const nombreMatch = prof.nombre.toLowerCase().includes(valorBusqueda);
+                const tagsMatch = prof.tags.toLowerCase().includes(valorBusqueda);
+                return nombreMatch || tagsMatch;
+            });
+
+            profesoresFiltrados.forEach(prof => {CrearCarta(prof);});
+            //datosProfesores.forEach(prof => {CrearCarta(prof);});
+
         }
-        
+        document.getElementById('lupa').addEventListener('input', (e) => {
+            listarProfesores();
+        })
         // --- LÓGICA DEL PANEL ---
         function togglePanel() {
             const panel = document.getElementById('panelGestion');
@@ -255,23 +276,21 @@
             const reloj = document.getElementById('reloj-container');
             
             panel.classList.toggle('hidden');
-            
+
             if (panel.classList.contains('hidden')) {
                 boton.innerHTML = '☰';
                 document.getElementById('toggle-panel').classList.add('ocultoboton');
                 moveCamera("center");
-                enpanelprofesor=false;
-                
+                if(document.getElementById('sidePanel').classList.contains("active")){togglexPanel(0,0);}
+                enpanelprofesor=false;   
             } else {
                 boton.innerHTML = '✕';
                 document.getElementById('toggle-panel').classList.remove('ocultoboton');
-                moveCamera("left");
-            
+                moveCamera("left");  
             }
         }
-        
         function CrearCarta(prof) {
-            const { id, nombre, activo } = prof;
+            const { id, nombre, activo, tags } = prof;
 
             const profCard = document.createElement('div');
             profCard.classList.add('profesor-card');
@@ -305,14 +324,19 @@
             btnOff.classList.add('btn-action', 'btn-off');
             btnOff.textContent = (activo == 1) ? '⭘' : '⬤';
     
-            if (activo == 1){console.log("Desactivar id:", id);
+            if (activo == 1){//console.log("Desactivar id:", id);
                 btnOff.addEventListener('click', async () => {  
                 if(!confirm("Seguro que quieres Desactivar a "+nombre)){return;}
                 await activarProfesor(id,0);});
-            }else{ console.log("activar id:", id);
+            }else{ //console.log("activar id:", id);
                 btnOff.addEventListener('click', async () => {  
                 await activarProfesor(id,1);});
             }
+
+
+            profCard.setAttribute('id', id);
+            profCard.setAttribute('nombre', nombre);
+            profCard.setAttribute('tags', tags);
 
             profActions.appendChild(btnOff);
             // Botón Eliminar
@@ -328,6 +352,26 @@
                 contenedor.appendChild(profCard);
             }
 
+            profCard.addEventListener("click", (e) => {
+
+                if(Horario == 0){return;}
+
+                if(!profCard.classList.contains("active")){
+                    d = Array.from(document.getElementsByClassName("profesor-card"));
+                    d.forEach(element => {
+                        element.classList.remove("active");
+                    });
+
+                    profCard.classList.add("active");
+                    profSelected = profCard;
+                    }else{
+
+                    profCard.classList.remove("active");
+                    profSelected = -1;
+                    }
+                    ActualizarHorario();
+                });
+
 
             ////funcionalidad de botones
             btnDel.addEventListener('click', async () => {console.log("Eliminar id:", id);  
@@ -336,7 +380,6 @@
                 await BorrarProfesor(id);
             });
         }
-
     async function BorrarProfesor(_ID){
         try {
             const respuesta = await fetch('php/profesores/eliminar_profesor.php', {
@@ -433,3 +476,4 @@
     </script>
 
 <?php include 'newAgregaEdita.php'; ?>
+

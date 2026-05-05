@@ -292,7 +292,7 @@ async function BorrarProfesor(_ID){
     }
 
 
-function refreshProfessorList(search = ""){
+function refreshProfessorList(search = ""){//<---------------------BARRA DE BUSQUEDA!!!!-------------------------------| 
     const listContainer = document.getElementById('professors-list');
     listContainer.innerHTML = '';
     trueSearch = "";
@@ -661,3 +661,70 @@ function refreshFacesList(){
 
 </body>
 </html>
+
+
+<script>
+
+/*function refreshProfessorList(search = ""){//<---------------------BARRA DE BUSQUEDA!!!!-------------------------------| 
+    const listContainer = document.getElementById('professors-list');
+    listContainer.innerHTML = '';
+    trueSearch = "";
+    const searchTerms = search.trim().split(' ').filter(term => {  
+        if(term.startsWith('#') && term.length > 1){
+            return term;
+            }else{
+            if(!term.startsWith('#')){
+            trueSearch += term + " ";
+                }
+            return false;
+            }
+        }).map(term => term.slice(1).toLowerCase());
+
+    allProfesors.forEach(prof => {
+        if (!search) {
+            listContainer.appendChild(prof.element);
+            return;
+            }
+
+        var include = 0;
+
+        if(prof.nombre.toLowerCase().includes(trueSearch.toLowerCase().trim()) && trueSearch.trim() !== ""){
+            if(searchTerms.length === 0){
+                include += 2;
+                } else {
+                include += 1;
+                }
+            } 
+
+        if(trueSearch.trim() === ""){
+            include += 1;
+            }
+
+        if (searchTerms.length > 0 && prof.tags.length > 0) {
+            const profTagsLower = prof.tags.map(t => t.toLowerCase());
+            const allTermsMatched = searchTerms.every(term => {
+            // Buscamos el índice de la primera etiqueta que coincida con el término
+            const foundIndex = profTagsLower.findIndex(tag => tag.includes(term));
+                
+            if (foundIndex !== -1) {
+                // Si la encontramos, la eliminamos de las disponibles para este profesor
+                profTagsLower.splice(foundIndex, 1);
+                return true;
+                }
+            return false;
+            });
+        
+            if (allTermsMatched) {
+                include += 1;
+                }
+            }
+
+                
+
+        if(include === 2){
+            listContainer.appendChild(prof.element);
+            }
+        console.log(prof.nombre, include);
+        });
+    }*/
+    </script>

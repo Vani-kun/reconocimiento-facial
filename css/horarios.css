@@ -15,12 +15,10 @@
 
 .schedule-container{
     width:75%;
-    background-color: #D1EAEC;;
     height: 80.5vh;
     overflow: hidden;
-    border-top-right-radius: 1vh;
-    border-bottom-right-radius: 1vh;
     overflow: none;
+    padding: 1vh 1vw;
     }
 
 
@@ -59,9 +57,9 @@
 
 .schedule{
     justify-self: center;
-    background-color: #4F2054;
-    min-height: 70vh;
-    max-height: 70vh;
+    background-color:  var(--newpoligono);
+    min-height: 80vh;
+    max-height: 80vh;
     width: 90%;
     border-radius: 2vh;
     overflow-y: scroll;
@@ -71,8 +69,8 @@
 .schedule-day-div-h{
     min-width: 100%;
     height: 100%;
-    background-color:#9A6DA5;
-    border: 0.1vh #4F2054 solid;
+    background-color:var(--newnucle);
+    border: 1px var(--newsecu) solid;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -80,7 +78,7 @@
     font-weight: bolder;
     font-size: 2.8vh;
     user-select: none;
-    color:#FFFFFF;
+    color:var(--newletras);
     z-index: 10;
 }
 
@@ -93,9 +91,10 @@
 .schedule-config {
     display: flex;
     align-items: stretch; /* Esto obliga a que todas las columnas midan lo mismo */
-    min-height: 65vh;
+    min-height: 85vh;
     height: auto; 
     overflow-y: visible; /* Deja que el contenido se desborde para que el scroll actúe */
+    background: color-mix(in srgb, var(--newfondo), #00000099);
 }
 .schedule-day-div {
     display: flex;
@@ -119,10 +118,10 @@
 .schedule-menu{
     height: 30%;
     width: 100%;
-    border-top: 0.1vh #A7C4CE solid;
+    border-top: 2px var(--newprima) solid;
     align-content: center;
     transition: height 0.2s;
-    background-color: #D1EAEC;
+    background: var(--newpoligono);
     position: relative;
     z-index: 20;
     }       
@@ -137,10 +136,10 @@
     width: 90%;
     min-height: 90%;
     max-height: 90%;
-    background-color: #F9C127;
+    background: var(--newfondo);
     border-radius: 2vh;
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 1vw;
     padding: 1vh 1vw;
     overflow-y: scroll;
@@ -199,9 +198,9 @@
     }
     
 #openmenubtn{
-    background-color:#ADD8D5;
-    color:#1D1D1B; 
-    width:5%;
+    background-color:var(--newprima);
+    color:var(--letras); 
+    width:10%;
     height:4.2vh;
     position:absolute;
     font-size: 4vh;
@@ -219,7 +218,7 @@
 
 #openmenubtn:hover{
     cursor: pointer;
-    width:7%;
+    width:14%;
     }
 
 .task-box{
@@ -237,3 +236,33 @@
     overflow: hidden;
     user-select: none;
     }
+
+.main-wrapper.schedule-container{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:2000;
+    opacity:1;
+    display:block;
+    transition: opacity 1s, transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    width:65%;
+    backdrop-filter: blur(8px);
+    }
+
+
+.main-wrapper.schedule-container.hidden{
+    opacity:0;
+    transform: translateY(-120vh);
+    }
+
+.main-container.schedule-main{
+
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    margin:0;
+    background: #FFFFFF00;
+
+}

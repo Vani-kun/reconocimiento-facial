@@ -100,8 +100,12 @@ document.addEventListener('DOMContentLoaded',async () => {
         ctx = c.getContext('2d');ctx.translate(displaySize.width, 0);ctx.scale(-1, 1);
 
         opcionesTiny = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-        setInterval(proceso,100);
+        setInterval(proceso,500);
     });
+
+    ///
+    const savedTheme = localStorage.getItem('tema');
+    if (savedTheme) {applyTheme(savedTheme);} else {applyTheme('basic'); }
 });
 
 function sonido(tipo) {

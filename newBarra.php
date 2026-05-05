@@ -37,30 +37,35 @@
         
         font-size: 1.8rem; 
         background: none; 
+        color: var(--newletras);
         border: none; 
         cursor: pointer; 
         transition: .3s; 
-        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        filter: drop-shadow(0 2px 2px var(--newfondo));
     }
     .nav-btn:hover { 
-        color: var(--p); /* Cambia al azul en hover */
+        color: var(--newprima); /* Cambia al azul en hover */
         transform: rotate(90deg); 
     }
     .user-btn:hover { 
-        color: var(--p); /* Cambia al azul en hover */
+        color: var(--newprima); /* Cambia al azul en hover */
         transform: rotate(360deg); 
     }
     /* MENU */
-    #hexOverlay { background: linear-gradient(180deg, #0F495E00 0%, #904192AF 100%); position: fixed; inset: 0; backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+    #hexOverlay { 
+        background: linear-gradient(180deg, #0F495E00 0%, var(--newnucle) 100%); 
+        position: fixed; inset: 0; backdrop-filter: blur(8px); display: none; 
+        justify-content: center; align-items: center; z-index: 2000; 
+    }
     .menu-wrapper { position: relative; width: var(--h); height: 135px; }
     .hexagon { 
         color: white;
         position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; 
         background: #0a141e; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-        transition: .5s cubic-bezier(.68,-.55,.26,1.55); border: 1px solid #4F2054; opacity: 0; scale: 0; cursor: pointer;
+        transition: .5s cubic-bezier(.68,-.55,.26,1.55); border: 1px solid var(--newnucle); opacity: 0; scale: 0; cursor: pointer;
     }
-    .hexagon i { font-size: 1.8rem; color: #904192; }
-    .core { opacity: 1; scale: 1.1; z-index: 10; background: radial-gradient(#4F2054, #000); }
+    .hexagon i { font-size: 1.8rem; color: var(--newnucle); }/*#904192;*/
+    .core { opacity: 1; scale: 1.1; z-index: 10; background: radial-gradient(var(--newnucle), #000); }
     
     /* POSICIONES (Simplificadas) */
     .expanded .hexagon { opacity: 1; scale: 1; }
@@ -98,17 +103,24 @@
     <div class="nav-contenedor"></div>
     <img src="img/IUJO.gif" height="50" class="sombralogo">
     <button id="openUserBtn" class="nav-btn user-btn OnlyNoSecurityLevel SecurityHidden" onclick="openUserMenu(1)"><i class="fa-solid fa-circle-user"></i></button>
-    <button id="openMenuBtn" class="nav-btn SecurityLevel1 SecurityHidden" onclick="toggle(1)"><i class="fa-solid fa-atom"></i></button>
+    <button id="openMenuBtn" class="nav-btn SecurityLevel1 SecurityHidden" onclick="toggle(1);MenuMove('main');"><i class="fa-solid fa-atom"></i></button>
 </nav>
 
 <div id="hexOverlay" onclick="toggle(0)">
     <div class="menu-wrapper" id="mw" onclick="event.stopPropagation()">
-        <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
-        <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
-        <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-card"></i> Reg </div>
-        <div id="HorBtn" class="SecurityLevel2 hexagon p3"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
-        <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
-        <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
+        <div class="menulink" dir="main">
+            <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
+            <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
+            <div id="RegBtn" class="SecurityLevel3 hexagon p2"> <i class="fa-solid fa-address-card"></i> Reg </div>
+            <div id="HorBtn" class="SecurityLevel2 hexagon p3" onclick="MenuMove('horario')"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
+            <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
+            <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
+        </div>
+        <div class="menulink" dir="horario">
+            <div class="SecurityLevel1 hexagon core" onclick="MenuMove('main')"> <i class="fa-solid fa-arrow-left"></i> REGRESAR </div>
+            <div id="HorBtn2" class="SecurityLevel2 hexagon p3" onclick="showHorarios(1)"> <i class="fa-solid fa-calendar-days"></i> Hor </div>
+            <div id="SecBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-book"></i> Sec </div>
+        </div>
     </div>
 </div>
 
@@ -144,6 +156,25 @@
 <script>
     Loginmode = 1;
 
+    MenuDir = Array.from(document.querySelectorAll(".menulink"));
+
+    function MenuMove(_Link){
+
+    MenuDir.forEach(element => {
+        if(element.getAttribute("dir") != _Link){
+            if(!element.classList.contains("oculto")){
+                element.classList.add("oculto");
+                }
+            }else{
+            if(element.classList.contains("oculto")){
+                element.classList.remove("oculto");
+                }
+            }
+        });
+    }
+
+    MenuMove("main");
+
     const o = document.getElementById('hexOverlay'), w = document.getElementById('mw');
     const u = document.getElementById("securityOverlay"), mu = document.getElementById("mu");
     function toggle(s) {
@@ -158,6 +189,37 @@
         toggle(0);
         togglePanel();
     }
+    function showHorarios(_nmb){
+        if(_nmb){
+            enpanelprofesor=true;
+            showAsistencia(0);
+            moveCamera("left");
+            toggle(0);
+            togglePanel();
+            document.getElementById('toggle-panel').classList.add('ocultoboton');
+            document.getElementById('schedule-toggle-panel').classList.remove('ocultoboton');
+            document.getElementById("listado").classList.add("schedulepl");
+            document.getElementById("BTNProfRegistry").classList.add("oculto");
+            setTimeout(() => { 
+                moveCamera("hide");
+                toggleSchedulePanel(1);
+            }, 500);   
+        }else{
+            enpanelprofesor=false;
+            moveCamera("left");
+            toggleSchedulePanel(0);
+            document.getElementById('schedule-toggle-panel').classList.add('ocultoboton');
+            setTimeout(() => { 
+               togglePanel();   
+               moveCamera("center");
+               setTimeout(() => { 
+                    document.getElementById("listado").classList.remove("schedulepl");
+                    document.getElementById("BTNProfRegistry").classList.remove("oculto");
+                    }, 500);   
+
+            }, 500);
+        }
+    }
     function showControl(){
         enpanelprofesor=true;showAsistencia(0);
         moveCamera("hide");
@@ -165,12 +227,12 @@
         togglexxPanel();
     }
     function showSecciones(){
-        
+        enpanelprofesor=true;
+        showAsistencia(0);
         toggle(0);
         moveCamera("hide");
         document.getElementById("seccion-wraper").classList.remove("hidden");
         document.getElementById("seccion-toggle-panel").classList.remove("oculto");
-
     }
 
     /////esto es de secciones y usuarios 
@@ -223,6 +285,7 @@
     })
 
     window.addEventListener('load', () => {
+        schedulerecharge()
         if (typeof addUpdateLevelEventListener === 'function') {
             addUpdateLevelEventListener((e) => {
 

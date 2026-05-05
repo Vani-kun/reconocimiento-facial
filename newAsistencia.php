@@ -7,8 +7,8 @@
     top: 50%;
     transform: translateY(-50%); /* Centrado vertical */
     width: 350px;
-    background: linear-gradient(180deg, #d1eaec 0%, #7c898a 100%);
-    background: linear-gradient(180deg, #ffffff 0%, #0f495e 150%);
+    background: var(--newpoligono);
+    color:var(--newletras);
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -29,7 +29,7 @@
 .avatar-circle {
     width: 80px;
     height: 80px;
-    background-color: #4A90E2;
+    background: var(--newprima);
     color: white;
     font-size: 40px;
     font-weight: bold;
@@ -60,8 +60,8 @@ position: fixed;
             margin-top: 25px;
             display: inline-block;
             padding: 8px 15px;
-            background: rgba(0, 212, 255, 0.2);
-            color: #006175;
+            background: var(--newnucle);
+            color: var(--newsecu);
             border-radius: 5px;
             font-size: 1em;
         }

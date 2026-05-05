@@ -38,7 +38,7 @@
         
         width: 320px;
         padding: 35px;
-        background: var(--card);
+        background: var(--newpoligono);
         backdrop-filter: blur(20px);
         border: 1px solid var(--border);
         
@@ -87,7 +87,7 @@
 
     .input-wrap { margin-bottom: 15px; }
 
-    input {
+    .inputt {
         width: 100%;
         background: rgba(0, 0, 0, 0.2);
         border: 1px solid var(--border);
@@ -99,7 +99,7 @@
         box-sizing: border-box;
     }
 
-    input:focus { border-color: var(--accent); }
+   .inputt:focus { border-color: var(--newprima); }
 
     /* --- BOTONES --- */
     .btn-group {
@@ -120,7 +120,7 @@
         transition: 0.2s;
     }
     .btn-cancel { background: transparent; color: #94a3b8; }
-    .btn-save { background: var(--accent); color: #0f172a; }
+    .btn-save { background: var(--newprima); color: #0f172a; }
     .btn:active { opacity: 0.8; }
     /* --- BIOMETRÍA CON INTERACCIÓN --- */
     .bio-header {
@@ -152,7 +152,7 @@
         cursor: pointer; /* Cambia el cursor al pasar por encima */
         transition: all 0.3s ease; /* Transición suave para todos los estados */
     }
-        .btn-bio:hover { opacity: 0.8; box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);}
+    .btn-bio:hover { opacity: 0.8; box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);}
     .bio-slot {
         width: 60px;
         height: 60px;
@@ -163,16 +163,16 @@
         align-items: center;
         justify-content: center;
         font-size: 0.55rem;
-        color: var(--accent);
+        color: var(--newprima);
         cursor: pointer; /* Cambia el cursor al pasar por encima */
         transition: all 0.3s ease; /* Transición suave para todos los estados */
     }
 
     /* Efecto de iluminación al pasar el mouse */
     .bio-slot:hover {
-        border-color: var(--accent);
+        border-color: var(--newprima);
         background: rgba(0, 242, 255, 0.1);
-        box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); /* Resplandor exterior */
+        box-shadow: 0 0 15px var(--newprima); /* Resplandor exterior */
         transform: translateY(-2px); /* Pequeño salto táctil */
         color: #fff; /* El texto brilla un poco más */
     }
@@ -205,11 +205,11 @@
     <h2><span id="ttl-subpanel">Nuevo</span> Profesor</h2>
     
     <div class="input-wrap">
-        <input type="text" placeholder="Nombre completo" id="pro_nombre">
+        <input  class="inputt" type="text" placeholder="Nombre completo" id="pro_nombre">
     </div>
 
     <div class="input-wrap">
-        <input type="text" placeholder="Especialidad(es)" id="pro_tag">
+        <input class="inputt" type="text" placeholder="Especialidad(es)" id="pro_tag">
     </div>
 
     <div class="btn-group">
