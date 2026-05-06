@@ -73,7 +73,11 @@
         align-items: center;
         justify-content: center;
         font-size: 0.55rem;
-        color: var(--accent);
+        color: var(--newprima);
+    }    
+    .bio-slot.activoo {
+        background: var(--newprima);
+        color: var(--newletras);
     }
 
     /* --- INPUTS --- */
@@ -86,7 +90,6 @@
     }
 
     .input-wrap { margin-bottom: 15px; }
-
     .inputt {
         width: 100%;
         background: rgba(0, 0, 0, 0.2);
@@ -98,7 +101,6 @@
         font-size: 0.85rem;
         box-sizing: border-box;
     }
-
    .inputt:focus { border-color: var(--newprima); }
 
     /* --- BOTONES --- */
@@ -109,7 +111,6 @@
         overflow: hidden;
         border: 1px solid var(--border);
     }
-
     .btn {
         flex: 1;
         padding: 14px;
@@ -118,10 +119,11 @@
         font-size: 0.8rem;
         font-weight: 600;
         transition: 0.2s;
-    }
-    .btn-cancel { background: transparent; color: #94a3b8; }
-    .btn-save { background: var(--newprima); color: #0f172a; }
-    .btn:active { opacity: 0.8; }
+    }.btn:active { opacity: 0.8; }
+    .btn-cancel { background: transparent; color: var(--newletras); }
+    .btn-save { background: var(--newprima); color: #ffffff; }
+    .btn-save:hover {box-shadow 0px 0px 10px var(--newprima);}
+    
     /* --- BIOMETRÍA CON INTERACCIÓN --- */
     .bio-header {
         display: flex;
@@ -165,7 +167,7 @@
         font-size: 0.55rem;
         color: var(--newprima);
         cursor: pointer; /* Cambia el cursor al pasar por encima */
-        transition: all 0.3s ease; /* Transición suave para todos los estados */
+        transition: all 0.3s ease; 
     }
 
     /* Efecto de iluminación al pasar el mouse */
@@ -188,17 +190,31 @@
         objectFit :cover;
         borderRadius :12px;
     }
+    #fotopro{
+        transition: all 0.3s ease; 
+            overflow: hidden;
+    }
+    #fotopro:hover{
+        box-shadow:0px 0px 10px var(--newprima);
+        cursor:pointer;
+        transform:scale(1.5) translateY(-20px);
+    }
+    #subir{
+            width: 100%;
+            margin-bottom: 10px;
+    }
 </style>
 
 <!--button id="btn-toggle" onclick="togglexPanel()">Nuevo Registro</button-->
 
 <!-- El elemento ya no tiene overlay, es independiente -->
 <div id="sidePanel" class="soft-panel">
-    
+    <div id="fotopro"class="avatar-circle" onclick="addFoto(-1,0)">A</div>
+    <input id="subir" type="file">
     <div class="bio-header">
-        <div class="bio-slot" id="scan1">SCAN</div>
-        <div class="bio-slot" id="scan2">SCAN</div>
-        <div class="bio-slot" id="scan3">SCAN</div>
+        <div class="bio-slot" id="scan1"></div>
+        <div class="bio-slot" id="scan2"></div>
+        <div class="bio-slot" id="scan3"></div>
             <button class="btn-bio" onclick="addScan()">+</button>
     </div>
 
@@ -221,7 +237,9 @@
 
 <script>
     FacesList = [];
-    nombreimagenprofesor="yovani";
+    const canvax = document.createElement('canvas');
+    canvax.width = 500;canvax.height = 500;
+
     const subpanel = document.getElementById('sidePanel');
     
             for(let i=1;i<=3;i++){
@@ -232,103 +250,144 @@
                 });
             }
 
-    function togglexPanel(edi,id) {editar=edi;
+    function togglexPanel(edi,id) {enpanelprofesor=true;
         if (edi==1){
+            editar = 1;
             ///traer los datos del ´profesor para ediotarlos
-            const profesor = datosProfesores.find(p => p.id == id);
-            document.getElementById('pro_nombre').value=profesor.nombre;
-            document.getElementById('pro_tag').value=profesor.tags;
-            FacesList =profesor.descriptores;
-            for(i=1;i<=3;i++){
-                if (profesor.descriptores[i-1]){
-                const slotElement = document.getElementById('scan'+i);
-                const nuevaImagen = document.createElement('img');
-                nuevaImagen.src = "img/descriptores/"+profesor.nombre+i+".jpg";
-                nuevaImagen.classList.add("scanimg");
-                slotElement.innerHTML = ''; 
-                slotElement.appendChild(nuevaImagen);
-                }
+            const profesor = datosProfesores.find(p => p.id == id);/////busac el profesor por su id
+            document.getElementById('pro_nombre').value=profesor.nombre;           
+            const profTags = JSON.parse(profesor.tags);
+            
+            if(Array.isArray(profTags)){document.getElementById('pro_tag').value= profTags.join(", ");
+            }else
+            {document.getElementById('pro_tag').value= "";   }
+            FacesList = JSON.parse(profesor.descriptores);
+
+            if(!Array.isArray(FacesList)){
+                FacesList = [];
+                console.error(`descriptores del profesor ${profesor.nombre} portador del id ${profesor.id} corruptos`);
             }
+            actualizaScan();
+
+               const ava = document.getElementById("fotopro");
+                /* const nuevaImagen = document.createElement('img');            
+                    nuevaImagen.onerror = function() { // 1. Configuramos qué hacer si la carga falla
+                        ava.innerHTML = profesor.nombre[0];
+                    };
+                    nuevaImagen.onload = function() {// 2. Configuramos qué hacer si la carga es exitosa
+                        ava.innerHTML = ''; 
+                        ava.appendChild(nuevaImagen);
+                    };
+                nuevaImagen.src = "img/caras/"+profesor.id+".jpg";
+                nuevaImagen.classList.add("scanimg");*/
+                creafoto(ava,profesor.id,profesor.nombre);
+
             document.getElementById("ttl-subpanel").textContent="Editar";
         }else if (edi==0){
+            editar = 0;
             document.getElementById('pro_nombre').value="";
             document.getElementById('pro_tag').value="";
             FacesList =[];
             for(i=1;i<=3;i++){
                 const slotElement = document.getElementById('scan'+i);
-                slotElement.innerHTML="SCAN";
+                slotElement.innerHTML="";
+                slotElement.classList.remove("activoo");
             }
+            document.getElementById("fotopro").innerHTML="A";
             document.getElementById("ttl-subpanel").textContent="Nuevo";
         }
         subpanel.classList.toggle('active');
     }
-    function addScan() {
-        moveCamera("left")
+    function addFoto() {
+        //aqui se prosesara si se sube y si se toma la foto directamente
         if(document.getElementById('pro_nombre').value==""){alert("debe rellenar el nombre");return}
+        //nombreimagenprofesor=document.getElementById('pro_nombre').value.trim();;
+        capturarImagenDeVideo(video,document.getElementById("fotopro"));         
+    }
+    function actualizaScan() {
+        for(let i=1;i<=3;i++){
+            const slotElement = document.getElementById(`scan${i}`);
+            if (slotElement && FacesList.length >=i) {
+                slotElement.innerHTML = "Descrip...";//"Cara("+i+")"; 
+                slotElement.classList.add("activoo");
+            } else {
+                slotElement.innerHTML="";
+                slotElement.classList.remove("activoo");
+            }
+        }
+    }
+    function addScan() {
+        moveCamera("left");
         if (descriptorActual) {
-            // Determinamos qué slot toca (1, 2 o 3)
-            const slotIndex = FacesList.length + 1;
-            const slotElement = document.getElementById(`scan${slotIndex}`);
-
-            if (slotElement && FacesList.length < 3) {
-                nombreimagenprofesor=document.getElementById('pro_nombre').value.trim();;
-                // Capturamos la foto y la metemos en el slot
-                capturarImagenDeVideo(video, slotElement);              
-                // Aquí deberías pushear el descriptor al array para que la cuenta suba
+            if (FacesList.length < 3) {
                 FacesList.push(descriptorActual); 
-                
-                console.log(`Snapshot ${slotIndex} guardado en el panel.`);
+                actualizaScan();
             } else {
                 alert("Límite de Descriptores alcanzado");
             }
-            
-            descriptorActual = null; // Limpiamos para el siguiente escaneo
+            descriptorActual = null; //Limpiamos para el siguiente escaneo
         } else {
             alert("No se detectó ningún rostro. Intenta ajustar la iluminación.");
         }   
     }
-    function removeScan(ii) {
-        moveCamera("left")
-            const slotElement = document.getElementById('scan'+ii);
-            FacesList[ii-1]=undefined;
-            //FacesList.splice(ii-1, 1);
-            slotElement.innerHTML="SCAN";
+    function removeScan(ind) {
+        moveCamera("left");
+        FacesList.splice(ind-1, 1);
+        actualizaScan();
     }
     async function capturarImagenDeVideo(videoElement, targetContainer) {
-        // 1. Crear un canvas invisible
-        const canvas = document.createElement('canvas');
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-
-        // 2. Dibujar el frame actual del video en el canvas
-        const context = canvas.getContext('2d');
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
+        const context = canvax.getContext('2d');
+        context.drawImage(videoElement, 0, 0, canvax.width, canvax.height);
         // 3. Convertir el canvas a una imagen (formato Base64)
-        const dataURL = canvas.toDataURL('image/png');
-
+        const dataURL = canvax.toDataURL('image/png');
         // 4. Crear el elemento imagen
         const nuevaImagen = document.createElement('img');
         nuevaImagen.src = dataURL;
-
-       await guardarImg(canvas);
         // Estilo para que encaje bien en tus slots suaves
         nuevaImagen.classList.add("scanimg");
-       
-
         // 5. Hacer append al elemento destino
-        // Opcional: limpiar el contenedor antes de añadir la nueva imagen
-        targetContainer.innerHTML = ''; 
+        targetContainer.innerHTML = ''; // limpiar el contenedor antes de añadir la nueva imagen
         targetContainer.appendChild(nuevaImagen);
     }
-    async function guardarImg(cc) {
-        cc.toBlob(async (blob) => {
-            const datos = new FormData();
+    const subir = document.getElementById('subir');
+    subir.addEventListener('change', function(e) {
+            const archivo = e.target.files[0]; // Tomamos el primer archivo seleccionado
+            if (archivo) {cargarImagenDesdeArchivo(archivo, document.getElementById("fotopro"));}
+    });
+    async function cargarImagenDesdeArchivo(file, targetContainer) {
+        if (!file || !file.type.startsWith('image/')) {console.error("El archivo no es una imagen válida.");return;}
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // 3. Crear el elemento imagen
+            const nuevaImagen = document.createElement('img');
+            nuevaImagen.src = e.target.result;
+            nuevaImagen.onload = function() {
+                const context = canvax.getContext('2d');
+                context.drawImage(nuevaImagen, 0, 0, canvax.width, canvax.height);
+            };
             
+            // Mantenemos tu clase de estilo para que se vea futurista
+            nuevaImagen.classList.add("scanimg");
+            // 4. Manejo de error si la imagen subida está corrupta
+            nuevaImagen.onerror = function() {
+                //targetContainer.innerHTML = '<p class="error-msg">Error al cargar imagen</p>';
+            };
+
+            // 5. Limpiar y añadir al contenedor
+            targetContainer.innerHTML = ''; 
+            targetContainer.appendChild(nuevaImagen);
+        };
+        // Iniciar la lectura del archivo como una URL de datos
+        reader.readAsDataURL(file);
+    }
+    async function guardarImg(cc,idd) {
+        cc.toBlob(async (blob) => {
+            const datos = new FormData();  
             // 'foto' es el nombre que recibirá PHP en $_FILES['foto']
             // El tercer parámetro es el nombre del archivo
-            datos.append('foto', blob, `${nombreimagenprofesor}.jpg`);
-            datos.append('nombre', nombreimagenprofesor+FacesList.length);
+            datos.append('foto', blob, `${idd}.jpg`);
+            datos.append('nombre', idd);
 
             try {
                 const respuesta = await fetch('php/profesores/guardar_foto.php', {
@@ -343,10 +402,10 @@
     }
     function validaSave() {
         const pro_nombre = document.getElementById('pro_nombre').value.trim();
-        const pro_tag = document.getElementById('pro_tag').value.trim();
+        const pro_tag = document.getElementById('pro_tag').value.trim().split(", ");
         // Validación de longitud (entre 5 y 29 caracteres)
         const nombreValido = pro_nombre.length > 4 && pro_nombre.length < 30;
-        const tagValida = pro_tag.length > 4 && pro_tag.length < 30;
+        const tagValida = true;//pro_tag.length > 4 && pro_tag.length < 30;
 
         if (!nombreValido ) {alert("El nombre debe tener entre 5 y 29 caracteres.");
         }else

@@ -40,37 +40,32 @@ async function cargarCatalogo() {
             // Mapeamos para crear el FaceMatcher
             const labels = listaPro.map(u => {
                 // 'u.descriptores' es un array de múltiples rostros guardado en la BD
+
                 const arrayDescriptores = JSON.parse(u.descriptores);
+                if(Array.isArray(arrayDescriptores)){
 
-                const MiFaces = arrayDescriptores.map(e => {
-                    // Convertimos cada cara guardada a Float32Array
-                    return new Float32Array(Object.values(e));
-                });
+                    const MiFaces = arrayDescriptores.map(e => {
+                        // Convertimos cada cara guardada a Float32Array
+                        if(typeof e === "object" && e !== null){
+                            return new Float32Array(Object.values(e));
+                            }else{  
+                            console.error(`Error con el usuario ${u.nombre} portador de la id ${u.id}: sus descriptores estan corruptos`);
+                            }
 
-                // Creamos la etiqueta. El primer parámetro es el NOMBRE/ID, 
-                // el segundo es el ARRAY de descriptores (múltiples caras)
-                return new faceapi.LabeledFaceDescriptors(u.id.toString(), MiFaces);
-            });
+                        }).filter(Boolean);
+
+                    // Creamos la etiqueta. El primer parámetro es el NOMBRE/ID, 
+                    // el segundo es el ARRAY de descriptores (múltiples caras)
+                    return new faceapi.LabeledFaceDescriptors(u.id.toString(), MiFaces);
+                }else{  
+                    console.error(`Error con el usuario ${u.nombre} portador de la id ${u.id}: sus descriptores estan corruptos`);
+                }
+            }).filter(Boolean);
 
             // Creamos el comparador global
             // labels contiene: {nombre, [cara1, cara2, cara3...]}
             faceMatcher = new faceapi.FaceMatcher(labels, 0.45); // Usamos 0.45 por seguridad
             console.log("Catálogo y Array listos");
-        /*
-        const usuarios = respuesta.usuarios;
-        
-        // Convertimos cada usuario de la BD a descriptores etiquetados
-        const labels = usuarios.map(u => {
-            const MiFaces = JSON.parse(u.descriptores).map(e => {
-                return new Float32Array(Object.values(e));
-                });
-
-            return new faceapi.LabeledFaceDescriptors(JSON.stringify({id: u.id,nombre: u.nombre,tags: u.tags}), MiFaces)
-            });
-
-            // Creamos el comparador global (umbral 0.6)
-            faceMatcher = new faceapi.FaceMatcher(labels, 0.6);
-            console.log("Catálogo M.A.R.S. listo");*/
     }else{
         console.log("Error:",respuesta.error);
     }
@@ -106,6 +101,7 @@ document.addEventListener('DOMContentLoaded',async () => {
     ///
     const savedTheme = localStorage.getItem('tema');
     if (savedTheme) {applyTheme(savedTheme);} else {applyTheme('basic'); }
+    
 });
 
 function sonido(tipo) {
@@ -146,13 +142,4 @@ async function proceso(){           ttt--;
             detecta("no");
         }
     }
-}
-function traerDatos(mt){
-   // profEscan=JSON.parse(mt);
-   // document.getElementById("profNombre").textContent=profEscan.nombre;
-   const profesor = listaPro.find(u => u.id == mt.label);
-   profesorGlobal=profesor;
-   document.getElementById("profCirculo").textContent=profesor.nombre[0];
-   document.getElementById("profNombre").textContent=profesor.nombre;
-   document.getElementById("profTags").textContent="Especialidad: "+profesor.tags;
 }

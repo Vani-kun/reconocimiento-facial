@@ -122,6 +122,7 @@
             justify-content: center;
             margin-right: 12px;
             font-weight: bold;
+            overflow: hidden;
         }
 
         .acciones { margin-left: auto; display: flex; gap: 5px; }
@@ -210,8 +211,7 @@
 
         <div class="panel-izquierdo">
             <h1>LIVELULA</h1>
-            <p style="opacity: 0.5;">Sistema de Biometría Activo</p>
-            <!-- Aquí iría tu video de face-api -->
+            <p style="opacity: 0.5;">Sistema de Biometría</p>
         </div>
 
         <div id="panelGestion" class="panel-derecho hidden">
@@ -245,6 +245,7 @@
             const response = await fetch('php/profesores/leer_profesores.php');
             datosProfesores = await response.json(); // Actualiza la variable global
             listarProfesores();
+            cargarDatosAsis();
         }
         function listarProfesores(){
             // 1. Validar que la variable sea un array y no esté vacía
@@ -289,6 +290,19 @@
                 moveCamera("left");  
             }
         }
+        function creafoto(contenedor,id,name){
+                const nuevaImagen = document.createElement('img');            
+                    nuevaImagen.onerror = function() {
+                        contenedor.innerHTML = name[0].toUpperCase();
+                        nuevaImagen.remove();
+                    };
+                    nuevaImagen.onload = function() {
+                        contenedor.innerHTML = ''; 
+                        contenedor.appendChild(nuevaImagen);
+                    };
+                nuevaImagen.src = "img/caras/"+id+".jpg";
+                nuevaImagen.classList.add("scanimg");
+        }
         function CrearCarta(prof) {
             const { id, nombre, activo, tags } = prof;
 
@@ -301,7 +315,8 @@
             //  Avatar 
             const profAvatar = document.createElement('div');
             profAvatar.classList.add('avatar');
-            profAvatar.textContent = nombre ? nombre.charAt(0).toUpperCase() : '?'; 
+            //profAvatar.textContent = nombre ? nombre.charAt(0).toUpperCase() : '?'; 
+            creafoto(profAvatar,id,nombre);
             profCard.appendChild(profAvatar);
             // Nombre
             const spanNombre = document.createElement('span');
@@ -410,11 +425,12 @@
             }
     }
     async function guardarProfesor(_nombre,_tag,_listaCaras,edi){
-        //alert("datos validos")
         if(_listaCaras.length == 0){alert("Guarda al menos un rostro");return;}
-
+        
         let _Page ='';
-         let datosEnvio='';
+        let datosEnvio='';
+
+         console.log("Lista caras",_listaCaras);
 
         if (edi==1) { _Page ='php/profesores/actualizar_profesor.php';
         datosEnvio = {
@@ -442,6 +458,8 @@
             });
             const resultado = await respuesta.json(); 
             if (resultado.success) {
+                if (edi==1) {await guardarImg(canvax,ideditar);}else
+                {await guardarImg(canvax,resultado.profesor.id);}
                 console.log(datosEnvio);
                  cargarProfesores();
                 alert("respuesta: "+ resultado.message);

@@ -88,12 +88,19 @@
         }
     .user-form-menu{
         position: relative; z-index: 2200; width: 50%; height: auto;
-        background: radial-gradient(#D1EAEC, #ADD8D5);;
+        background: var(--newpoligono);
         border-radius: 2vw;
         padding: 20px 20px;
-        color:#211E42;
+        color:var(--newletras);
         }
-
+        .marco{text-align: left; padding: 10px; border-radius:2vw; border-color:var(--newprima);}
+        #user-formlegend{
+            color:var(--newprima);
+        }
+        #usersubmitbutton{
+            width:100%;
+            transform: translateX(-14px);
+        }
 .sombralogo{
     filter:drop-shadow(0 0 5px var(--newprima))
 }
@@ -111,7 +118,7 @@
         <div class="menulink" dir="main">
             <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
             <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
-            <div id="RegBtn" class="SecurityLevel3 hexagon p2"> <i class="fa-solid fa-address-card"></i> Reg </div>
+            <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showAsisReg(1)"> <i class="fa-solid fa-address-card"></i> Reg </div>
             <div id="HorBtn" class="SecurityLevel2 hexagon p3" onclick="MenuMove('horario')"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
             <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
             <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
@@ -127,24 +134,24 @@
 <div id="securityOverlay" style="display:none;">
     <div class="user-menu-wrapper" id="mu" onmousedown="openUserMenu(0)">
         <div class="user-form-menu" onmousedown="event.stopPropagation()">
-            <fieldset style="text-align: left; padding: 10px; border-radius:2vw; border-color:#46B9B1;">
+            <fieldset class="marco">
                 <legend><h3 id="user-formlegend">Ingresar</h3></legend>
                 <form id="UserLoginForm" style="justify-content:start;">
                     <label for="userinput">Usuario:</label>
-                        <input type="text" id="userinput" name="userinput" require><br>
+                        <input class="inputt" type="text" id="userinput" name="userinput" require><br>
                     <label for="passinput">Contraseña:</label>
-                        <input type="password" id="passinput" name="passinput" require><br>
+                        <input class="inputt" type="password" id="passinput" name="passinput" require><br>
                     <div id="LoginDiv">
                         <label for="keep-sesion">Mantener la sesion iniciada:</label>
                         <div style="width:100%;display:flex;justify-content:start;">
-                            <input type="checkbox" id="keep-sesion" name="keep-sesion" style="width: 3vh;height: 3vh;">
+                            <input class="inputt" type="checkbox" id="keep-sesion" name="keep-sesion" style="width: 3vh;height: 3vh;">
                         </div>
                     </div>
                     <div id="RegisterDiv">
                         <label for="passverifyinput">Vuelve a ingresar la contraseña:</label><br>
                         <input type="password" id="passverifyinput" name="passverifyinput">
                     </div>
-                    <button id="usersubmitbutton" class="btn-agregar">Enviar</button>
+                    <button id="usersubmitbutton" class="btn btn-agregar">Enviar</button>
                 </form>
             </fieldset>
         </div>
@@ -155,11 +162,9 @@
 
 <script>
     Loginmode = 1;
-
     MenuDir = Array.from(document.querySelectorAll(".menulink"));
 
     function MenuMove(_Link){
-
     MenuDir.forEach(element => {
         if(element.getAttribute("dir") != _Link){
             if(!element.classList.contains("oculto")){
@@ -234,6 +239,30 @@
         document.getElementById("seccion-wraper").classList.remove("hidden");
         document.getElementById("seccion-toggle-panel").classList.remove("oculto");
     }
+    function showAsisReg(_Nmb){
+        if(_Nmb){
+            document.getElementById("AsisFirstDiv").classList.remove("hidden");
+            document.getElementById("AsisSecondDiv").classList.remove("hidden");
+            document.getElementById("AsisThirdDiv").classList.remove("hidden");
+            document.getElementById("AsisFourDiv").classList.remove("hidden");
+            document.getElementById("AsisOnBtn").classList.remove("hidden");
+            document.getElementById("AsisMainDiv").classList.remove("hidden");
+            moveCamera("hide");
+            showAsistencia(0);
+            toggle(0);
+            enpanelprofesor=true;
+            }else{
+            document.getElementById("AsisFirstDiv").classList.add("hidden");
+            document.getElementById("AsisSecondDiv").classList.add("hidden");
+            document.getElementById("AsisThirdDiv").classList.add("hidden");
+            document.getElementById("AsisFourDiv").classList.add("hidden");
+            document.getElementById("AsisOnBtn").classList.add("hidden");
+            document.getElementById("AsisMainDiv").classList.add("hidden");
+            moveCamera("center");
+            enpanelprofesor=false;
+            }
+        }
+
 
     /////esto es de secciones y usuarios 
     function openUserMenu(s){
@@ -351,4 +380,6 @@
             });
         }
     });
+
+    
 </script>

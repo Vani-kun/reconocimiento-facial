@@ -63,7 +63,6 @@ body {
     justify-content: center;
     padding: 0.7vh 0.8vw;
     height: auto;
-    min-height: 6vh;
     transition: opacity 0.2s;
     }
 .draggable-item:active { cursor: grabbing; }
@@ -222,8 +221,9 @@ label { display: block; margin-bottom: 0.5vh; color: #94a3b8; }
     }
 
     .item-seccion{
-        height: 2vh;
-        width: 3vw;
+        height: 50px;
+        width: 50px;
+        aspect-ratio: 1 / 1;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -274,4 +274,11 @@ label { display: block; margin-bottom: 0.5vh; color: #94a3b8; }
         transform: translateX(120vw);
         opacity: 0;
 
+    }
+
+    .ventanita{
+        background: var(--newpoligono); 
+        color:var(--newletras);
+        padding: 3vh; 
+        border-radius: 2vw;
     }

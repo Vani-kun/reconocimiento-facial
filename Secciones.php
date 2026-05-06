@@ -228,12 +228,12 @@
 
 <!-- Menu para crear moldes de materias -->
 <div id="MateriaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
-    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+    <section class="ventanita">
         <form id="materiaform" style="justify-content: center;display: grid;">
             <label for="MateriaName">Nombre:</label>
-            <input type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia" required>
+            <input class="inputt" type="text" id="MateriaName" name="name" placeholder="Ingrese el nombre de la materia" required>
             <div style="display:flex; justify-content:center;">        
-                <button class="btn btn-small btn-success" type="submit" id="add-materia">Agregar</button>
+                <button class="btn btn-small btn-save" type="submit" id="add-materia">Agregar</button>
                 <button class="btn btn-small btn-cancel" type="button" id="cancel-materia">Cancelar</button>
             </div>  
         </form>
@@ -242,16 +242,16 @@
 
 <!-- Menu para crear moldes de horarios -->
 <div id="HorarioMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
-    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+    <section class="ventanita">
         <form id="horarioform" style="justify-content: center;display: grid;">
             <label for="HorarioE">Hora de Entrada:</label>
-            <input type="time" id="HorarioE" name="entrada" placeholder="Ingrese la hora de entrada" required>
+            <input class="inputt" type="time" id="HorarioE" name="entrada" placeholder="Ingrese la hora de entrada" required>
 
             <label for="HorarioS">Hora de Salida:</label>
-            <input type="time" id="HorarioS" name="salida" placeholder="Ingrese la hora de salida" required>
+            <input class="inputt" type="time" id="HorarioS" name="salida" placeholder="Ingrese la hora de salida" required>
 
             <div style="display:flex; justify-content:center;">             
-                <button class="btn btn-small btn-success" type="submit" id="add-horario">Agregar</button>
+                <button class="btn btn-small btn-save" type="submit" id="add-horario">Agregar</button>
                 <button class="btn btn-small btn-cancel" type="button" id="cancel-horario">Cancelar</button>
             </div> 
         </form>
@@ -260,13 +260,13 @@
 
 <!-- Menu para crear moldes de aulas -->
 <div id="AulaMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
-    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+    <section class="ventanita">
         <form id="aulaform" style="justify-content: center;display: grid;">
             <label for="AulaNumber">Numero del Aula:</label>
-            <input type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula" required>
+            <input class="inputt" type="text" id="AulaNumber" name="numero" placeholder="Ingrese el numero de la aula" required>
 
             <div style="display:flex; justify-content:center;"> 
-                <button class="btn btn-small btn-success" type="submit" id="add-aula">Agregar</button>
+                <button class="btn btn-small btn-save" type="submit" id="add-aula">Agregar</button>
                 <button class="btn btn-small btn-cancel" type="button" id="cancel-aula">Cancelar</button>
             </div> 
         </form>
@@ -275,13 +275,13 @@
 
 <!-- Menu para crear moldes de secciones -->
 <div id="SeccionMenu" class="oculto" style="position: fixed; margin-top: 2vh; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 100; align-content: center;justify-items: center;">
-    <section style="background-color: white; padding: 3vh; border-radius: 2vw;">
+    <section class="ventanita">
         <form id="seccionform" style="justify-content: center;display: grid;">
             <label for="SeccionNumber">Numero de la sección:</label>
-            <input type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección" required>
+            <input class="inputt" type="text" id="SeccionNumber" name="numero" placeholder="Ingrese el numero de la sección" required>
 
             <div style="display:flex; justify-content:center;"> 
-                <button class="btn btn-small btn-success" type="submit" id="add-seccion">Agregar</button>
+                <button class="btn btn-small btn-save" type="submit" id="add-seccion">Agregar</button>
                 <button class="btn btn-small btn-cancel" type="button" id="cancel-seccion">Cancelar</button>
             </div> 
         </form>

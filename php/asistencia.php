@@ -17,7 +17,7 @@ try {
 
     $nombre = $data['nombre'];
     $profesorID = $data['id'];
-    $horaActual = $data['hora']; 
+    $horaActual = date("H:i:s"); 
     $fechaHoy = date('Y-m-d');
     $diaSemana = date("w");
 
@@ -89,7 +89,10 @@ $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
             'message' => "No hay materias conocidas del profesor $nombre para hoy $diaSemana",
             'estado' => 5,
             "nombre" => $nombre,
-            "horarios" => $horarios
+            "horarios" => $horarios,
+            "horaE" => "00:00:00",
+            "horaS" => "00:00:00",
+            "DiaSemana" => $diaSemana
         ]);
         exit;
         }
@@ -139,7 +142,9 @@ $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
             'estado' => 1,
             "nombre" => $nombre,
             "horarios" => $horarios,
-            "hora" => $horaActual
+            "horaE" => $openhour,
+            "horaS" => $closehour,
+            "DiaSemana" => $diaSemana
         ]);
     } 
     else {
@@ -155,7 +160,9 @@ $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
             'estado' => 1,
             "nombre" => $nombre,
             "horarios" => $horarios,
-            "hora" => $horaActual
+            "horaE" => $openhour,
+            "horaS" => $closehour,
+            "DiaSemana" => $diaSemana
         ]);
 
         }else if ($estadoActual === 1) {
@@ -175,7 +182,10 @@ $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
                     'message' => "Faltan $minutos min. para poder marcar salida.",
                     'estado' => 4,
                     "nombre" => $nombre,
-                    "horarios" => $horarios
+                    "horarios" => $horarios,
+                    "horaE" => $openhour,
+                    "horaS" => $closehour,
+                    "DiaSemana" => $diaSemana
                 ]);
                 exit;
             }
@@ -190,11 +200,13 @@ $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
                 'estado' => 2,
                 "nombre" => $nombre,
                 "horarios" => $horarios,
-                "hora" => $horaActual
+                "horaE" => $openhour,
+                "horaS" => $closehour,
+                "DiaSemana" => $diaSemana
             ]);
         } 
         else {
-            echo json_encode(['success' => true, 'message' => "Jornada completada para $nombre.",'estado' => 3,"nombre" => $nombre,"horarios" => $horarios]);
+            echo json_encode(['success' => true, 'message' => "Jornada completada para $nombre.",'estado' => 3,"nombre" => $nombre,"horarios" => $horarios,"horaE" => $openhour, "horaS" => $closehour, "DiaSemana" => $diaSemana]);
         }
     }
 

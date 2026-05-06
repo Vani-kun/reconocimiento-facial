@@ -49,8 +49,8 @@
     width: 450px;
     height: 450px;
     border-radius: 50%;
-    background-color: #34495e;
-    border: 8px solid #ecf0f1;
+    background-color:var(--newfondo);
+    border: 8px solid var(--newprima);
     box-shadow: 0 0 50px rgba(0,0,0,0.6);
     display: flex;
     align-items: center;
@@ -133,7 +133,6 @@
             if (Detex!=="detectado") {
             Detex="detectado";
             if(!enpanelprofesor){
-            //intentarAsistencia(profesorGlobal);
             await asistencia(profesorGlobal.id,profesorGlobal.nombre);
             showAsistencia(1);}else{showAsistencia(0);}
             moveCamera("left");

@@ -1,3 +1,14 @@
+<?php
+    include "php/conexion.php";
+
+    $sqlConfig = "SELECT pausa FROM configuracion LIMIT 1";
+    $stmtConfig = $pdo->query($sqlConfig);
+    $config = $stmtConfig->fetch();
+    
+    // Si no existe la configuración, le damos un valor por defecto (ej. 0)
+    $valorPausa = $config ? $config['pausa'] : 0;
+    //echo $valorpausa;
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,15 +32,25 @@
 </heasd>
 <body class="theme-dark">
 
+
 <?php include 'newBarra.php'; ?>
+
 <?php include 'newCamara.php'; ?>
 <?php include 'newProfesores.php'; ?>
+<?php if($valorPausa==0):?>
 <?php include 'Secciones.php'; ?>
 <?php include 'newAsistencia.php';?>
 <?php //include 'php/extras/footer.php';?>
 <?php include 'reloj.php';?>
 <?php include 'newControl.php';?>
 <?php include 'horarios.php';?>
+
+<?php else:?>
+    <script>
+        moveCamera('ocultar');
+    </script>
+<?php endif;?>
+<?php include 'newRegistroAsis.php';?>
 
     <audio id="detect" src="mp3/detect.mp3" preload="auto" hidden></audio>
     <audio id="nodetect" src="mp3/nodetect.mp3" preload="auto" hidden></audio>

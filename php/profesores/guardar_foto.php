@@ -9,7 +9,7 @@ if (isset($_FILES['foto'])) {
     $archivo = $_FILES['foto'];
     
     // Ruta donde quieres guardar
-    $ruta = "../../img/descriptores/" . $nombre . ".jpg";
+    $ruta = "../../img/caras/" . $nombre . ".jpg";
 
     // move_uploaded_file toma el archivo temporal y lo mueve a tu carpeta
     if (move_uploaded_file($archivo['tmp_name'], $ruta)) {

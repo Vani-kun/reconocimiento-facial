@@ -10,6 +10,7 @@ $data = json_decode($json, true);
 if (isset($data['descriptor'])) {
     $nombre = $data['nombre'];
     $descriptor = $data['descriptor']; // Esto ya viene como string JSON
+    ///aqui esto tinene q ver con que se gurade el tags  si
     $tags = isset($data['tags']) ? json_encode($data['tags']) : json_encode([]); 
     try{
         // Preparar la consulta SQL y ejecutarla

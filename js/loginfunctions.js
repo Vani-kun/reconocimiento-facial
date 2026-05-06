@@ -5,7 +5,6 @@ export async function verificarSesion() {//en newBarra
     const token = localStorage.getItem('user_token'); // El ID que guardamos al hacer login
     const id = localStorage.getItem('user_id');
     const nombre = localStorage.getItem('user_name');
-    const act_level = localStorage.getItem('user_level');
 
     var respuesta = {
         logged: false,
@@ -34,12 +33,10 @@ export async function verificarSesion() {//en newBarra
             localStorage.removeItem('user_id');
             localStorage.removeItem('user_name');
             localStorage.setItem('user_level',0);
-            if(act_level != 0){updatePage();}
             return respuesta;
         } else {
             respuesta.logged = true;
             respuesta.level = res.level;
-            if(act_level != res.level){updatePage();}
             localStorage.setItem('user_level',res.level);
             return respuesta;
         }

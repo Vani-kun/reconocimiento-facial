@@ -529,7 +529,6 @@ function switchTab(tabName) {
     const tabProf = document.getElementById('tab-profesores');
     const tabCal = document.getElementById('tab-calendario');
 
-    // Colores basados en tu imagen de referencia
     const colorActivoBg = '#e0f2f1'; // Fondo claro
     const colorActivoTexto = '#265d63'; // Verde oscuro
     const colorInactivoBg = '#60949a'; // Verde medio/opaco
@@ -558,7 +557,7 @@ function switchTab(tabName) {
         tabProf.style.backgroundColor = colorInactivoBg;
         tabProf.style.color = colorInactivoTexto;
         
-        // CRÍTICO: Reajustar el calendario para que no se vea pequeño
+        //Reajustar el calendario para que no se vea pequeño
         if (typeof calendar !== 'undefined' && calendar !== null) {
             setTimeout(() => {
                 calendar.updateSize();
@@ -587,7 +586,6 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarDatos()
 </script>
 
-<?php include 'php/extras/footer.php';?>
 
 </body>
 </html>
