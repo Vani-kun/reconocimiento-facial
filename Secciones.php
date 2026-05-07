@@ -547,12 +547,12 @@
             console.log(data)
             
             if(data.materia == "" || data.aula == "" || data.seccion == ""){
-                alert("Llena todos los campos");
+                msj("Llena todos los campos",1);
                 return;
                 }           
 
             if(DayList.length <= 1){
-                alert("Asigna al menos un día completo");
+                msj("Asigna al menos un día completo",1);
                 return;
                 }
 
@@ -568,7 +568,7 @@
                     const m = DayList[j]; 
                     if(n.Dia == m.Dia){
                         if((m.HoraE > n.HoraE && m.HoraE < n.HoraS) || (m.HoraS > n.HoraE && m.HoraS < n.HoraS) || (m.HoraS == n.HoraS && m.HoraE == n.HoraE)){
-                            alert("Las horas del dia "+(i+1)+" chocan con las horas del dia "+(j+1));
+                            msj("Las horas del dia "+(i+1)+" chocan con las horas del dia "+(j+1),1);
                             return;    
                             }     
                         }
@@ -599,7 +599,7 @@
                     const resultado = await respuesta.json(); 
                     if (resultado.success) {
                         console.log("respuesta: "+ resultado.message);
-                        alert("Horario guardado exitosamente.");
+                        msj("Horario guardado exitosamente.");
                         form.reset();
 
                         const element = document.createElement("div");
@@ -655,11 +655,11 @@
                         document.getElementById("mold-items-bank").appendChild(element);
                     } else {
                         console.error("respuesta: " + resultado.error);
-                        alert("Error al guardar el horario.");
+                        msj("Error al guardar el horario.",2);
                     }
                 } catch (error) {
                     console.error("Error al enviar: ", error);
-                    alert("Error de conexión al guardar el horario.");
+                    msj("Error de conexión al guardar el horario.",2);
                 }
             }else{
                         data.id = ItemSelected.getAttribute("myid");
@@ -681,7 +681,7 @@
                     const resultado = await respuesta.json(); 
                     if (resultado.success) {
                         console.log("respuesta: "+ resultado.message);
-                        alert("Horario guardado exitosamente.");
+                        msj("Horario guardado exitosamente.");
                         form.reset();
                         SectionBtn[1][0].classList.add("divsection-selected"); 
                         SectionBtn[1][1].style   = "";
@@ -724,11 +724,11 @@
 
                     } else {
                         console.error("respuesta: " + resultado.error);
-                        alert("Error al guardar el horario.");
+                        msj("Error al guardar el horario.",2);
                     }
                 } catch (error) {
                     console.error("Error al enviar: ", error);
-                    alert("Error de conexión al guardar el horario.");
+                    //msj("Error de conexión al guardar el horario.",2);
                 } 
             }
 
@@ -752,7 +752,7 @@
             const items = Array.from(document.querySelectorAll('.item-materia'));
             let salir = items.some(element => {
                 if(element.getAttribute("data-materia") == nombre){
-                    alert("Ya hay un prompt con el nombre "+nombre);
+                    msj("Ya hay un prompt con el nombre "+nombre,2);
                     return true;
                     }
                 });
@@ -827,7 +827,7 @@
                 let salidaData = element.getAttribute("data-salida").substring(0, 5);
 
                 if(entradaData == he && salidaData == hs){
-                    alert("Ya hay un prompt con las horas "+he+" - "+hs);
+                    msj("Ya hay un prompt con las horas "+he+" - "+hs,2);
                     return true;
                     }
                 });
@@ -897,7 +897,7 @@
             const items =  Array.from(document.querySelectorAll('.item-aula'));
             let salir = items.some(element => {
                 if(element.getAttribute("data-aula") == aula){
-                    alert("Ya hay un prompt con el aula "+aula);
+                    msj("Ya hay un prompt con el aula "+aula,2);
                     return true;
                     }
                 });
@@ -967,7 +967,7 @@
             const items =  Array.from(document.querySelectorAll('.item-seccion'));
             let salir = items.some(element => {
                 if(element.getAttribute("data-seccion") == seccion){
-                    alert("Ya hay un prompt con la seccion "+seccion);
+                    msj("Ya hay un prompt con la seccion "+seccion,2);
                     return true;
                     }
                 });
@@ -1323,7 +1323,7 @@
 
                         ActualizarHorario();
                     } else {
-                    alert("respuesta: " + resultado.error);
+                        msj("respuesta: " + resultado.error,2);
                     }
                 } catch (error) {
                 console.error("Error al enviar: ", error);

@@ -47,7 +47,7 @@ export async function verificarSesion() {//en newBarra
     }
 }
 
-export function updatePage(){
+export async function updatePage(){
 
 const myLevel = parseInt(localStorage.getItem('user_level'));
 
@@ -122,18 +122,12 @@ const myLevel = parseInt(localStorage.getItem('user_level'));
 
 const e = {level:myLevel,MaxLevel:MaxLevel}
 
-UpdateLevelEventBus.forEach(element => {
-    
-    try {
-
+    UpdateLevelEventBus.forEach(element => { 
+        try {
         element(e);
-        
-    } catch (error) {
-        
+        } catch (error) {
         console.error("Error en el bus de eventos: ", error)
-
-    }
-
+        }
     });
 }
 

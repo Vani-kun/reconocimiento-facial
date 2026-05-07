@@ -30,7 +30,7 @@
         window.onpopstate = function () { history.go(1); };
     </script>
 </heasd>
-<body class="theme-dark">
+<body >
 
 
 <?php include 'newBarra.php'; ?>
@@ -51,6 +51,8 @@
     </script>
 <?php endif;?>
 <?php include 'newRegistroAsis.php';?>
+<?php include 'newMensaje.php';?>
+<?php include 'ct.php';?>
 
     <audio id="detect" src="mp3/detect.mp3" preload="auto" hidden></audio>
     <audio id="nodetect" src="mp3/nodetect.mp3" preload="auto" hidden></audio>

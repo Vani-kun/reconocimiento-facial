@@ -133,24 +133,24 @@
 <div id="panel-container">
     <!-- IZQUIERDA: DIAGNÓSTICO Y PRECISIÓN -->
     <div class="col col-left">
-        <h3>Sistemas & Log</h3>
+        <h3>Configuracion del Sistema</h3>
         <div class="control-item">
             <label class="checkbox-wrapper">
                 <input type="checkbox" id="err-log"> Errores de Sistema
             </label>
         </div>
-        <div class="control-item">
+        <!--div class="control-item">
             <label class="checkbox-wrapper">
                 <input type="checkbox" id="debug-mode" checked> Depuración Activa
             </label>
-        </div>
+        </div-->
         
         <div class="control-item" style="margin-top: 20px;">
             <label style="font-size: 0.75rem; opacity: 0.8;">RANGO DE PRECISIÓN: <span id="prec-val">0.90</span></label>
-            <input type="range" min="0" max="1" step="0.01" value="0.90" oninput="updatePrecision(this.value)">
+            <input type="range" min="0" max="1" step="0.01" value="0.90" oninput="updatePrecision(this.value)" id="rangobar">
         </div>
 
-        <button class="btn-futurista" onclick="console.log('Reiniciando logs...')">Limpiar Historial</button>
+        <button class="btn-futurista" onclick="guardacargaConfi(1)">Actualiosar Configuracion</button>
     </div>
 
     <!-- CENTRO: NÚCLEO LIVELULA -->
@@ -192,10 +192,14 @@
 </div>
 
 <script>
+    ////variables de configuracion 
+
     // Función para mostrar/ocultar el panel
     function togglexxPanel() {
         let pannel=document.getElementById('panel-container');
-        if (pannel.classList.contains("active")){moveCamera("center");enpanelprofesor=false;}
+        if (pannel.classList.contains("active")){
+            moveCamera("center");enpanelprofesor=false;
+        }else{guardacargaConfi(0);}
         pannel.classList.toggle('active');
     }
 
@@ -232,7 +236,7 @@
             if (resultado.success) {
                 console.log("🛠️ " + resultado.msg);
             } else {
-                alert("Error: " + resultado.msg);
+                msj("Error: " + resultado.msg,2);
             }
         } catch (error) {console.error("Error al intentar cambiar la pausa:", error);}
     }
@@ -254,7 +258,7 @@
                 labels: ['Asistentes', 'Inasistentes'],
                 datasets: [{
                     data: [18, 5], 
-                    backgroundColor: ['#39ff14', '#ff0055'],
+                    backgroundColor: ['#39ff14', '#505050'],
                     hoverOffset: 10,
                     borderWidth: 0
                 }]
@@ -270,29 +274,43 @@
             }
         });
 
-// Función para sincronizar con tu PHP de Caracas
+//
 async function cargarDatosReales() { 
     try {
         const res = await fetch('php/asistencia/new_asitentes.php');
         const servidor = await res.json();
-        console.log("sistentes",servidor);
         if (servidor.success) {
-            //alert("gg");
             // Mapeamos: st1->Verde, st0->Rojo, st2->Amarillo
             profDataChart.data.datasets[0].data = [servidor.asis,servidor.st0 ];
             profDataChart.update();
             console.log("📊 Gráfico actualizado con éxito.");
-        }else{
-            alert("error al ejecutar");
-            
-        }
+        }else{msj("error en estadistica de control",2);}
+    } catch (e) {console.error("Error cargando estadísticas:", e);}
+}cargarDatosReales();
+ 
+async function guardacargaConfi(modo) { 
+    try {
+        const res = await fetch('php/control/guarda_config.php',{
+            method: 'POST',headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                modo: modo,
+                rango: document.getElementById('rangobar').value,
+                errores: (document.getElementById('err-log').checked)?1:0
+            }),
+        });
+        const servidor = await res.json();
+        if (servidor.success) {
+            ///lectura
+            if(modo==0){
+            document.getElementById('err-log').checked = (servidor.errores==1)?true:false;
+            document.getElementById('rangobar').value = parseFloat(servidor.rango).toFixed(1);
+            updatePrecision( parseFloat(servidor.rango).toFixed(1));
+            }
+            console.log("servidor "+servidor.msg);
+        }else{msj("error en consulta de configuracion",2);}
     } catch (e) {
-        console.error("Error cargando estadísticas:", e);
+        let info=(modo==1 ? "Guardando" : "Cargando");
+        console.error("Error "+info+" configuraciones:", e);
     }
 }
-
-// Iniciar carga
-cargarDatosReales();
- 
-
 </script>

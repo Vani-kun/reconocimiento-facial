@@ -255,7 +255,7 @@ async function ActualizarHorario(){
 
                 document.getElementById("schedule-range").style = `min-height:${_Maxhour}vh;`;   
             } else {
-            alert("respuesta: " + resultado.error);
+                m("respuesta: " + resultado.error);
             }
         } catch (error) {
         console.error("Error al enviar: ", error);

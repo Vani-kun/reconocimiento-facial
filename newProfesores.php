@@ -407,7 +407,7 @@
             const resultado = await respuesta.json(); 
             if (resultado.success) {
                     console.log(resultado.message);
-                    alert("respuesta: "+ resultado.message); 
+                    msj("respuesta: "+ resultado.message); 
                     document.getElementById("listado").innerHTML = "";  
                     // 1. Buscamos el índice (posición) del profesor en el array
                     const indice = datosProfesores.findIndex(p => p.id == _ID);
@@ -418,14 +418,14 @@
                     }  
                     cargarProfesores();
                 } else {
-                alert("respuesta: " + resultado.error);
+                    msj("respuesta: " + resultado.error,2);
                 }
         } catch (error) {
             console.error("Error al enviar: ", error);
             }
     }
     async function guardarProfesor(_nombre,_tag,_listaCaras,edi){
-        if(_listaCaras.length == 0){alert("Guarda al menos un rostro");return;}
+        if(_listaCaras.length == 0){msj("Guarda al menos un rostro");return;}
         
         let _Page ='';
         let datosEnvio='';
@@ -448,8 +448,6 @@
                     descriptor: JSON.stringify(_listaCaras)
                     };
         }
-
-
         try {
             const respuesta = await fetch(_Page, {
                 method: 'POST',
@@ -462,9 +460,9 @@
                 {await guardarImg(canvax,resultado.profesor.id);}
                 console.log(datosEnvio);
                  cargarProfesores();
-                alert("respuesta: "+ resultado.message);
+                msj("respuesta: "+ resultado.message,0);
             } else {
-                alert("respuesta: " + resultado.error);
+                msj("respuesta: " + resultado.error,2);
             }
         } catch (error) {
             console.error("Error al enviar: ", error);

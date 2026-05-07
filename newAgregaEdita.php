@@ -239,17 +239,13 @@
     FacesList = [];
     const canvax = document.createElement('canvas');
     canvax.width = 500;canvax.height = 500;
-
     const subpanel = document.getElementById('sidePanel');
-    
-            for(let i=1;i<=3;i++){
-                const slotElement = document.getElementById('scan'+i);
-                slotElement.addEventListener("click",()=>{
-                    //alert('scan'+i);
-                    removeScan(i)
-                });
-            }
-
+    for(let i=1;i<=3;i++){
+        const slotElement = document.getElementById('scan'+i);
+        slotElement.addEventListener("click",()=>{
+            removeScan(i);
+        });
+    }
     function togglexPanel(edi,id) {enpanelprofesor=true;
         if (edi==1){
             editar = 1;
@@ -300,7 +296,7 @@
     }
     function addFoto() {
         //aqui se prosesara si se sube y si se toma la foto directamente
-        if(document.getElementById('pro_nombre').value==""){alert("debe rellenar el nombre");return}
+        if(document.getElementById('pro_nombre').value==""){msj("debe rellenar el nombre",1);return}
         //nombreimagenprofesor=document.getElementById('pro_nombre').value.trim();;
         capturarImagenDeVideo(video,document.getElementById("fotopro"));         
     }
@@ -323,11 +319,11 @@
                 FacesList.push(descriptorActual); 
                 actualizaScan();
             } else {
-                alert("Límite de Descriptores alcanzado");
+                msj("Límite de Descriptores alcanzado",2);
             }
             descriptorActual = null; //Limpiamos para el siguiente escaneo
         } else {
-            alert("No se detectó ningún rostro. Intenta ajustar la iluminación.");
+            msj(2,"No se detectó ningún rostro. Intenta ajustar la iluminación.");
         }   
     }
     function removeScan(ind) {
@@ -407,11 +403,11 @@
         const nombreValido = pro_nombre.length > 4 && pro_nombre.length < 30;
         const tagValida = true;//pro_tag.length > 4 && pro_tag.length < 30;
 
-        if (!nombreValido ) {alert("El nombre debe tener entre 5 y 29 caracteres.");
+        if (!nombreValido ) {msj("El nombre debe tener entre 5 y 29 caracteres.",1);
         }else
-        if (!tagValida) {alert("la especialidad debe tener entre 5 y 29 caracteres.");
+        if (!tagValida) {msj("la especialidad debe tener entre 5 y 29 caracteres.",1);
         }else 
-        if (FacesList.length <=0) {alert("debes agregar almenos un descrictor.");
+        if (FacesList.length <=0) {msj("debes agregar almenos un descrictor.",2);
         }else {
             guardarProfesor(pro_nombre,pro_tag,FacesList,editar);
             togglexPanel();

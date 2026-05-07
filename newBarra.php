@@ -300,7 +300,7 @@
         const passwordverify = document.getElementById("passverifyinput").value;
 
         if(password != passwordverify){
-            alert("las contraseñas no coinciden");
+            msj("las contraseñas no coinciden",2);
             return;
             }
 
@@ -314,7 +314,8 @@
     })
 
     window.addEventListener('load', () => {
-        schedulerecharge()
+        //schedulerecharge();
+        //showAsisReg(1);
         if (typeof addUpdateLevelEventListener === 'function') {
             addUpdateLevelEventListener((e) => {
 
@@ -378,6 +379,35 @@
                     break;
                 }
             });
+
+  
+            addUpdateLevelEventListener(async (e) => {
+               
+            const myuser = localStorage.getItem('user_id');
+                if(myuser){
+                 switch (parseInt(myuser)) {
+                    case 7: //Aaron
+                            //showAsisReg(1);
+                        break;
+
+                        
+                     case 8: //Yovani
+                           //| msj("iniciando servicio de alertas Livelula");
+             showAsisReg(3);
+                            break;//No se pq no esta funcionando ahroa esta parte
+
+
+                    case 4: //Adrian
+                        chat("QUe haces adrian?");
+                        showAsisReg(3);
+                            
+                        break;
+                    default:
+                        break;
+
+                    }
+                }
+            })        
         }
     });
 
