@@ -76,10 +76,11 @@
         display: flex; flex-direction: column;
         border-right: 1px solid rgba(255,255,255,0.1);
         background:var(--newfondo);
+        overflow-y:scroll;
     }
 
     .col-left { border-right: none; background: var(--newpoligono); }
-        .col-right { border-right: none; background: var(--newpoligono); }
+    .col-right { border-right: none; background: var(--newpoligono); }
 
     h3 { 
         font-size: 0.85rem; text-transform: uppercase; 
@@ -89,7 +90,7 @@
     }
 
     /* Diagnóstico e Inputs */
-    .control-item { margin-bottom: 25px; }
+    .control-item { margin-bottom: 5px; }
     .checkbox-wrapper { display: flex; align-items: center; gap: 15px; cursor: pointer; }
     
     input[type="checkbox"] {
@@ -126,6 +127,131 @@
     #status-text { font-size: 1.8rem; font-weight: bold; text-shadow: 0 0 15px var(--newprima); }
 
 </style>
+<style>
+    :root {
+    --bg-panel: #1a1a1a;
+    --bg-item: #2a2a2a;
+    --accent: #00d4ff;
+    --danger: #ff4757;
+    --warning: #ffc107;
+    --success: #2ed573;
+    --text: #ffffff;
+}
+
+.panel-container {
+    width: 100%;
+    height: auto;
+    background: var(--bg-panel);
+    color: var(--text);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #333;
+    margin-top:20px
+}
+
+/* Cabecera */
+.panel-header {
+    background:var(--newfondo);color:var(--newletras);
+    padding: 15px;
+    text-align: center;
+    border-bottom: 2px solid var(--newprima);
+}
+.btn-main {
+    background:var(--newprima);color:var(--newletras);
+    width: 100%;
+    padding: 0px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size:30px
+}
+
+/* Lista con Scroll */
+.user-list {
+    flex: 1;
+    overflow-y: scroll;
+    max-height:150px;
+    padding: 15px 15px 15px 0px;
+    background:var(--newfondo);
+}
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-item);
+    padding: 0px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    border-radius: 0px 20px 20px 0px;
+}
+.user-item span{
+    margin: 0px auto;
+}
+.user-item:hover {
+    background: #353535;
+}
+
+/* Formulario Central */
+.registration-box {
+    display: none;
+    background: #222;
+    padding: 20px;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Niveles de Usuario */
+.level-selector {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0px;
+    margin-top: 15px;
+    text-align: center;
+}
+.level-icon {
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 5px;marging:0px;
+    border-radius: 4px;
+    background: #2a2a2a;
+}
+.level-icon:hover {
+    background: var(--newprima);
+    color: var(--newletras);
+}
+
+/* Botones */
+.botonera{display: grid;}
+.btn-action {
+    border: none;padding: 5px 10px;cursor: pointer;margin-left: 5px;
+}
+.btnedi{background: var(--warning);border-radius: 0px 20px 0px 0px;}
+.btndel{background: var(--danger); border-radius: 0px 0px 20px 0px;color:white}
+
+.botoni {
+    padding: 5px!important;
+    cursor: pointer;
+    margin-top: 10px;height: auto;
+    margin:0px;margin-top:10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
 </head>
 <body>
 
@@ -134,16 +260,52 @@
     <!-- IZQUIERDA: DIAGNÓSTICO Y PRECISIÓN -->
     <div class="col col-left">
         <h3>Configuracion del Sistema</h3>
+
+ <div class="panel-container">
+    <div class="panel-header">
+        <h2 style="margin:0">Gestión de Usuarios</h2>
+    </div>
+    <!-- Lista que hace scroll -->
+    <div class="user-list" id="userlista">
+        <div class="user-item">
+            <span>Admin_01</span>
+            <div class="botonera">
+                <button class="btn-action btnedi" ><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn-action btndel" ><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+        <!-- Más usuarios aquí -->
+    </div>
+    <!-- Panel de Registro Central -->
+    <div id="regPanel" class="registration-box">
+        <div class="input-group">
+            <input id="inpuU"class="inputt" type="text" placeholder="Nombre de usuario">
+            <input id="inpuP"class="inputt" type="password" placeholder="Contraseña">
+        </div>
+   
+        <div class="level-selector" id="seleve">
+            <div class="level-icon"><i class="fa-solid fa-eye"></i><br>Visor</div>
+            <div class="level-icon"><i class="fa-solid fa-pen-to-square"></i><br>Editor</div>
+            <div class="level-icon"><i class="fa-solid fa-screwdriver-wrench"></i><br>Mod</div>
+            <div class="level-icon"><i class="fa-solid fa-shield"></i><br>Admin</div>
+            <div class="level-icon"><i class="fa-solid fa-crown"></i><br>Supremo</div>
+        </div>
+        
+        <button id="accion" class="btn btn-save botoni" style="width:100%" onclick="guardarusuario()">GUARDAR</button>
+        <button id="accion2" class="btn btn-save botoni" style="width:100%" onclick="cancelausuario()">CANCELAR</button>
+    </div>
+    <!-- Botón Agregar abajo -->
+    <button class="btn-main" onclick="togglePanelusers()">+</button>
+</div>
+
+
+
+       
         <div class="control-item">
             <label class="checkbox-wrapper">
                 <input type="checkbox" id="err-log"> Errores de Sistema
             </label>
         </div>
-        <!--div class="control-item">
-            <label class="checkbox-wrapper">
-                <input type="checkbox" id="debug-mode" checked> Depuración Activa
-            </label>
-        </div-->
         
         <div class="control-item" style="margin-top: 20px;">
             <label style="font-size: 0.75rem; opacity: 0.8;">RANGO DE PRECISIÓN: <span id="prec-val">0.90</span></label>
@@ -151,6 +313,7 @@
         </div>
 
         <button class="btn-futurista" onclick="guardacargaConfi(1)">Actualiosar Configuracion</button>
+
     </div>
 
     <!-- CENTRO: NÚCLEO LIVELULA -->
@@ -313,4 +476,128 @@ async function guardacargaConfi(modo) {
         console.error("Error "+info+" configuraciones:", e);
     }
 }
+/*##########################usuarios */
+let editacion=0;
+let ide=0;
+
+function update(){
+    seleve=document.getElementById("seleve");
+}
+function cancelausuario(){
+    editacion=0;
+    document.getElementById('accion').textContent="GUARDAR";
+    const p = document.getElementById('regPanel');
+    if (p.style.display != 'none') {togglePanelusers();}
+}
+function togglePanelusers() {
+    const p = document.getElementById('regPanel');
+    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+    document.getElementById("inpuU").value="";
+    document.getElementById("inpuP").value="";
+    if(editacion==0){document.getElementById('accion').textContent="GUARDAR";}
+    
+}
+function listarUsuarios(usrs) {
+    lista=document.getElementById("userlista");lista.innerHTML = ""
+    usrs.forEach(ele => {
+        console.log(ele.usuario);
+
+        newiten=document.createElement("div");
+        newuser=document.createElement("span");
+        newpanelbtn=document.createElement("div");
+        newedi=document.createElement("button");newedi.className="btn-action btnedi";newedi.innerHTML='<i class="fa-solid fa-pen-to-square"></i>';
+        newdel=document.createElement("button");newdel.className="btn-action btndel";newdel.innerHTML='<i class="fa-solid fa-trash"></i>';
+
+        newiten.className="user-item";
+        newpanelbtn.className="botonera";
+        newuser.textContent=ele.usuario;
+        newedi.addEventListener("click",()=>{
+            userserver(2,ele.id,"","",0);
+            //msj(ele.usuario,1);
+        });
+        newdel.addEventListener("click",()=>{
+                
+        if(!confirm(`Seguro que deseas eliminar al usuario ${ele.usuario}`)){return;}
+        if(prompt(`Para eliminar a ${ele.usuario}, escribe: ELIMINAR`) != "ELIMINAR"){return;}
+
+            if( userserver(4,ele.id,"","",0)){msj(ele.usuario+ " eliminado ...",2);}
+        });
+        newpanelbtn.appendChild(newedi);newpanelbtn.appendChild(newdel);
+        newiten.appendChild(newuser);
+        newiten.appendChild(newpanelbtn);
+        lista.appendChild(newiten);
+       /*<div class="user-item">
+            <span>Admin_01</span>
+            <div class="botonera">
+                <button class="btn-action btnedi" ><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn-action btndel" ><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>*/
+
+    });
+}
+function guardarusuario() {
+    ///validar
+    let inpuU = document.getElementById("inpuU").value.trim();
+    let inpuP = document.getElementById("inpuP").value.trim();
+    if(inpuU === "" || inpuP === "") {
+        msj("Campos vacíos", 2);
+        return;
+    }
+    if (editacion==0){
+        if (userserver(1,0,inpuU,inpuP,5)){msj("Guardado con exito!", 0);}
+    }else 
+    if (editacion==1){
+        if (userserver(3,ide,inpuU,inpuP,5)){msj("Editado con exito!", 0);}
+    }
+    togglePanelusers(); 
+}
+async function userserver(tipo,id,usr,pass,lv) { 
+    try {
+        const res = await fetch('php/control/usuarios.php',{
+            method: 'POST',headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tipo: tipo,
+                id: id,
+                usr: usr,
+                pass: pass,
+                lv: lv
+            }),
+        });
+        const servidor = await res.json();
+        if (servidor.success) {
+            ///lectura
+            if(tipo==0){
+                listarUsuarios(servidor.usuarios);return true;
+                //msj("datos leidos",0);
+            }else
+            if(tipo==1){
+                userserver(0,0,"","",0);return true;
+            }else
+            if(tipo==2){
+                editacion=1;
+                ide=servidor.usuario.id;
+                document.getElementById('accion').textContent="EDITAR";
+                const p = document.getElementById('regPanel');
+                if (p.style.display != 'block') {togglePanelusers();}
+                document.getElementById("inpuU").value=servidor.usuario.usuario;
+                document.getElementById("inpuP").value=servidor.usuario.password;      
+                return true;
+            }else
+            if(tipo==3){
+                userserver(0,0,"","",0);
+                editacion=0;
+                return true;
+            }else
+            if(tipo==4){
+                userserver(0,0,"","",0);
+                return true;
+            }
+        }else{msj("error en consulta userserver",2);msj("consulta",2);}
+    } catch (e) {
+        console.error("Error en user server try", e);msj("try",2);
+    }return false;
+}
+
+userserver(0,0,"","",0);
 </script>

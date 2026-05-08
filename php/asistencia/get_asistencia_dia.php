@@ -21,7 +21,7 @@ try {
     $rango1 = $data['sdia'];
     $rango2 = $data['edia'];
     
-    $stmt = $pdo->prepare("SELECT id, profesorID, entrada, salida, estado, fecha, tardanza FROM asistencia WHERE fecha BETWEEN ? AND ? ORDER BY fecha ASC, entrada ASC");
+    $stmt = $pdo->prepare("SELECT id, profesorID, entrada, salida, estado, fecha, tardanza, detalles FROM asistencia WHERE fecha BETWEEN ? AND ? ORDER BY fecha ASC, entrada ASC");
     $stmt->execute([$rango1, $rango2]);
     $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

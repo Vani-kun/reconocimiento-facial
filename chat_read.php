@@ -18,10 +18,12 @@ try {
 
         if ($last_id == 0 && $limit != null) {
         // CASO A: Primera carga. Traemos los últimos N mensajes.
-        $sql = "SELECT u.usuario, m.mensaje, m.id FROM mensajes m INNER JOIN usuarios u ON m.usuario = u.id ORDER BY m.id DESC LIMIT :limit";
+        $sql = "SELECT u.usuario, m.mensaje, m.id, m.fecha FROM mensajes m INNER JOIN usuarios u ON m.usuario = u.id ORDER BY m.id DESC LIMIT :limit";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $stmt->execute();
+
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode([
             "success" => true, 
@@ -31,15 +33,14 @@ try {
         } else {
         // CASO B: Actualización constante. Solo lo nuevo desde el último ID.
         while (time() - $start_time < 40) {
-            $sql = "SELECT u.usuario, m.mensaje, m.id FROM mensajes m INNER JOIN usuarios u ON m.usuario = u.id WHERE m.id > ? ORDER BY m.id DESC";
+            $sql = "SELECT u.usuario, m.mensaje, m.id, m.fecha FROM mensajes m INNER JOIN usuarios u ON m.usuario = u.id WHERE m.id > ? ORDER BY m.id DESC";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$last_id]);
 
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-          
             if (!empty($resultados)) {
-                echo json_encode(["success" => true, "msjs" => $resultados]);
+                echo json_encode(["success" => true, "msjs" => $resultados, "ultimoID" => $last_id]);
                 exit; // Si hay mensajes, enviamos y cerramos el script
                 }
 

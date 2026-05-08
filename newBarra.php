@@ -251,6 +251,7 @@
             showAsistencia(0);
             toggle(0);
             enpanelprofesor=true;
+            getonlydays();
             }else{
             document.getElementById("AsisFirstDiv").classList.add("hidden");
             document.getElementById("AsisSecondDiv").classList.add("hidden");
@@ -385,27 +386,23 @@
                
             const myuser = localStorage.getItem('user_id');
                 if(myuser){
-                 switch (parseInt(myuser)) {
+                switch (parseInt(myuser)) {
                     case 7: //Aaron
-                            //showAsisReg(1);
-                        break;
-
-                        
-                     case 8: //Yovani
+                            showAsisReg(1);
+                    break;        
+                    case 8: //Yovani
                            //| msj("iniciando servicio de alertas Livelula");
-             showAsisReg(3);
-                            break;//No se pq no esta funcionando ahroa esta parte
-
-
+                        //showAsisReg(3);
+                        showControl();
+                    break;//No se pq no esta funcionando ahroa esta parte
                     case 4: //Adrian
                         chat("QUe haces adrian?");
-                        showAsisReg(3);
-                            
-                        break;
+                        showAsisReg(3); 
+                    break;
                     default:
-                        break;
+                    break;
 
-                    }
+                }
                 }
             })        
         }

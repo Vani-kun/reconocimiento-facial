@@ -163,33 +163,50 @@
         width: 100%;
         max-width: 900px;
         min-height: 400px;
-        gap: 20px;
+        gap: 30px;
         padding: 40px 20px;
         margin: 0 auto;
     align-items: stretch;  /* Esto es lo que iguala las alturas (viene por defecto) */
     gap: 20px;            /* Espacio entre paneles */
+
+            align-items: center;
+        justify-content: center;
     }
 
-    .panel {
-        flex: 1; /* Mitad y mitad */
+    .panelx {       
         display: flex;         /* Opcional: para organizar el contenido interno */
+        flex: 1;
         flex-direction: column; /* Alinea el contenido de arriba a abajo */
         background: var(--newpoligono);
         border-radius: 15px;
-        padding: 30px;
+        padding: 20px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         position: relative; /* Para que el círculo se ubique respecto a este div */
-        display: flex;
-        flex-direction: column;
         color:var(--newletras);
         border-left:0px ;
+        min-height:40vh;
+        min-width:300px;
     }
+    /* Cuando la pantalla sea de 768px o más (Tablets/Laptops) */
 
+    .panelx-derecho {  flex: 0 1 auto;min-width:400px; }
+    .panelx-izquierdo{ flex: 0 1 auto;}
+@media (max-width: 768px) {
+    .contenedor-principal {
+        display:grid;
+        width: 100%;
+        height: 100%;         
+        overflow-y: auto;      
+        overflow-x: hidden;   
+    }
+    .panelx-derecho {  display:block; width: 100%;height: auto;}
+    .panelx-izquierdo{ display:block; width: 100%;height: auto;margin-top:20px}
+}
     /* Círculo sobresaliendo */
     .circulo-avatar {
         width: 70px;
         height: 70px;
-        background: var(--newprima);
+        background: black;
         color: white;
         border-radius: 50%;
         display: flex;
@@ -199,12 +216,18 @@
         font-weight: bold;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         overflow: hidden;
+        margin:0px auto;
     }
 
-    /* Estilos Panel Izquierdo */
-    .contenido { margin-top: 20px; }
-    .nombre { margin: 10px 0; font-size: 1.5rem; }
+    /* Estilos Panel dercho */
     
+    .contenido { margin-top: 5px; }
+    .nombre { margin: 5px 0; font-size: 1.5rem; }
+    #regtags{font-size:0.6em;}
+    #regasis , #regina{
+        color:var(--newprima);
+        font-size:1.1em;
+    }
     .tag {
         background: #e9ecef;
         padding: 4px 12px;
@@ -213,7 +236,7 @@
         margin-right: 5px;
     }
 
-    .stats { margin: 20px 0; line-height: 1.6; }
+    .stats { margin: 20px 0; line-height: 1.6;    text-align: left; }
 
     .btn-sueldo {
         background: #28a745;
@@ -228,8 +251,9 @@
     .btn-sueldo:hover { background: #218838; }
 
     /* Estilos Panel izquierdo */
-    .panel-derecho h3 { border-bottom: 2px solid var(--newprima); padding-bottom: 10px; }
-    
+
+    .panelx-derecho h3 { border-bottom: 0px solid var(--newprima);color:var(--newletras);margin-bottom:0px}
+    .panelx-derecho label {font-size:12px;text-align:left;margin:0px;padding:0px;}
     .registro-horas {
         display: flex;
         gap: 15px;
@@ -396,6 +420,46 @@
     .export-btn.pdf:hover i {
         color: #ffffff;
     }
+    /*#######estatus de la asistencia####### */
+    .status-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 8px 16px;
+        border-radius: 50px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        width: fit-content;
+    }
+    .status-text {font-weight: bold;color: #555;text-transform: uppercase;font-size: 0.9rem;}
+    .icons-group {display: flex;gap: 15px;}
+    /* Estilos base de los iconos */
+    .icon-status {
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    .assist { color: #2ecc71; }  /* Verde */
+    .absent { color: #e74c3c; }  /* Rojo */
+    .late { color: #f1c40f; }    /* Amarillo */
+    @keyframes pulso {0% {transform: scale(1); }50% {transform: scale(1.2);}100% { transform: scale(1);}}
+    .soy {
+        animation: pulso 2s infinite ease-in-out;
+    }
+    .nosoy {
+        color:rgba(0,0,0,0.5);
+    }
+    .saveinfo{
+        font-size: 1.2rem;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .saveinfo:hover{
+        color:#2ecc71;
+        cursor:pointer;
+        text-shadow: 0 0 10px #00ff22;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -436,21 +500,17 @@
     </div>
 <!--/////////////////////////////////////ESTADISTUCO////////////////////////////////////////////////-->
     <div id="AsisSecondDiv" class="hidden regasis sd">
-        <div style="width:100%;height:100%;  ">
+        <div style="width:100%;height:100%;">
 
         <h3>Estadistico de Asistencias</h3>
         <div class="chart-container2">
             <canvas id="grafico"></canvas>
         </div>
-        <button class="btx btn-futurista" onclick="cambia(0)">Torta</button>
-        <button class="btx btn-futurista" onclick="cambia(1)">Barra</button>
-        <button class="btx btn-futurista" onclick="cambia(2)">Área Polar</button>
-        <button class="btx btn-futurista" onclick="cambia(3)">linea</button>
-        <button class="btx btn-futurista" onclick="cambia(4)">Radar</button>
-         <!--button class="btx btn-futurista" onclick="applyTheme('basic')">Básico</button>
-        <button class="btx btn-futurista" onclick="applyTheme('dark')">Oscuro</button>
-        <button class="btx btn-futurista" onclick="applyTheme('livelula')">Bio-Livelula</button>
-        <button class="btx btn-futurista" onclick="applyTheme('dark2')">Ambar</button-->
+        <button class="btx btn-futurista" onclick="cambia(0,1)">Torta</button>
+        <button class="btx btn-futurista" onclick="cambia(1,1)">Barra</button>
+        <button class="btx btn-futurista" onclick="cambia(2,1)">Área Polar</button>
+        <button class="btx btn-futurista" onclick="cambia(3,1)">linea</button>
+        <button class="btx btn-futurista" onclick="cambia(4,1)">Radar</button>
         
         <div style="margin-top: auto; font-size: 0.65rem; opacity: 0.4; text-align: right;">
             LIVELULA_CORE // UNIT_01
@@ -462,42 +522,70 @@
     <div id="AsisThirdDiv" class="hidden regasis td">
         <div style="width:100%;height:100%;">
                 <div class="contenedor-principal">
-                    <!-- Panel Derecho: Registro -->
-                    <div class="panel panel-derecho">
-                        <h3>Asistencia</h3>
-                        
+                    <div style="display:grid;">
+                        <div class="profStadisticsDiv" style="width:100%;height:100%;padding:10% 10%;">
+                            <canvas id="profGrafico"></canvas>
+                        </div>
+                        <div style="display:flex;">
+                            <button class="btx btn-futurista" onclick="cambia(0,0)">Torta</button>
+                            <button class="btx btn-futurista" onclick="cambia(1,0)">Barra</button>
+                            <button class="btx btn-futurista" onclick="cambia(2,0)">Área Polar</button>
+                            <button class="btx btn-futurista" onclick="cambia(3,0)">linea</button>
+                            <button class="btx btn-futurista" onclick="cambia(4,0)">Radar</button>
+                        </div>
+                    </div>
+                    <!-- Panel Izquierdo: Registro -->
+                    <div class="panelx panelx-derecho">
+                        <div>
+                        <h3><i class="fa-regular fa-clock"></i>Asistencia</h3>
+                        <div id="saveasisinfo" class="SecurityLevel4 saveinfo oculto" style="right: 20px;position: absolute;top: 20px;" onclick="SaveAsisInfo();"><i class="fa-regular fa-floppy-disk"></i></div>
+                        </div>
+
                         <div class="registro-horas">
                             <div class="campo">
                                 <label>Entrada:</label>
-                                <input class="inputt" type="time" value="07:00">
+                                <input class="inputt" type="time" value="07:00" id="asiEntrada" readonly>
                             </div>
                             <div class="campo">
                                 <label>Salida:</label>
-                                <input class="inputt" type="time" value="13:00">
+                                <input class="inputt" type="time" value="13:00"  id="asiSalida" readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="status-container inputt">
+                            <span class="status-text">Status:</span>
+  
+                            <div class="icons-group">
+                            <i id="ina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" onclick="changeStatus(0)"></i>
+                            <i id="ret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso" onclick="changeStatus(1)"></i>
+                            <i id="asi" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió" onclick="changeStatus(2)"></i>
                             </div>
                         </div>
 
                         <div class="campo">
                             <label>Nota del día:</label>
-                            <textarea class="inputt" placeholder="Escribe observaciones aquí..."></textarea>
+                            <textarea id="asisinfoDescripcion" class="inputt" placeholder="Escribe observaciones aquí..." readonly></textarea>
                         </div>
                     </div>
-                                        <!-- Panel Izquierdo: Información -->
-                    <div class="panel panel-izquierdo">
-                        <div class="circulo-avatar" id="regavatar">A</div>
+
+                                        <!-- Panel Derecho: Información -->
+                    <div class="panelx panelx-izquierdo">
+                        <div class="circulo-avatar" id="regavatar"></div>
                         
                         <div class="contenido">
-                            <h2 class="nombre" id="regnombre">Juan Pérez</h2>
+                            <h2 class="nombre" id="regnombre"></h2>
                             <div class="tags" id="regtags">
-                                Docente 6to Grado
+                                
                             </div>
                             
                             <div class="stats">
-                                <p><strong>Récord de asistencia:</strong> <span id="regasis">95% </span></p>
-                                <p><strong>Inasistencias:</strong><span id="regina">2</span></p>
+                                <p><strong>Récord de asistencia: </strong><span id="regasis"></span></p>
+                                <p><strong>Llegadas tarde: </strong><span id="reglate"></span></p>
+                                <p><strong>Inasistencias: </strong><span id="regina"></span></p>
                             </div>
                             
-                            <button class="btn  btn-save">Calcular Sueldo</button>
+                            <button class="btn  btn-cancel" style="margin: 0px;">Calcular Sueldo</button>
                         </div>
                     </div>
                 </div>
@@ -505,7 +593,7 @@
                 <div class="export-menu-container">
                     <!-- Botón principal (disparador) -->
                     <button class="export-toggle" onclick="toggleExportMenu()" title="Exportar">
-                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fa-solid fa-download"></i>
                     </button>
 
                     <!-- Menú desplegable -->
@@ -537,8 +625,6 @@
 
 
 const AsisMenu = document.getElementById("AsisScrollMenu");
-let startDate = "2026-05-04";
-let endDate = "2026-05-07";
 let todosLosRegistros = [];
 let registrosVisibles = [];
 let status0 = true;
@@ -547,8 +633,14 @@ let status2 = true;
 let search = "";
 let tablesortdir = 0;
 let tablesortmode = 0;
+
+let AsisID = -1;
+let asisActualProfId = -1;
+
 let record=0;
 let inasistencias=0;
+let tardanzas=0;
+let asisinfoclickeable = 0;
 
 function tablesort(mode){
 
@@ -599,16 +691,13 @@ recargarListaAsis();
 
 }
 
-function crearAsisTask(status,id,date,name,late,pid){
+function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = ""){
 
     
     const MyProfesor = datosProfesores.find(u => u.id == id);
     
     const maindiv = document.createElement("div");
     maindiv.classList.add("AsisTarjeta");
-    maindiv.addEventListener("click",()=>{
-       updateProfeinfo(id,date,name,late,pid);
-    });
     const statusdiv = document.createElement("div");
     const namediv = document.createElement("div");
     const datediv = document.createElement("div");
@@ -622,15 +711,24 @@ function crearAsisTask(status,id,date,name,late,pid){
     statusdiv.textContent = "●";
     statusdiv.innerHTML='<i class="fa-regular fa-clock"></i>';
 
+    var otherstatus = 0;
+
     if(status == 1 || status == 2){
         if(late == 0){
         statusdiv.classList.add("status2"); 
+        otherstatus = 2;
         }else{
         statusdiv.classList.add("status1");    
+        otherstatus = 1;
         }
     }else{
     statusdiv.classList.add("status0");   
+    otherstatus = 0;
     }
+
+    maindiv.addEventListener("click",()=>{
+       updateProfeinfo(otherstatus,id,date,pid,entra,sale,description);
+    });
     
 
     maindiv.appendChild(statusdiv);
@@ -685,7 +783,9 @@ async function cargarDatosAsis() {
 
                     element.nombre = nombre;
                     element.tags = tags;
-                    element.myHtml = crearAsisTask(element.estado,element.id,element.fecha,element.nombre,element.tardanza,element.profesorID);
+                    element.myHtml = crearAsisTask(element.estado,element.id,element.fecha,element.nombre,element.tardanza,element.profesorID,element.entrada,element.salida,element.detalles);
+
+                    updateProfCard(asisActualProfId);
 
                 });
 
@@ -813,7 +913,7 @@ async function cargarDatosAsis() {
             data: {
                 labels: ['Asistentes', 'retardado', 'Inasistentes'],
                 datasets: [{
-                    data: [18,5,9], 
+                    data: [0,0,0], 
                     backgroundColor: ['#39ff14', '#ffae00','#ff0000'],
                     hoverOffset: 10,
                     borderWidth: 0
@@ -829,31 +929,60 @@ async function cargarDatosAsis() {
                 }
             }
         });profestadistico.update();
-    function cambia(nu){
-        profestadistico.data.datasets[0].borderColor = '#39ff14'; // Verde neón sólido
-        profestadistico.data.datasets[0].borderWidth = 0;
-        profestadistico.options.scales = {}; // Limpiamos ejes previos
-        profestadistico.options.cutout = 0;
+
+        const ctx4 = document.getElementById('profGrafico').getContext('2d');
+        const profestadistico2 = new Chart(ctx4, {
+            type: 'doughnut', // Estilo dona para verse más moderno
+            data: {
+                labels: ['Asistentes', 'retardado', 'Inasistentes'],
+                datasets: [{
+                    data: [0,0,0], 
+                    backgroundColor: ['#39ff14', '#ffae00','#ff0000'],
+                    hoverOffset: 10,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#fff', padding: 20, font: { size: 10, family: 'monospace' } }
+                    }
+                }
+            }
+        });profestadistico2.update();
+
+
+    function cambia(nu,nmb){
+
+        const _profestadistico = nmb ? profestadistico : profestadistico2;
+
+        _profestadistico.data.datasets[0].borderColor = '#39ff14'; // Verde neón sólido
+        _profestadistico.data.datasets[0].borderWidth = 0;
+        _profestadistico.options.scales = {}; // Limpiamos ejes previos
+        _profestadistico.options.cutout = 0;
         if (nu==0){
-            profestadistico.config.type = 'pie';
+            _profestadistico.config.type = 'doughnut';
+            _profestadistico.options.cutout = "70%";
         }else
             if (nu==1){
-            profestadistico.config.type = 'bar';
-            profestadistico.options.scales = { y: { beginAtZero: true } };
+            _profestadistico.config.type = 'bar';
+            _profestadistico.options.scales = { y: { beginAtZero: true } };
         }else
             if (nu==2){
-            profestadistico.config.type = 'polarArea';
-            profestadistico.options.scales = { r: { grid: { color: 'rgba(255,255,255,0.1)' } } }
+            _profestadistico.config.type = 'polarArea';
+            _profestadistico.options.scales = { r: { grid: { color: 'rgba(255,255,255,0.1)' } } }
         }else 
         if (nu==3){
-            profestadistico.config.type = 'line';
-            profestadistico.data.datasets[0].borderWidth = 2;
-            profestadistico.options.scales = { y: { beginAtZero: true } };
+            _profestadistico.config.type = 'line';
+            _profestadistico.data.datasets[0].borderWidth = 2;
+            _profestadistico.options.scales = { y: { beginAtZero: true } };
         }else
         if (nu==4){
-            profestadistico.config.type = 'radar';
-            profestadistico.data.datasets[0].borderWidth = 2;
-            profestadistico.options.scales = {
+            _profestadistico.config.type = 'radar';
+            _profestadistico.data.datasets[0].borderWidth = 2;
+            _profestadistico.options.scales = {
             r: {
                 angleLines: { color: 'rgba(255,255,255,0.2)' },
                 grid: { color: 'rgba(255,255,255,0.2)' },
@@ -862,7 +991,7 @@ async function cargarDatosAsis() {
             }
         };
         }
-        profestadistico.update();
+        _profestadistico.update();
     }
 //////esta se puede modificar es una coida de newContol.php la funcion del estadisctico
 /* async function cargarEstadistico() { 
@@ -1124,31 +1253,254 @@ async function cargarDatosAsis() {
 
 
 async function traerProfe(id) { 
+    const _Fecha = startDate;
+    const _FechaEnd = endDate;
     try {
         const res = await fetch('php/registro_profesor.php',{
             method: 'POST',headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                id: id
+                id: id,
+                start: _Fecha,
+                end: _FechaEnd
             }),
         });
         const servidor = await res.json();
         if (servidor.success) {
-            record=servidor.total;
-            inasistencias=servidor.totali;
+            console.log("server",servidor);
+            
+            record=0;
+            inasistencias=0;
+            tardanzas=0;
+
+            servidor.total.forEach(element => {
+                if(element.estado == 0){
+                    inasistencias++;
+                }else{
+                    if(element.tardanza == 1){
+                        tardanzas++;
+                    }else{
+                        record++;
+                    }
+                }
+            });
+
             return servidor.resultado[0];////no quitar esto denuevo :(
         }else{console.log(servidor.error);}
     } catch (e) {console.error("Error al traer info", e);}
     return null;
 }
-async function updateProfeinfo(id,date,name,late,pid){
-    elprofesor= await traerProfe(pid);
-    if(elprofesor){
+
+async function updateProfCard(pid){
+if(pid == -1){return;}
+
+elprofesor= await traerProfe(pid);
+if(elprofesor){
+        const name = elprofesor.nombre;
+        const tags = JSON.parse(elprofesor.tags || "[]");
         creafoto(document.getElementById("regavatar"),pid,name);
         document.getElementById("regnombre").textContent=name;
-        document.getElementById("regtags").textContent=JSON.parse(elprofesor.tags).join(", ");
+        document.getElementById("regtags").textContent=Array.isArray(tags) ? tags.join(", ") : "";
         document.getElementById("regasis").textContent=record;
+        document.getElementById("reglate").textContent=tardanzas;
         document.getElementById("regina").textContent=inasistencias;
+
+        profestadistico2.data.datasets[0].data = [record,tardanzas,inasistencias];
+        profestadistico2.update();
+    }else{
+
+        document.getElementById("regavatar").textContent="D";
+        document.getElementById("regnombre").textContent="desconocido";
+        document.getElementById("regtags").textContent="";
+        document.getElementById("regasis").textContent="0";
+        document.getElementById("reglate").textContent="0";
+        document.getElementById("regina").textContent="0";
+
+        profestadistico2.data.datasets[0].data = [0,0,0];
+        profestadistico2.update(); 
+
     }
-   //msj(id);
+
 }
+
+function updateProfeinfo(status,id,date,pid,entra,sale,description = ""){
+
+    if(id != AsisID){
+    updateProfCard(pid);
+
+        document.getElementById("asiEntrada").value=entra;
+        document.getElementById("asiSalida").value=sale;
+        document.getElementById("asisinfoDescripcion").value=description;
+        losestatus=[document.getElementById("ina"),document.getElementById("ret"),document.getElementById("asi")]
+        losestatus.forEach((ele,i)=>{
+            if(i==status){
+                ele.classList.add("soy");
+                ele.classList.remove("nosoy");
+            }else{
+                ele.classList.remove("soy");
+                ele.classList.add("nosoy");
+            }
+        });
+    
+
+    const lvl = localStorage.getItem('user_level');
+
+    if(lvl >= 4){
+
+        document.getElementById("asiEntrada").readOnly = false;
+        document.getElementById("asiSalida").readOnly = false;
+        document.getElementById("asisinfoDescripcion").readOnly = false;
+
+    }else{
+
+        document.getElementById("asiEntrada").readOnly = true;
+        document.getElementById("asiSalida").readOnly = true;
+        document.getElementById("asisinfoDescripcion").readOnly = false;
+
+    }
+
+    document.getElementById("saveasisinfo").classList.remove("oculto");
+
+    asisinfoclickeable = 1;
+
+    AsisID = id;
+    asisActualProfId = pid;
+    }else{
+
+    document.getElementById("regavatar").textContent = "";
+        document.getElementById("regnombre").textContent="";
+        document.getElementById("regtags").textContent="";
+        document.getElementById("regasis").textContent="";
+        document.getElementById("regina").textContent="";
+        document.getElementById("reglate").textContent="";
+
+    losestatus=[document.getElementById("ina"),document.getElementById("ret"),document.getElementById("asi")]
+        losestatus.forEach((ele,i)=>{
+                ele.classList.remove("soy");
+                ele.classList.add("nosoy");
+            });
+
+    document.getElementById("asiEntrada").value = "";
+    document.getElementById("asiSalida").value = "";
+    document.getElementById("asisinfoDescripcion").value = "";
+
+    document.getElementById("asiEntrada").readOnly = false;
+    document.getElementById("asiSalida").readOnly = false;
+    document.getElementById("asisinfoDescripcion").readOnly = false;
+
+    document.getElementById("saveasisinfo").classList.add("oculto");
+
+    profestadistico2.data.datasets[0].data = [0,0,0];
+    profestadistico2.update();
+
+    AsisID = -1;
+    asisActualProfId = -1;
+    }
+}
+
+async function getonlydays() {
+            
+            try {
+                const res = await fetch('php/asistencia/get_onlydays.php',{
+                    method: 'POST',headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                
+                    }),
+                });
+
+                const servidor = await res.json();
+                if(servidor.success){
+
+                diasConRegistro = {};
+                
+                servidor.days.forEach(fechaStr => {
+
+                    const [year, month, day] = fechaStr.split('-');
+
+                    if (!diasConRegistro[year]) {
+                       diasConRegistro[year] = {};
+                    }
+                    if (!diasConRegistro[year][month]) {
+                        diasConRegistro[year][month] = [];
+                    }
+
+                    if (!diasConRegistro[year][month].includes(day)) {
+                        diasConRegistro[year][month].push(day);
+                    }
+                });
+
+                console.log("dias",diasConRegistro)
+
+                generarCalendario();
+
+                }
+                else{
+                console.error("Error en la base de datos:", servidor.mensaje);
+                }
+            } catch (e) { 
+                console.error("Error en el servidor:", e);
+            }
+        }
+
+
+        function changeStatus(_nmb){
+
+        if(asisinfoclickeable == 0){return;}
+
+        const lvl = localStorage.getItem('user_level');
+
+            if(lvl >= 4){
+
+            const losestatus=[document.getElementById("ina"),document.getElementById("ret"),document.getElementById("asi")]
+                losestatus.forEach((ele,i)=>{
+                    if(i==_nmb){
+                        ele.classList.add("soy");
+                        ele.classList.remove("nosoy");
+                    }else{
+                        ele.classList.remove("soy");
+                        ele.classList.add("nosoy");
+                    }
+                });
+            }
+
+        }
+
+        async function SaveAsisInfo(){
+
+ 
+            let inasis = 0;if(document.getElementById("ina").classList.contains("soy")){inasis = 1;}
+            let tarde = 0;if(document.getElementById("ret").classList.contains("soy")){tarde = 1;}
+
+            document.getElementById("asiEntrada").readonly = false;
+            document.getElementById("asiSalida").readonly = false;
+
+            const _id = AsisID;
+            const state = inasis ? 0 : 2;
+            const late = tarde ? 1 : 0;
+            const opentime = document.getElementById("asiEntrada").value;
+            const closetime = document.getElementById("asiSalida").value;
+            const description = document.getElementById("asisinfoDescripcion").value;
+
+            const info = {id: _id, state: state, tardanza: late, opentime: opentime, closetime: closetime, description: description}
+
+            try {
+                const res = await fetch('php/asistencia/edit_asis.php',{
+                    method: 'POST',headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(info),
+                });
+
+                const servidor = await res.json();
+                console.log(servidor)
+                if(servidor.success){
+
+                cargarDatosAsis();
+
+                }
+                else{
+                console.error("Error en la base de datos:", servidor.mensaje);
+                }
+            } catch (e) { 
+                console.error("Error en el servidor:", e);
+            }
+
+            }
 </script>

@@ -10,29 +10,24 @@ try {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
     $id = $data['id'] ?? null;
+    $start = $data['start'] ?? null;
+    $end = $data['end'] ?? null;
 
-        $sql = "SELECT * FROM caras WHERE id = :iid";
+        $sql = "SELECT id, nombre, tags FROM caras WHERE id = :iid";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':iid' => $id]); 
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sql = "SELECT * FROM asistencia WHERE profesorID = :iid AND estado IN (1, 2) ORDER BY fecha DESC";
+        $sql = "SELECT * FROM asistencia WHERE profesorID = :iid AND fecha BETWEEN :startt AND :endd ORDER BY fecha DESC";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':iid' => $id]); 
-        $todasLasAsistencias  = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $total = count($todasLasAsistencias);
+        $stmt->execute([':iid' => $id,':startt' => $start,':endd' => $end]); 
+        $total = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $sql = "SELECT * FROM asistencia WHERE profesorID = :iid AND estado=0 ORDER BY fecha DESC";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':iid' => $id]); 
-        $inAsistencias  = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $totali = count($inAsistencias);
         echo json_encode([
             "success" => true, 
             "resultado" => $resultados,
-             "total" => (int)$total,
-            "totali" => (int)$totali
+             "total" => $total
         ]);
 } catch (Exception $e) {
     echo json_encode([
