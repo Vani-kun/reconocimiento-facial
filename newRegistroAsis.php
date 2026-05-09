@@ -291,11 +291,11 @@
     /*Estilos para el Menu de exportacion*/
     .export-menu-container {
         position: absolute;
-        bottom: 15px;
-        right: 15px;
+        top: 18%;
+        left: 30px;
         display: flex;
         flex-direction: column-reverse;
-        align-items: flex-end;
+        align-items: start;
         gap: 8px;
         z-index: 20;
     }
@@ -338,7 +338,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        width: 130px;
+        width: 100%;
         padding: 10px 16px;
         border-radius: 30px;
         background: rgba(25, 25, 35, 0.75);
@@ -460,6 +460,44 @@
         cursor:pointer;
         text-shadow: 0 0 10px #00ff22;
     }
+    #addasisdate::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+    }
+    .closeaddasis{
+        font-size: 1.2rem;
+        display:flex;
+        align-items:center;
+        justify-content:center; 
+    }
+    .closeaddasis:hover{
+        color:#ff0000;
+        cursor:pointer;
+        text-shadow: 0 0 10px #ff0000;
+    }
+    .addasissave{
+        border: 2px solid gray; 
+        border-radius:100%; 
+        height:75px;
+        width:75px;
+        position:absolute;
+        background-color:white;
+        font-size:2rem;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        justify-self:center;
+        bottom:-18.75px;
+        transition: text-shadow 0.2s, color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+    .addasissave:hover{
+        color:#fff;
+        background-color: #2ecc71;
+        cursor:pointer;
+        text-shadow: 0 0 10px #00ff22;
+        box-shadow: 0 0px 10px #00ff22;
+        }
+    
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -485,6 +523,27 @@
 
             </div>
         </div>
+        <div class="export-menu-container">
+                    <!-- Botón principal (disparador) -->
+                    <div style="display:flex;gap:20px;">
+                        <button class="export-toggle" onclick="toggleExportMenu()" title="Exportar">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+
+                        <button class="export-toggle SecurityLevel5" onclick="toggleCreateAsisMenu()" title="Añadir nuevo registro">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <!-- Menú desplegable -->
+                    <div id = "exportMenu" class="export-menu">
+                        <div style="position: absolute; bottom: 15px; left: 0px; display: flex; gap: 10px; z-index: 10;">
+                            <button class="export-btn word" onclick="exportarWord()"><i class="fas fa-file-word"></i> Word</button>
+                            <button class="export-btn excel" onclick="exportarExcel()"><i class="fas fa-file-excel"></i> Excel</button>
+                            <button class="export-btn pdf" onclick="exportarPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                        </div>
+                    </div>
+                </div>
         <div style="width:100%;height:100%;padding:5% 5%;display:grid;grid-template-rows: 7% 93%;">
             <div class="cabezaregistro">
 
@@ -589,22 +648,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="export-menu-container">
-                    <!-- Botón principal (disparador) -->
-                    <button class="export-toggle" onclick="toggleExportMenu()" title="Exportar">
-                        <i class="fa-solid fa-download"></i>
-                    </button>
-
-                    <!-- Menú desplegable -->
-                    <div id = "exportMenu" class="export-menu">
-                        <div style="position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; z-index: 10;">
-                            <button class="export-btn word" onclick="exportarWord()"><i class="fas fa-file-word"></i> Word</button>
-                            <button class="export-btn excel" onclick="exportarExcel()"><i class="fas fa-file-excel"></i> Excel</button>
-                            <button class="export-btn pdf" onclick="exportarPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
-                        </div>
-                    </div>
-                </div>
         </div>
     </div>
 
@@ -619,7 +662,57 @@
             <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
     </div>
 
+    <div id="AsisCreateWrapper" class="oculto" style="color:black;position:absolute;height:90%;width:40%;background-color:white;left:30%;top:5%;z-index:5000;border-radius:5%;padding:2.5% 0;">
+        <div class="closeaddasis" style="position:absolute;font-size:1.5rem;right:5%;top:2.5%;" onclick="closeAsisWrapper();"><i class="fa-regular fa-circle-xmark"></i></div>
+
+        <fieldset style="height:100%;">
+            <legend><h3>Añadir un nuevo registro</h3></legend>
+            <div class="addAsisProfInfo">
+                <div style="display:flex;align-items:center;justify-content:center;"><div class="circulo-avatar" id="addasisavatar"></div><i class="saveinfo fa-solid fa-user-pen" style="position:absolute;text-align: center;left: 60%;"></i></div>
+                <h2 class="nombre" id="addasisnombre" style="color:black;">Aaron Garcia</h2>
+                <div class="tags" id="addasistags">informatica, calculo</div>
+            </div>
+            <div style="border-top: 2px solid gray;width:80%;justify-self:center;padding:2.5%;margin-top:2.5%;">
+                
+                <div class="status-container inputt" style="justify-self:center;">
+                    <span class="status-text">Status:</span>
+  
+                    <div class="icons-group">
+                        <i id="addina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" ></i>
+                        <i id="addret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso"></i>
+                        <i id="addasi" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió"></i>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:2.5%;">
+                    <div>
+                        <label for="addasisopen">Entrada:</label>
+                        <input class="inputt" type="time" name="addasisopen" id="addasisopen" style="width: 90%;">
+                    </div>
+                    <div>
+                        <label for="addasisclose">Salida:</label>
+                        <input class="inputt" type="time" name="addasisclose" id="addasisclose" style="width: 90%;">
+                    </div>
+                </div>
+
+                <div style="width:100%;margin-top:2.5%;">
+                    <label for="addasisdate">Fecha:</label>
+                    <input class="inputt" type="date" name="addasisdate" id="addasisdate" style="width: 95%;">
+                </div>
+
+                <div class="campo">
+                    <label>Nota del día:</label>
+                    <textarea id="addasisinfoDescripcion" class="inputt" placeholder="Escribe observaciones aquí..." readonly></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="addasissave"><i class="fa-solid fa-floppy-disk"></i></div>
+    </div>
+
 </div>
+
+
+
 
 <script>
 
@@ -1503,4 +1596,16 @@ async function getonlydays() {
             }
 
             }
+
+function closeAsisWrapper(){
+
+    document.getElementById("AsisCreateWrapper").classList.add("oculto");
+
+    }
+function toggleCreateAsisMenu(){
+
+    document.getElementById("AsisCreateWrapper").classList.remove("oculto");
+
+    }
+
 </script>
