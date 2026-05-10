@@ -1638,6 +1638,8 @@ async function getonlydays() {
             if(!AC_SaveButton.classList.contains("oculto")){
                 AC_SaveButton.classList.add("oculto");
                 }
+
+            AsisID = -1;
             }
 
         function PC_clean(){
@@ -1657,6 +1659,8 @@ async function getonlydays() {
 
             profestadistico2.data.datasets[0].data = [0,0,0];
             profestadistico2.update();
+
+            asisActualProfId = -1;
             }
 
         async function SaveAsisInfo(){
@@ -1685,6 +1689,7 @@ async function getonlydays() {
 
                 cargarDatosAsis();
                 AC_clean();
+                PC_clean();
 
                 }
                 else{
