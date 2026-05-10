@@ -126,8 +126,6 @@
     .status-display { text-align: center; margin: 40px 0; }
     #status-text { font-size: 1.8rem; font-weight: bold; text-shadow: 0 0 15px var(--newprima); }
 
-</style>
-<style>
     :root {
     --bg-panel: #1a1a1a;
     --bg-item: #2a2a2a;
@@ -362,7 +360,7 @@
         let pannel=document.getElementById('panel-container');
         if (pannel.classList.contains("active")){
             moveCamera("center");enpanelprofesor=false;
-        }else{guardacargaConfi(0);}
+        }else{guardacargaConfi(0);C_BarDefault();}
         pannel.classList.toggle('active');
     }
 

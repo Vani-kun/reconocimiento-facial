@@ -1617,14 +1617,52 @@ async function getonlydays() {
 
         }
 
+        function AC_clean(){
+            const AC_Status=[document.getElementById("ina"),document.getElementById("ret"),document.getElementById("asi")]
+        
+            const AC_opentime = document.getElementById("asiEntrada");
+            const AC_closetime = document.getElementById("asiSalida");
+            const AC_description = document.getElementById("asisinfoDescripcion");
+
+            const AC_SaveButton = document.getElementById("saveasisinfo");
+
+            AC_Status.forEach((ele)=>{
+                ele.classList.remove("soy");
+                ele.classList.add("nosoy"); 
+                });
+
+            AC_opentime.value = "";
+            AC_closetime.value = "";
+            AC_description.value = "";
+
+            if(!AC_SaveButton.classList.contains("oculto")){
+                AC_SaveButton.classList.add("oculto");
+                }
+            }
+
+        function PC_clean(){
+            const PC_Avatar = document.getElementById("regavatar");
+            const PC_Nombre = document.getElementById("regnombre");
+            const PC_Tags = document.getElementById("regtags");
+            const PC_Asis = document.getElementById("regasis");
+            const PC_Late = document.getElementById("reglate");
+            const PC_Inasis = document.getElementById("regina");
+
+            PC_Avatar.textContent="";
+            PC_Nombre.textContent="";
+            PC_Tags.textContent="";
+            PC_Asis.textContent="";
+            PC_Late.textContent="";
+            PC_Inasis.textContent="";
+
+            profestadistico2.data.datasets[0].data = [0,0,0];
+            profestadistico2.update();
+            }
+
         async function SaveAsisInfo(){
 
- 
             let inasis = 0;if(document.getElementById("ina").classList.contains("soy")){inasis = 1;}
             let tarde = 0;if(document.getElementById("ret").classList.contains("soy")){tarde = 1;}
-
-            document.getElementById("asiEntrada").readonly = false;
-            document.getElementById("asiSalida").readonly = false;
 
             const _id = AsisID;
             const state = inasis ? 0 : 2;
@@ -1646,6 +1684,7 @@ async function getonlydays() {
                 if(servidor.success){
 
                 cargarDatosAsis();
+                AC_clean();
 
                 }
                 else{
@@ -1798,6 +1837,7 @@ if (panel.classList.contains('hidden')) {
     panel.classList.add("AA_panel");
     boton.classList.add("AA_panel");
     AA_Wrapper.classList.add('AA_panel');
+    P_BarDefault();
     }
 
 }                

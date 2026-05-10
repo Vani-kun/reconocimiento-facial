@@ -207,7 +207,7 @@
 
 
     <div class="main-wrapper">
-        <button id="toggle-panel" onclick="togglePanel()" class="btn-toggle-panel ocultoboton">☰</button>
+        <button id="toggle-panel" onclick="togglePanel();" class="btn-toggle-panel ocultoboton">☰</button>
 
         <div class="panel-izquierdo">
             <h1>LIVELULA</h1>
@@ -219,15 +219,7 @@
             <input id="lupa" type="text" class="search-bar" placeholder="Buscar profesor...">
 
             <div class="lista-profesores" id="listado">
-                <div class="profesor-card">
-                    <!--div class="avatar">Y</div>
-                    <span>Yovani Romero</span>
-                    <div class="acciones">
-                        <button class="btn-action btn-edit" title="Editar">✎</button>
-                        <button class="btn-action btn-off" title="Desactivar">⭘</button>
-                        <button class="btn-action btn-del" title="Eliminar">✕</button>
-                    </div-->
-                </div>
+                
             </div>
 
             <button id="BTNProfRegistry" class="btn-agregar" onclick="togglexPanel(0,0)">+ REGISTRAR</button>
@@ -240,7 +232,8 @@
         datosProfesores=[];<?php //echo json_encode($profesores); ?>;
         editar=0;
         ideditar=0;
-        window.onload = () => {cargarProfesores(); };
+        window.onload = () => {cargarProfesores();};
+        
         async function cargarProfesores() {
             const response = await fetch('php/profesores/leer_profesores.php');
             datosProfesores = await response.json(); // Actualiza la variable global
@@ -353,12 +346,10 @@
             } else {
                 boton.innerHTML = '✕';
                 document.getElementById('toggle-panel').classList.remove('ocultoboton');
-
-                
                 moveCamera("left");  
-
                 panel.classList.remove("AA_panel");
                 boton.classList.remove("AA_panel");
+                P_BarDefault();
             }
         }
         function creafoto(contenedor,id,name){

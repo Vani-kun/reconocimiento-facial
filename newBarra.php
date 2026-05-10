@@ -193,6 +193,7 @@
         moveCamera("left");
         toggle(0);
         togglePanel();
+        
     }
     function showHorarios(_nmb){
         if(_nmb){
@@ -209,6 +210,7 @@
                 moveCamera("hide");
                 toggleSchedulePanel(1);
             }, 500);   
+            H_BarDefault();
         }else{
             enpanelprofesor=false;
             moveCamera("left");
@@ -238,6 +240,7 @@
         moveCamera("hide");
         document.getElementById("seccion-wraper").classList.remove("hidden");
         document.getElementById("seccion-toggle-panel").classList.remove("oculto");
+        S_BarDefault();
     }
     function showAsisReg(_Nmb){
         if(_Nmb){
@@ -252,6 +255,7 @@
             toggle(0);
             enpanelprofesor=true;
             getonlydays();
+            AR_BarDefault();
             }else{
             document.getElementById("AsisFirstDiv").classList.add("hidden");
             document.getElementById("AsisSecondDiv").classList.add("hidden");
@@ -409,5 +413,121 @@
         }
     });
 
-    
+
+    function P_BarDefault(){
+        const List = document.getElementById("listado");     
+        const Search = document.getElementById("lupa");  
+
+        List.textContent = "";
+        Search.value = "";
+        
+        cargarProfesores();
+        }
+    function S_BarDefault(){
+        ItemSelected = -1;
+        const _prevItems = document.querySelectorAll(".schedule-option");
+        _prevItems.forEach(element => {
+            element.classList.remove("previtemselected");
+            });   
+            
+        form.reset();   
+
+        SwitchItemBankSection(ItemBankBtn, 0)
+        SwitchItemBankSection(SectionBtn, 0);
+
+        const MateriaMenu   = document.getElementById('MateriaMenu');
+        const HorarioMenu   = document.getElementById('HorarioMenu');
+        const AulaMenu      = document.getElementById('AulaMenu');
+        const SeccionMenu   = document.getElementById('SeccionMenu');
+
+        if(!MateriaMenu.classList.contains('oculto')){
+            MateriaMenu.classList.add('oculto');               
+            }
+        if(!HorarioMenu.classList.contains('oculto')){
+            HorarioMenu.classList.add('oculto');
+            }
+        if(!AulaMenu.classList.contains('oculto')){
+            AulaMenu.classList.add('oculto');
+            }
+        if(!SeccionMenu.classList.contains('oculto')){
+            SeccionMenu.classList.add('oculto');
+            }                
+        }
+    function H_BarDefault(){
+        const ScheduleSect = document.getElementById("schedule-section");
+        const ScheduleMenu = document.getElementById("schedule-menu");
+        const Button = document.getElementById("openmenubtn");
+
+        profSelected = -1;
+        Horario = 0;
+
+        if(!ScheduleSect.classList.contains("open")){
+            ScheduleSect.classList.add("open");
+            ScheduleMenu.classList.add("open");
+            Button.innerHTML = `<i class="fa-solid fa-angle-up"></i>`;
+            }                  
+
+        LimpiarHorario();
+        }
+    function C_BarDefault(){
+        editacion=0;
+        ide=0;
+                
+        const regPanel = document.getElementById("regPanel");
+        
+        if(regPanel.style.display === 'block'){
+            togglePanelusers()                
+            }
+
+        }
+    function AR_BarDefault(){    
+        const _tablesort0   = document.getElementById("tablesort0");  
+        const _tablesort1   = document.getElementById("tablesort1");   
+        const _tablesort2   = document.getElementById("tablesort2"); 
+        const _tbAFInput    = document.getElementById("asisFilterInput");              
+
+        const _tbstatus0    = document.getElementById("strongstatus0");
+        const _tbstatus1    = document.getElementById("strongstatus1");
+        const _tbstatus2    = document.getElementById("strongstatus2");             
+
+        const _expMenu       = document.getElementById('exportMenu');
+
+        /*_tbstatus0.classList.toggle("sdisable");
+        _tbstatus1.classList.toggle("sdisable");
+        _tbstatus2.classList.toggle("sdisable");
+        status0 = true;
+        status1 = true;
+        status2 = true;
+        */
+
+        _tablesort0.querySelector("i").classList.remove("fa-angle-up","fa-angle-down");
+        _tablesort1.querySelector("i").classList.remove("fa-angle-up","fa-angle-down");
+        _tablesort2.querySelector("i").classList.remove("fa-angle-up","fa-angle-down"); 
+        tablesortdir = 0;
+        tablesortmode = 0;                
+
+        _tbAFInput.value = "";search = "";               
+
+        _expMenu.classList.remove('show');
+
+        AsisID = -1;
+        asisActualProfId = -1;
+
+        record=0;
+        inasistencias=0;
+        tardanzas=0;
+        asisinfoclickeable = 0;              
+
+        MyCalendar.ChoiseDay();
+        AA_MyCalendar.setDefault();              
+
+        cargarDatosAsis();  
+
+        profestadistico2.data.datasets[0].data = [0,0,0];   
+        profestadistico2.update(); 
+
+        AC_clean();
+        PC_clean();
+        
+        }
 </script>

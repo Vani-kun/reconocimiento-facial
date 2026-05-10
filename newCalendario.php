@@ -253,8 +253,8 @@
             this.endDate = `${anio}-${mes}-${dia}`;
             this.diasConRegistro = {};
             
-            this.vyear = this.hoy.getFullYear();
-            this.vmonth = this.hoy.getMonth();
+            this.vyear = anio;
+            this.vmonth = mes-1;
 
             const proximoMes = new Date(this.vyear, this.vmonth + 1, 1);
             this.vrmonth = proximoMes.getMonth();
@@ -268,6 +268,27 @@
             this.scheduleDaysFunction = [];
 
             _Div.appendChild(this.mySchedule);
+            }
+
+        setDefault(){
+            this.hoy = new Date();
+
+            var anio = this.hoy.getFullYear();   
+            var mes  = this.hoy.getMonth() + 1;  
+            var dia  = this.hoy.getDate();        
+
+            this.startDate = `${anio}-${mes}-${dia}`;
+            this.endDate = `${anio}-${mes}-${dia}`;
+            this.diasConRegistro = {};
+
+            this.vyear = anio;
+            this.vmonth = mes-1;
+
+            const proximoMes = new Date(this.vyear, this.vmonth + 1, 1);
+            this.vrmonth = proximoMes.getMonth();
+            this.vryear = proximoMes.getFullYear();
+
+            this.ChoiseDay();
             }
 
         crearEstructuraDOM() {
@@ -624,7 +645,6 @@
         }
 
     this.generarCalendario();
-
     }
 
     ChoiseYear(){

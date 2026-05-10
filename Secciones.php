@@ -1085,7 +1085,7 @@
                         });   
                     }
 
-            SwitchItemBankSection(SectionBtn, 0)
+            SwitchItemBankSection(SectionBtn, 0);
             });
 
         SectionBtn[1][0].addEventListener("click", () => {SwitchItemBankSection(SectionBtn, 1);form.reset();CleanDayList();});

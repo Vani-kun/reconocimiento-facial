@@ -69,10 +69,13 @@ if(_Nmb){
     }else{
     document.getElementById("ScheduleMain").classList.add("hidden");
     Horario = 0;
+
     allSections.textContent = "";
     allSections.innerHTML = schAS.innerHTML;
-    schAS.textContent = "";
 
+    setTimeout(() => { 
+        schAS.textContent = ""; 
+        }, 1000);
     schedulerecharge()
     }
 
@@ -283,14 +286,18 @@ function arreglarhora(hora){
 
     document.getElementById("openmenubtn").addEventListener("click", () => {
 
-        if(!document.getElementById("schedule-section").classList.contains("open")){
-            document.getElementById("schedule-section").classList.add("open");
-            document.getElementById("schedule-menu").classList.add("open");
-            document.getElementById("openmenubtn").innerHTML = `<i class="fa-solid fa-angle-up"></i>`;
+        const ScheduleSect = document.getElementById("schedule-section");
+        const ScheduleMenu = document.getElementById("schedule-menu");
+        const Button = document.getElementById("openmenubtn");
+
+        if(!ScheduleSect.classList.contains("open")){
+            ScheduleSect.classList.add("open");
+            ScheduleMenu.classList.add("open");
+            Button.innerHTML = `<i class="fa-solid fa-angle-up"></i>`;
             }else{
-            document.getElementById("schedule-section").classList.remove("open");
-            document.getElementById("schedule-menu").classList.remove("open");
-            document.getElementById("openmenubtn").innerHTML = `<i class="fa-solid fa-angle-down"></i>`;    
+            ScheduleSect.classList.remove("open");
+            ScheduleMenu.classList.remove("open");
+            Button.innerHTML = `<i class="fa-solid fa-angle-down"></i>`;    
             }
 
         })
