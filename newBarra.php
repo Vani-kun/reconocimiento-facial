@@ -261,6 +261,7 @@
             document.getElementById("AsisMainDiv").classList.add("hidden");
             moveCamera("center");
             enpanelprofesor=false;
+            closeAsisWrapper();
             }
         }
 

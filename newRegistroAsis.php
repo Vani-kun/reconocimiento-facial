@@ -497,7 +497,50 @@
         text-shadow: 0 0 10px #00ff22;
         box-shadow: 0 0px 10px #00ff22;
         }
-    
+    .panel-derecho.AA_panel{
+        z-index: 6000;
+        }
+    #toggle-panel.AA_panel{
+        z-index: 6200;
+        }
+    .AA_panel .btn-action,#BTNProfRegistry{
+        display:none;
+        }
+    .AA_panel .profesor-card:hover{
+        background: rgba(255, 255, 255, 0.1);
+        cursor:pointer;
+        }
+    #AsisCreateWrapper{
+        color:black;
+        position:absolute;
+        height:90%;
+        width:40%;
+        background-color:white;
+        left:30%;
+        top:5%;
+        z-index:5000;
+        border-radius:5%;
+        padding:2.5% 0;
+        opacity:1;
+        transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s, opacity 0.5s;
+        }
+    .AA_panel#AsisCreateWrapper{
+        left:12.5%;
+        }
+    .hidden#AsisCreateWrapper{
+        top:-100%;
+        opacity:0;
+        }
+    #AA_calendar{
+        opacity:1;
+        transition: opacity 0.5s, top 0.5s;
+        top:7%;
+    }
+    #AA_calendar.hidden{
+        top:-20%;
+        opacity:0;
+        pointer-events:none;
+        }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -662,13 +705,13 @@
             <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
     </div>
 
-    <div id="AsisCreateWrapper" class="oculto" style="color:black;position:absolute;height:90%;width:40%;background-color:white;left:30%;top:5%;z-index:5000;border-radius:5%;padding:2.5% 0;">
+    <div id="AsisCreateWrapper" class="hidden" onclick="AA_removecalendar()">
         <div class="closeaddasis" style="position:absolute;font-size:1.5rem;right:5%;top:2.5%;" onclick="closeAsisWrapper();"><i class="fa-regular fa-circle-xmark"></i></div>
 
         <fieldset style="height:100%;">
             <legend><h3>Añadir un nuevo registro</h3></legend>
             <div class="addAsisProfInfo">
-                <div style="display:flex;align-items:center;justify-content:center;"><div class="circulo-avatar" id="addasisavatar"></div><i class="saveinfo fa-solid fa-user-pen" style="position:absolute;text-align: center;left: 60%;"></i></div>
+                <div style="display:flex;align-items:center;justify-content:center;"><div class="circulo-avatar" id="addasisavatar"></div><i class="saveinfo fa-solid fa-user-pen" style="position:absolute;text-align: center;left: 60%;" onclick="AA_toggleProf();"></i></div>
                 <h2 class="nombre" id="addasisnombre" style="color:black;">Aaron Garcia</h2>
                 <div class="tags" id="addasistags">informatica, calculo</div>
             </div>
@@ -678,9 +721,9 @@
                     <span class="status-text">Status:</span>
   
                     <div class="icons-group">
-                        <i id="addina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" ></i>
-                        <i id="addret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso"></i>
-                        <i id="addasi" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió"></i>
+                        <i id="addina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" onclick="AA_changestatus(0);"></i>
+                        <i id="addret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso" onclick="AA_changestatus(1);"></i>
+                        <i id="addasis" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió" onclick="AA_changestatus(2);"></i>
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:2.5%;">
@@ -696,17 +739,36 @@
 
                 <div style="width:100%;margin-top:2.5%;">
                     <label for="addasisdate">Fecha:</label>
-                    <input class="inputt" type="date" name="addasisdate" id="addasisdate" style="width: 95%;">
+                    <input class="inputt" type="date" name="addasisdate" id="addasisdate" style="width: 95%;" readonly>
                 </div>
 
                 <div class="campo">
                     <label>Nota del día:</label>
-                    <textarea id="addasisinfoDescripcion" class="inputt" placeholder="Escribe observaciones aquí..." readonly></textarea>
+                    <textarea id="addasisinfoDescripcion" class="inputt" placeholder="Escribe observaciones aquí..."></textarea>
                 </div>
             </div>
         </fieldset>
 
-        <div class="addasissave"><i class="fa-solid fa-floppy-disk"></i></div>
+        <div id="AA_calendar" class="hidden" style="position:absolute;right:-2%;" onclick="event.stopPropagation();">
+
+            <div id="AA_Rcalendar">
+
+            </div>
+            <div style="display:grid;grid-template-columns: 40% 40%;margin-bottom:5px;width: 100%;justify-content:center;background:var(--newpoligono);border-radius:10px;padding:5px">
+
+                <div class="calendaroption-div" onclick="AA_MyCalendar.move(0)">
+                    <div class="calendaroption-btn"><i class="fa-solid fa-angle-left"></i></div>
+                </div>
+
+                <div class="calendaroption-div" onclick="AA_MyCalendar.move(1)">
+                    <div class="calendaroption-btn"><i class="fa-solid fa-angle-right"></i></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="addasissave" onclick="ADD_Save();"><i class="fa-solid fa-floppy-disk"></i></div>
     </div>
 
 </div>
@@ -715,8 +777,6 @@
 
 
 <script>
-
-
 const AsisMenu = document.getElementById("AsisScrollMenu");
 let todosLosRegistros = [];
 let registrosVisibles = [];
@@ -832,8 +892,8 @@ function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = "")
     }
     
 async function cargarDatosAsis() {
-        const _Fecha = startDate;
-        const _FechaEnd = endDate;
+        const _Fecha = MyCalendar.startDate;
+        const _FechaEnd = MyCalendar.endDate;
         try {
             const res  = await fetch('php/asistencia/get_asistencia_dia.php', {
                 method: 'POST',
@@ -1346,8 +1406,8 @@ async function cargarDatosAsis() {
 
 
 async function traerProfe(id) { 
-    const _Fecha = startDate;
-    const _FechaEnd = endDate;
+    const _Fecha = MyCalendar.startDate;
+    const _FechaEnd = MyCalendar.endDate;
     try {
         const res = await fetch('php/registro_profesor.php',{
             method: 'POST',headers: { 'Content-Type': 'application/json' },
@@ -1503,27 +1563,27 @@ async function getonlydays() {
                 const servidor = await res.json();
                 if(servidor.success){
 
-                diasConRegistro = {};
+                MyCalendar.diasConRegistro = {};
                 
                 servidor.days.forEach(fechaStr => {
 
                     const [year, month, day] = fechaStr.split('-');
 
-                    if (!diasConRegistro[year]) {
-                       diasConRegistro[year] = {};
+                    if (!MyCalendar.diasConRegistro[year]) {
+                       MyCalendar.diasConRegistro[year] = {};
                     }
-                    if (!diasConRegistro[year][month]) {
-                        diasConRegistro[year][month] = [];
+                    if (!MyCalendar.diasConRegistro[year][month]) {
+                        MyCalendar.diasConRegistro[year][month] = [];
                     }
 
-                    if (!diasConRegistro[year][month].includes(day)) {
-                        diasConRegistro[year][month].push(day);
+                    if (!MyCalendar.diasConRegistro[year][month].includes(day)) {
+                        MyCalendar.diasConRegistro[year][month].push(day);
                     }
                 });
 
-                console.log("dias",diasConRegistro)
+                console.log("dias",MyCalendar.diasConRegistro)
 
-                generarCalendario();
+                MyCalendar.generarCalendario();
 
                 }
                 else{
@@ -1597,15 +1657,233 @@ async function getonlydays() {
 
             }
 
+    const AA_Wrapper              = document.getElementById("AsisCreateWrapper");
+            
+    const AA_Avatar               = document.getElementById("addasisavatar");
+    const AA_AvatarNombre         = document.getElementById("addasisnombre");
+    const AA_AvatarTags           = document.getElementById("addasistags");
+
+    const AA_StatusInactivo       = document.getElementById("addina");
+    const AA_StatusRetardo        = document.getElementById("addret");
+    const AA_StatusAsistencia     = document.getElementById("addasis");
+
+    const AA_InputTimeS           = document.getElementById("addasisopen");
+    const AA_InputTimeE           = document.getElementById("addasisclose");
+    const AA_InputDate            = document.getElementById("addasisdate");
+    const AA_InputDescription     = document.getElementById("addasisinfoDescripcion");
+
+    let AA_ProfID = -1;
+    let AA_Status = 0;
+    let AA_Tardanza = 0;
+
+    let AA_Open = false;
+
 function closeAsisWrapper(){
 
-    document.getElementById("AsisCreateWrapper").classList.add("oculto");
+    if(AA_Wrapper.classList.contains("hidden")){return;}
 
+    AA_Wrapper.classList.add("hidden");
+    AA_Wrapper.classList.remove("AA_panel");
+
+    AA_Open = false;
+
+    const panel = document.getElementById('panelGestion');
+    const boton = document.getElementById('toggle-panel');
+
+    if (!panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        boton.innerHTML = '☰';
+        document.getElementById('toggle-panel').classList.add('ocultoboton');
+        } 
+
+    AA_removecalendar();
     }
+
 function toggleCreateAsisMenu(){
 
-    document.getElementById("AsisCreateWrapper").classList.remove("oculto");
+    if(!AA_Wrapper.classList.contains("hidden")){return;}
+
+    AA_Wrapper.classList.remove("hidden");
+    AA_Wrapper.classList.remove("AA_panel");
+
+    AA_Avatar.textContent = "";
+    AA_AvatarNombre.textContent = "";   
+    AA_AvatarTags.textContent = "";            
+
+    AA_InputTimeS.value = "";           
+    AA_InputTimeE.value = "";           
+    AA_InputDate.value = "";           
+    AA_InputDescription.value = "";    
+
+    AA_StatusInactivo.classList.remove("soy");    
+    AA_StatusRetardo.classList.remove("soy");        
+    AA_StatusAsistencia.classList.remove("soy"); 
+
+    AA_StatusInactivo.classList.remove("nosoy");    
+    AA_StatusRetardo.classList.remove("nosoy");        
+    AA_StatusAsistencia.classList.remove("nosoy");   
+
+    AA_StatusInactivo.classList.add("soy");
+    AA_StatusRetardo.classList.add("nosoy");        
+    AA_StatusAsistencia.classList.add("nosoy");
+    
+    AA_ProfID = -1;
+    AA_Status = 0;
+    AA_Tardanza = 0;
+
+    AA_Open = true;
+    }
+
+function AA_changestatus(_nmb){
+
+    AA_StatusInactivo.classList.remove("soy");    
+    AA_StatusRetardo.classList.remove("soy");        
+    AA_StatusAsistencia.classList.remove("soy"); 
+
+    AA_StatusInactivo.classList.remove("nosoy");    
+    AA_StatusRetardo.classList.remove("nosoy");        
+    AA_StatusAsistencia.classList.remove("nosoy");   
+
+if(_nmb == 0){
+
+    AA_StatusInactivo.classList.add("soy");
+    AA_StatusRetardo.classList.add("nosoy");        
+    AA_StatusAsistencia.classList.add("nosoy");
+
+    let AA_Status = 0;
+    let AA_Tardanza = 0;
+
+    }else if(_nmb == 1){
+
+    AA_StatusInactivo.classList.add("nosoy");
+    AA_StatusRetardo.classList.add("soy");        
+    AA_StatusAsistencia.classList.add("nosoy");
+
+    let AA_Status = 2;
+    let AA_Tardanza = 1;
+
+    }else if(_nmb == 2){
+
+    AA_StatusInactivo.classList.add("nosoy");
+    AA_StatusRetardo.classList.add("nosoy");        
+    AA_StatusAsistencia.classList.add("soy");
+
+    let AA_Status = 2;
+    let AA_Tardanza = 0;
 
     }
+
+
+
+}
+
+function AA_toggleProf(){
+
+const panel = document.getElementById('panelGestion');
+const boton = document.getElementById('toggle-panel');
+
+panel.classList.toggle('hidden');
+
+if (panel.classList.contains('hidden')) {
+    boton.innerHTML = '☰';
+    boton.classList.add('ocultoboton');
+    if(document.getElementById('sidePanel').classList.contains("active")){togglexPanel(0,0);}
+    enpanelprofesor=false;
+    
+    AA_Wrapper.classList.remove('AA_panel');
+    
+    } else {
+    boton.innerHTML = '✕';
+    boton.classList.remove('ocultoboton');
+    panel.classList.add("AA_panel");
+    boton.classList.add("AA_panel");
+    AA_Wrapper.classList.add('AA_panel');
+    }
+
+}                
+
+async function ADD_Save(){
+
+const _profesorID   = AA_ProfID;
+const _TimeStart    = AA_InputTimeS.value;
+const _TimeEnd      = AA_InputTimeE.value;
+const _TimeDate     = AA_InputDate.value;
+const _State        = AA_Status;
+const _Late         = AA_Tardanza;
+const _Details      = AA_InputDescription.value;
+
+if(_profesorID == -1){msj("Error: Asigna a un profesor",2);return;}
+if(_TimeStart == ""){msj("Error: Asigna una hora de entrada",2);return;}
+if(_TimeEnd == ""){msj("Error: Asigna una hora de salida",2);return;}
+if(_TimeDate == ""){msj("Error: Asigna una fecha",2);return;}
+
+/*const d1 = new Date(`2000-01-01T${_TimeStart}`);
+const d2 = new Date(`2000-01-01T${_TimeEnd}`);*/
+
+if(_TimeEnd < _TimeStart){msj("Error: la fecha de salida no puede ser menor a la hora de entrada",2);return;}
+
+
+try {
+    const respuesta = await fetch('php/asistencia/create_reg.php', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        profId: _profesorID,   
+        timeStart: _TimeStart,   
+        timeEnd: _TimeEnd,     
+        timeDate: _TimeDate,     
+        state: _State,        
+        late: _Late,         
+        details: _Details 
+        })
+    });
+    const resultado = await respuesta.json(); 
+    if (resultado.success) {
+        
+        await msj("Registro guardado con exito");
+        cargarDatosAsis();
+        closeAsisWrapper();
+        getonlydays();
+
+        } else {
+            msj("respuesta: " + resultado.error,2);
+        }
+    } catch (error) {
+    console.error("Error al enviar: ", error);
+    }
+
+
+}
+const AA_calendarDiv = document.getElementById("AA_calendar");
+const AA_RcalendarDiv = document.getElementById("AA_Rcalendar");
+
+const calendarDiv = document.getElementById("calendario-container");
+
+AA_InputDate.addEventListener("click", () => {event.stopPropagation();AA_showcalendar()});
+
+function AA_showcalendar(){
+    if(AA_calendarDiv.classList.contains("hidden")){
+        AA_calendarDiv.classList.remove("hidden");
+        calendarDiv.classList.add("hidden");
+        }
+    }
+
+function AA_removecalendar(){
+    if(!AA_calendarDiv.classList.contains("hidden")){
+        AA_calendarDiv.classList.add("hidden");
+        calendarDiv.classList.remove("hidden");
+        }
+    }
+
+const AA_MyCalendar = new Schedule(AA_RcalendarDiv);
+
+AA_MyCalendar.addFunction((e) => {
+
+AA_InputDate.value = e.date; 
+AA_removecalendar();
+
+});
 
 </script>

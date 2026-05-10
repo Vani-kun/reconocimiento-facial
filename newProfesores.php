@@ -248,23 +248,80 @@
             cargarDatosAsis();
         }
         function listarProfesores(){
-            // 1. Validar que la variable sea un array y no esté vacía
+
             document.getElementById("listado").innerHTML="";
             if (!Array.isArray(datosProfesores) || datosProfesores.length === 0) {
                 console.warn("La lista de profesores está vacía o no se ha cargado aún.");
                 return; 
-            }
-            ///filtar busqueda por la bbarr 
-            const buscador = document.getElementById('lupa');
-            const valorBusqueda = buscador.value.toLowerCase(); //minúsculas       
-            const profesoresFiltrados = datosProfesores.filter(prof => {
-                const nombreMatch = prof.nombre.toLowerCase().includes(valorBusqueda);
-                const tagsMatch = prof.tags.toLowerCase().includes(valorBusqueda);
-                return nombreMatch || tagsMatch;
-            });
+                }
 
-            profesoresFiltrados.forEach(prof => {CrearCarta(prof);});
-            //datosProfesores.forEach(prof => {CrearCarta(prof);});
+            const buscador = document.getElementById('lupa');
+            const valorBusqueda = buscador.value; //minúsculas   
+
+            AsisMenu.textContent = "";
+            var trueSearch = "";
+
+            const searchTerms = valorBusqueda.trim().split(' ').filter(term => {  
+            if(term.startsWith('#') && term.length > 1){
+                return term;
+                }else{
+                if(!term.startsWith('#')){
+                trueSearch += term + " ";
+                }
+                return false;
+                }
+            }).map(term => term.slice(1).toLowerCase());
+
+        datosProfesores.filter((e) => {
+
+         var include = 0;
+         var mytags = JSON.parse(e.tags);
+
+         if(!Array.isArray(mytags)){mytags = []};
+
+            if(e.nombre.toLowerCase().includes(trueSearch.toLowerCase().trim()) && trueSearch.trim() !== ""){
+                if(searchTerms.length === 0){
+                    include += 2;
+                    } else {
+                    include += 1;
+                    }
+                }else if(trueSearch.trim() === ""){
+                include += 1;
+                }
+
+        
+
+        if (searchTerms.length > 0 && mytags.length > 0) {
+            const profTagsLower = Array.isArray(mytags) ? mytags.map(t => t.toLowerCase()) : [];
+
+            const allTermsMatched = searchTerms.every(term => {
+            // Buscamos el índice de la primera etiqueta que coincida con el término
+            const foundIndex = profTagsLower.findIndex(tag => tag.includes(term));
+                
+            if (foundIndex !== -1) {
+                
+                // Si la encontramos, la eliminamos de las disponibles para este profesor
+                profTagsLower.splice(foundIndex, 1);
+                return true;
+                }
+            return false;
+            });
+        
+            if (allTermsMatched) {
+                include += 1;
+                }
+            }else if(searchTerms.length === 0){
+            include += 1;
+            }
+            
+            
+  
+
+            return include >= 2;
+
+
+        }).forEach(prof => {CrearCarta(prof);});
+
 
         }
         document.getElementById('lupa').addEventListener('input', (e) => {
@@ -281,13 +338,27 @@
             if (panel.classList.contains('hidden')) {
                 boton.innerHTML = '☰';
                 document.getElementById('toggle-panel').classList.add('ocultoboton');
-                moveCamera("center");
-                if(document.getElementById('sidePanel').classList.contains("active")){togglexPanel(0,0);}
-                enpanelprofesor=false;   
+
+                if(!panel.classList.contains('AA_panel')){
+                    moveCamera("center");
+                    enpanelprofesor=false;   
+                     if(document.getElementById('sidePanel').classList.contains("active")){togglexPanel(0,0);}
+                    }
+
+                if(!AA_Wrapper.classList.contains("hidden")){
+                    AA_Wrapper.classList.remove("AA_panel");
+                }
+
+               
             } else {
                 boton.innerHTML = '✕';
                 document.getElementById('toggle-panel').classList.remove('ocultoboton');
+
+                
                 moveCamera("left");  
+
+                panel.classList.remove("AA_panel");
+                boton.classList.remove("AA_panel");
             }
         }
         function creafoto(contenedor,id,name){
@@ -303,6 +374,7 @@
                 nuevaImagen.src = "img/caras/"+id+".jpg";
                 nuevaImagen.classList.add("scanimg");
         }
+
         function CrearCarta(prof) {
             const { id, nombre, activo, tags } = prof;
 
@@ -369,22 +441,33 @@
 
             profCard.addEventListener("click", (e) => {
 
-                if(Horario == 0){return;}
+                if(Horario != 0){
 
-                if(!profCard.classList.contains("active")){
-                    d = Array.from(document.getElementsByClassName("profesor-card"));
-                    d.forEach(element => {
+                    if(!profCard.classList.contains("active")){
+                        d = Array.from(document.getElementsByClassName("profesor-card"));
+                        d.forEach(element => {
                         element.classList.remove("active");
-                    });
+                        });
 
-                    profCard.classList.add("active");
-                    profSelected = profCard;
-                    }else{
+                        profCard.classList.add("active");
+                        profSelected = profCard;
+                        }else{
 
-                    profCard.classList.remove("active");
-                    profSelected = -1;
+                        profCard.classList.remove("active");
+                        profSelected = -1;
+                        }
+                        ActualizarHorario();
+                    }else if(AA_Open){
+
+                    AA_toggleProf();
+                    AA_ProfID = id;
+                    AA_AvatarNombre.textContent = nombre;   
+                    AA_AvatarTags.textContent = JSON.parse(tags).join(", ");     
+
+                    creafoto(AA_Avatar,id,nombre);
+
                     }
-                    ActualizarHorario();
+
                 });
 
 
