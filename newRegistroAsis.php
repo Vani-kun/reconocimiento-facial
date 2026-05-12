@@ -97,6 +97,8 @@
     margin-top: 10px;
     background-color: #00000099;
     border-radius: 0.5vh;
+    align-items: center;
+    border: beige 0.2px solid;
     }
     .AsisTarjeta:hover{
     opacity:0.3;
@@ -600,18 +602,18 @@
                     <!-- Menú desplegable -->
                     <div id = "exportMenu" class="export-menu">
                         <div style="position: absolute; bottom: 15px; left: 0px; display: flex; gap: 10px; z-index: 10;">
-                            <button class="export-btn word" onclick="exportarWord()"    time-tooltip="1" data-tooltip="Exportar en Word"><i class="fas fa-file-word"></i> Word</button>
-                            <button class="export-btn excel" onclick="exportarExcel()"  time-tooltip="1" data-tooltip="Exportar en Excel"><i class="fas fa-file-excel" ></i> Excel</button>
-                            <button class="export-btn pdf" onclick="exportarPDF()"      time-tooltip="1" data-tooltip="Exportar en PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                            <button class="export-btn word"     onclick="exportarWord()"        time-tooltip="1" data-tooltip="Exportar en Word">   <i class="fas fa-file-word"></i>    Word</button>
+                            <button class="export-btn excel"    onclick="exportarExcel()"       time-tooltip="1" data-tooltip="Exportar en Excel">  <i class="fas fa-file-excel" ></i>  Excel</button>
+                            <button class="export-btn pdf"      onclick="exportarPDF()"         time-tooltip="1" data-tooltip="Exportar en PDF">    <i class="fas fa-file-pdf"></i>     PDF</button>
                         </div>
                     </div>
                 </div>
         <div style="width:100%;height:100%;padding:5% 5%;display:grid;grid-template-rows: 7% 93%;">
             <div class="cabezaregistro">
 
-                <div id="tablesort0" class="AsisTableHeader" onclick="tablesort(0)" time-tooltip="2" data-tooltip="Ordenar por estatus"><p>S</p><i class="fa-solid"></i></div>
-                <div id="tablesort1" class="AsisTableHeader" onclick="tablesort(1)" time-tooltip="2" data-tooltip="Ordenar por nombre"><p>NOMBRE</p><i class="fa-solid"></i></div>
-                <div id="tablesort2" class="AsisTableHeader" onclick="tablesort(2)" time-tooltip="2" data-tooltip="Ordenar por fecha"><p>FECHA</p><i class="fa-solid"></i></div>
+                <div id="tablesort0" class="AsisTableHeader" onclick="tablesort(0)" time-tooltip="2" data-tooltip="Ordenar por estatus">    <p>S</p>        <i class="fa-solid"></i></div>
+                <div id="tablesort1" class="AsisTableHeader" onclick="tablesort(1)" time-tooltip="2" data-tooltip="Ordenar por nombre">     <p>NOMBRE</p>   <i class="fa-solid"></i></div>
+                <div id="tablesort2" class="AsisTableHeader" onclick="tablesort(2)" time-tooltip="2" data-tooltip="Ordenar por fecha">      <p>FECHA</p>    <i class="fa-solid"></i></div>
 
             </div>
             <div id="AsisScrollMenu" style="overflow-y:scroll;">
@@ -701,9 +703,9 @@
                             </div>
                             
                             <div class="stats">
-                                <p><strong>Récord de asistencia: </strong><span id="regasis"></span></p>
-                                <p><strong>Llegadas tarde: </strong><span id="reglate"></span></p>
-                                <p><strong>Inasistencias: </strong><span id="regina"></span></p>
+                                <p><strong>Récord de asistencia:    </strong><span id="regasis">    </span></p>
+                                <p><strong>Llegadas tarde:          </strong><span id="reglate">    </span></p>
+                                <p><strong>Inasistencias:           </strong><span id="regina">     </span></p>
                             </div>
                         </div>
                     </div>
