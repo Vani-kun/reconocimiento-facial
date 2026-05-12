@@ -32,6 +32,7 @@
 </heasd>
 <body >
 
+<?php include 'newTooltips.php'; ?>
 
 <?php include 'newBarra.php'; ?>
 

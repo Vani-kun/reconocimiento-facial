@@ -289,8 +289,8 @@
             <div class="level-icon"><i class="fa-solid fa-crown"></i><br>Supremo</div>
         </div>
         
-        <button id="accion" class="btn btn-save botoni" style="width:100%" onclick="guardarusuario()">GUARDAR</button>
-        <button id="accion2" class="btn btn-save botoni" style="width:100%" onclick="cancelausuario()">CANCELAR</button>
+        <button id="accion"     class="btn btn-save botoni" style="width:100%" onclick="guardarusuario()" time-tooltip="2" data-tooltip="Guardar">GUARDAR</button>
+        <button id="accion2"    class="btn btn-save botoni" style="width:100%" onclick="cancelausuario()" time-tooltip="2" data-tooltip="Cancelar">CANCELAR</button>
     </div>
     <!-- Botón Agregar abajo -->
     <button class="btn-main" onclick="togglePanelusers()">+</button>
@@ -310,7 +310,7 @@
             <input type="range" min="0" max="1" step="0.01" value="0.90" oninput="updatePrecision(this.value)" id="rangobar">
         </div>
 
-        <button class="btn-futurista" onclick="guardacargaConfi(1)">Actualiosar Configuracion</button>
+        <button class="btn-futurista" onclick="guardacargaConfi(1)">Actualizar Configuracion</button>
 
     </div>
 
@@ -325,7 +325,7 @@
             </div>
             
 <!-- Interruptor de Encendido -->
-<div class="power-trigger" onclick="togglexxPanel()" >
+<div class="power-trigger" onclick="togglexxPanel()" time-tooltip="0.5" data-tooltip="Cerrar menu">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--newprima)" stroke-width="2.5">
         <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
 </div>

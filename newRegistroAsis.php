@@ -313,6 +313,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        text-align: center;
     }
     .export-toggle:hover {
         transform: scale(1.1);
@@ -323,7 +324,7 @@
         display: flex;
         flex-direction: column-reverse;
         gap : 8px;
-        opacity: 0;a
+        opacity: 0;
         transform: translateY(20px);
         pointer-events: none;
         transition: opacity 0.3s, transform 0.3s;
@@ -353,7 +354,6 @@
         transition: all 0.3s cubics-bezier(0.23, 1, 0.32, 1);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         position: relative;
-        overflow: hidden;
     }
     .export-btn::before {
         content: '';
@@ -541,6 +541,7 @@
         opacity:0;
         pointer-events:none;
         }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -550,14 +551,14 @@
         <div style="width:100%;height:100%;display:flex;">
 
             <div class="AsisFilterMenu" style="width: 50%; right: 0; position:absolute; height: 8%; top:2%; display:grid;grid-template-columns: 1fr 1fr 1fr">
-                <div id="btnTogglestatus0" onclick="togglestatus(0)" class="statusbtncontainer" style="align-content:center;justify-items:center;">
-                    <strong id="strongstatus0" class="status0 statusbtnon"><i class="fa-regular fa-clock"></i></strong>
+                <div id="btnTogglestatus0" onclick="togglestatus(0)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de inasistencia">
+                    <strong id="strongstatus0" class="status0 statusbtnon"><i class="fa-solid fa-user-slash"></i></strong>
                 </div>
-                <div id="btnTogglestatus1" onclick="togglestatus(1)" class="statusbtncontainer" style="align-content:center;justify-items:center;">
+                <div id="btnTogglestatus1" onclick="togglestatus(1)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de llegadas tarde">
                     <strong id="strongstatus1" class="status1 statusbtnon"><i class="fa-regular fa-clock"></i></strong>
                 </div>
-                <div id="btnTogglestatus2" onclick="togglestatus(2)" class="statusbtncontainer" style="align-content:center;justify-items:center;">
-                    <strong id="strongstatus2" class="status2 statusbtnon"><i class="fa-regular fa-clock"></i></strong>
+                <div id="btnTogglestatus2" onclick="togglestatus(2)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de asistencias a tiempo">
+                    <strong id="strongstatus2" class="status2 statusbtnon"><i class="fa-regular fa-circle-check"></i></strong>
                 </div>
             </div>
             <div style="position: absolute;top: 22.5%;height: 10%;width: 100%;padding:5% 5%;">
@@ -569,30 +570,48 @@
         <div class="export-menu-container">
                     <!-- Botón principal (disparador) -->
                     <div style="display:flex;gap:20px;">
-                        <button class="export-toggle" onclick="toggleExportMenu()" title="Exportar">
+                        <button class="export-toggle" onclick="toggleExportMenu()" time-tooltip="0.2" data-tooltip="Exportar">
                             <i class="fa-solid fa-download"></i>
                         </button>
 
-                        <button class="export-toggle SecurityLevel5" onclick="toggleCreateAsisMenu()" title="Añadir nuevo registro">
+                        <button class="export-toggle SecurityLevel3" onclick="toggleCreateAsisMenu()" time-tooltip="0.2" data-tooltip="Añadir un nuevo registro">
                             <i class="fa-solid fa-plus"></i>
                         </button>
+
+                        <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Generar todas las inasistencias">
+                            <i class="fa-solid fa-list-ul"></i>
+                        </button>
+
+                        <div style="display:flex;gap:5px;"><!-- Cambiar estatus -->  
+                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a inasistencias">
+                                <i class="fa-solid fa-user-slash"></i>
+                            </button>
+
+                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias con retrasos">
+                                <i class="fa-regular fa-clock"></i>
+                            </button>
+
+                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias a tiempo">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Menú desplegable -->
                     <div id = "exportMenu" class="export-menu">
                         <div style="position: absolute; bottom: 15px; left: 0px; display: flex; gap: 10px; z-index: 10;">
-                            <button class="export-btn word" onclick="exportarWord()"><i class="fas fa-file-word"></i> Word</button>
-                            <button class="export-btn excel" onclick="exportarExcel()"><i class="fas fa-file-excel"></i> Excel</button>
-                            <button class="export-btn pdf" onclick="exportarPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                            <button class="export-btn word" onclick="exportarWord()"    time-tooltip="1" data-tooltip="Exportar en Word"><i class="fas fa-file-word"></i> Word</button>
+                            <button class="export-btn excel" onclick="exportarExcel()"  time-tooltip="1" data-tooltip="Exportar en Excel"><i class="fas fa-file-excel" ></i> Excel</button>
+                            <button class="export-btn pdf" onclick="exportarPDF()"      time-tooltip="1" data-tooltip="Exportar en PDF"><i class="fas fa-file-pdf"></i> PDF</button>
                         </div>
                     </div>
                 </div>
         <div style="width:100%;height:100%;padding:5% 5%;display:grid;grid-template-rows: 7% 93%;">
             <div class="cabezaregistro">
 
-                <div id="tablesort0" class="AsisTableHeader" onclick="tablesort(0)"><p>S</p><i class="fa-solid"></i></div>
-                <div id="tablesort1" class="AsisTableHeader" onclick="tablesort(1)"><p>NOMBRE</p><i class="fa-solid"></i></div>
-                <div id="tablesort2" class="AsisTableHeader" onclick="tablesort(2)"><p>FECHA</p><i class="fa-solid"></i></div>
+                <div id="tablesort0" class="AsisTableHeader" onclick="tablesort(0)" time-tooltip="2" data-tooltip="Ordenar por estatus"><p>S</p><i class="fa-solid"></i></div>
+                <div id="tablesort1" class="AsisTableHeader" onclick="tablesort(1)" time-tooltip="2" data-tooltip="Ordenar por nombre"><p>NOMBRE</p><i class="fa-solid"></i></div>
+                <div id="tablesort2" class="AsisTableHeader" onclick="tablesort(2)" time-tooltip="2" data-tooltip="Ordenar por fecha"><p>FECHA</p><i class="fa-solid"></i></div>
 
             </div>
             <div id="AsisScrollMenu" style="overflow-y:scroll;">
@@ -608,11 +627,11 @@
         <div class="chart-container2">
             <canvas id="grafico"></canvas>
         </div>
-        <button class="btx btn-futurista" onclick="cambia(0,1)">Torta</button>
-        <button class="btx btn-futurista" onclick="cambia(1,1)">Barra</button>
-        <button class="btx btn-futurista" onclick="cambia(2,1)">Área Polar</button>
-        <button class="btx btn-futurista" onclick="cambia(3,1)">linea</button>
-        <button class="btx btn-futurista" onclick="cambia(4,1)">Radar</button>
+        <button class="btx btn-futurista" onclick="cambia(0,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta">Torta</button>
+        <button class="btx btn-futurista" onclick="cambia(1,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra">Barra</button>
+        <button class="btx btn-futurista" onclick="cambia(2,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar">Área Polar</button>
+        <button class="btx btn-futurista" onclick="cambia(3,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea">linea</button>
+        <button class="btx btn-futurista" onclick="cambia(4,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar">Radar</button>
         
         <div style="margin-top: auto; font-size: 0.65rem; opacity: 0.4; text-align: right;">
             LIVELULA_CORE // UNIT_01
@@ -629,18 +648,18 @@
                             <canvas id="profGrafico"></canvas>
                         </div>
                         <div style="display:flex;">
-                            <button class="btx btn-futurista" onclick="cambia(0,0)">Torta</button>
-                            <button class="btx btn-futurista" onclick="cambia(1,0)">Barra</button>
-                            <button class="btx btn-futurista" onclick="cambia(2,0)">Área Polar</button>
-                            <button class="btx btn-futurista" onclick="cambia(3,0)">linea</button>
-                            <button class="btx btn-futurista" onclick="cambia(4,0)">Radar</button>
+                            <button class="btx btn-futurista" onclick="cambia(0,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta">Torta</button>
+                            <button class="btx btn-futurista" onclick="cambia(1,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra">Barra</button>
+                            <button class="btx btn-futurista" onclick="cambia(2,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar">Área Polar</button>
+                            <button class="btx btn-futurista" onclick="cambia(3,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea">linea</button>
+                            <button class="btx btn-futurista" onclick="cambia(4,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar">Radar</button>
                         </div>
                     </div>
                     <!-- Panel Izquierdo: Registro -->
                     <div class="panelx panelx-derecho">
                         <div>
                         <h3><i class="fa-regular fa-clock"></i>Asistencia</h3>
-                        <div id="saveasisinfo" class="SecurityLevel4 saveinfo oculto" style="right: 20px;position: absolute;top: 20px;" onclick="SaveAsisInfo();"><i class="fa-regular fa-floppy-disk"></i></div>
+                        <div id="saveasisinfo" class="SecurityLevel4 saveinfo oculto" style="right: 20px;position: absolute;top: 20px;" onclick="SaveAsisInfo();" time-tooltip="0.2" data-tooltip="Guardar"><i class="fa-regular fa-floppy-disk"></i></div>
                         </div>
 
                         <div class="registro-horas">
@@ -659,9 +678,9 @@
                             <span class="status-text">Status:</span>
   
                             <div class="icons-group">
-                            <i id="ina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" onclick="changeStatus(0)"></i>
-                            <i id="ret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso" onclick="changeStatus(1)"></i>
-                            <i id="asi" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió" onclick="changeStatus(2)"></i>
+                            <i id="ina" class="nosoy fa-solid fa-circle-xmark icon-status absent"   title="Inasistente" onclick="changeStatus(0)"   time-tooltip="0.2" data-tooltip="Cambiar el estado a inasistente"></i>
+                            <i id="ret" class="nosoy fa-solid fa-clock icon-status late"            title="Retraso" onclick="changeStatus(1)"       time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia con retraso"></i>
+                            <i id="asi" class="nosoy fa-solid fa-circle-check icon-status assist"   title="Asistió" onclick="changeStatus(2)"       time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia a tiempo"></i>
                             </div>
                         </div>
 
@@ -686,8 +705,6 @@
                                 <p><strong>Llegadas tarde: </strong><span id="reglate"></span></p>
                                 <p><strong>Inasistencias: </strong><span id="regina"></span></p>
                             </div>
-                            
-                            <button class="btn  btn-cancel" style="margin: 0px;">Calcular Sueldo</button>
                         </div>
                     </div>
                 </div>
@@ -700,18 +717,18 @@
         </div>
     </div>
 
-    <div id="AsisOnBtn" class="power-trigger hidden regasis" onclick="showAsisReg(0)" >
+    <div id="AsisOnBtn" class="power-trigger hidden regasis" onclick="showAsisReg(0)" time-tooltip="0.2" data-tooltip="Cerrar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--newprima)" stroke-width="2.5">
             <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
     </div>
 
     <div id="AsisCreateWrapper" class="hidden" onclick="AA_removecalendar()">
-        <div class="closeaddasis" style="position:absolute;font-size:1.5rem;right:5%;top:2.5%;" onclick="closeAsisWrapper();"><i class="fa-regular fa-circle-xmark"></i></div>
+        <div class="closeaddasis" style="position:absolute;font-size:1.5rem;right:5%;top:2.5%;" onclick="closeAsisWrapper();" time-tooltip="2" data-tooltip="Cerrar"><i class="fa-regular fa-circle-xmark"></i></div>
 
         <fieldset style="height:100%;">
             <legend><h3>Añadir un nuevo registro</h3></legend>
             <div class="addAsisProfInfo">
-                <div style="display:flex;align-items:center;justify-content:center;"><div class="circulo-avatar" id="addasisavatar"></div><i class="saveinfo fa-solid fa-user-pen" style="position:absolute;text-align: center;left: 60%;" onclick="AA_toggleProf();"></i></div>
+                <div style="display:flex;align-items:center;justify-content:center;"><div class="circulo-avatar" id="addasisavatar"></div><i class="saveinfo fa-solid fa-user-pen" style="position:absolute;text-align: center;left: 60%;" onclick="AA_toggleProf();" time-tooltip="0.5" data-tooltip="Seleccionar un profesor"></i></div>
                 <h2 class="nombre" id="addasisnombre" style="color:black;">Aaron Garcia</h2>
                 <div class="tags" id="addasistags">informatica, calculo</div>
             </div>
@@ -721,9 +738,9 @@
                     <span class="status-text">Status:</span>
   
                     <div class="icons-group">
-                        <i id="addina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente" onclick="AA_changestatus(0);"></i>
-                        <i id="addret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso" onclick="AA_changestatus(1);"></i>
-                        <i id="addasis" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió" onclick="AA_changestatus(2);"></i>
+                        <i id="addina" class="nosoy fa-solid fa-circle-xmark icon-status absent" title="Inasistente"    onclick="AA_changestatus(0);"  time-tooltip="0.2" data-tooltip="Cambiar el estado a inasistente"></i>
+                        <i id="addret" class="nosoy fa-solid fa-clock icon-status late" title="Retraso"                 onclick="AA_changestatus(1);"  time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia con retraso"></i>
+                        <i id="addasis" class="nosoy fa-solid fa-circle-check icon-status assist" title="Asistió"       onclick="AA_changestatus(2);"  time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia a tiempo"></i>
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:2.5%;">
@@ -768,7 +785,7 @@
 
         </div>
 
-        <div class="addasissave" onclick="ADD_Save();"><i class="fa-solid fa-floppy-disk"></i></div>
+        <div class="addasissave" onclick="ADD_Save();"  time-tooltip="1" data-tooltip="Guardar"><i class="fa-solid fa-floppy-disk"></i></div>
     </div>
 
 </div>
@@ -861,21 +878,23 @@ function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = "")
 
     datediv.textContent = date;
 
-    statusdiv.textContent = "●";
-    statusdiv.innerHTML='<i class="fa-regular fa-clock"></i>';
+    
 
     var otherstatus = 0;
 
     if(status == 1 || status == 2){
         if(late == 0){
         statusdiv.classList.add("status2"); 
+        statusdiv.innerHTML ='<i class="fa-regular fa-circle-check"></i>';
         otherstatus = 2;
         }else{
         statusdiv.classList.add("status1");    
+        statusdiv.innerHTML ='<i class="fa-regular fa-clock"></i>';
         otherstatus = 1;
         }
     }else{
     statusdiv.classList.add("status0");   
+    statusdiv.innerHTML ='<i class="fa-solid fa-user-slash"></i>';
     otherstatus = 0;
     }
 

@@ -116,17 +116,17 @@
 <div id="hexOverlay" onclick="toggle(0)">
     <div class="menu-wrapper" id="mw" onclick="event.stopPropagation()">
         <div class="menulink" dir="main">
-            <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
-            <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
-            <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showAsisReg(1)"> <i class="fa-solid fa-address-card"></i> Reg </div>
-            <div id="HorBtn" class="SecurityLevel2 hexagon p3" onclick="MenuMove('horario')"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
-            <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
-            <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
+            <div                class="SecurityLevel1 hexagon core"         onclick="toggle(0)"                 time-tooltip="1" data-tooltip="Cerrar el menu">                     <i class="fa-solid fa-power-off"></i>       SALIR       </div>
+            <div id="ProfBtn"   class="SecurityLevel3 hexagon p1"           onclick="sowProfesores()"           time-tooltip="1" data-tooltip="Abrir la gestion de profesores">     <i class="fa-solid fa-user-tie"></i>        Prof        </div>
+            <div id="RegBtn"    class="SecurityLevel1 hexagon p2"           onclick="showAsisReg(1)"            time-tooltip="1" data-tooltip="Abrir el control de reporte">        <i class="fa-solid fa-address-card"></i>    Reg         </div>
+            <div id="HorBtn"    class="SecurityLevel2 hexagon p3"           onclick="MenuMove('horario')"       time-tooltip="1" data-tooltip="Moverse al menu de horarios">        <i class="fa-solid fa-calendar-day"></i>    Hor         </div>
+            <div id="CtrlBtn"   class="SecurityLevel3 hexagon p4"           onclick="showControl()"             time-tooltip="1" data-tooltip="Abrir las opciones de el sistema">   <i class="fa-solid fa-gear"></i>            Ctrl        </div>
+            <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5"    onclick="login_out();toggle(0)"     time-tooltip="1" data-tooltip="Cerrar sesion">                      <i class="fa-solid fa-lock"></i>            Cerrar Ses  </div>
         </div>
         <div class="menulink" dir="horario">
-            <div class="SecurityLevel1 hexagon core" onclick="MenuMove('main')"> <i class="fa-solid fa-arrow-left"></i> REGRESAR </div>
-            <div id="HorBtn2" class="SecurityLevel2 hexagon p3" onclick="showHorarios(1)"> <i class="fa-solid fa-calendar-days"></i> Hor </div>
-            <div id="SecBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-book"></i> Sec </div>
+            <div                class="SecurityLevel1 hexagon core" onclick="MenuMove('main')"  time-tooltip="1" data-tooltip="Volver al menu anterior">            <i class="fa-solid fa-arrow-left"></i>      REGRESAR    </div>
+            <div id="HorBtn2"   class="SecurityLevel1 hexagon p3"   onclick="showHorarios(1)"   time-tooltip="1" data-tooltip="Ver los horarios">                   <i class="fa-solid fa-calendar-days"></i>   Hor         </div>
+            <div id="SecBtn"    class="SecurityLevel3 hexagon p2"   onclick="showSecciones()"   time-tooltip="1" data-tooltip="Abrir la gestion de secciones">      <i class="fa-solid fa-address-book"></i>    Sec         </div>
         </div>
     </div>
 </div>
@@ -151,7 +151,7 @@
                         <label for="passverifyinput">Vuelve a ingresar la contraseña:</label><br>
                         <input type="password" id="passverifyinput" name="passverifyinput">
                     </div>
-                    <button id="usersubmitbutton" class="btn btn-agregar">Enviar</button>
+                    <button id="usersubmitbutton" class="btn btn-agregar" time-tooltip="1" data-tooltip="Ingresar">Enviar</button>
                 </form>
             </fieldset>
         </div>

@@ -229,8 +229,8 @@
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-cancel" onclick="togglexPanel(-1,0)">Cerrar</button>
-        <button class="btn btn-save" onclick="validaSave()">Confirmar</button>
+        <button class="btn btn-cancel"  onclick="togglexPanel(-1,0)" time-tooltip="1" data-tooltip="Cerrar">     Cerrar</button>
+        <button class="btn btn-save"    onclick="validaSave()"       time-tooltip="1" data-tooltip="Confirmar">  Confirmar</button>
     </div>
 
 </div>

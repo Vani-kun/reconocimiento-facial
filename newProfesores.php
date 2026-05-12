@@ -207,7 +207,7 @@
 
 
     <div class="main-wrapper">
-        <button id="toggle-panel" onclick="togglePanel();" class="btn-toggle-panel ocultoboton">☰</button>
+        <button id="toggle-panel" onclick="togglePanel();" class="btn-toggle-panel ocultoboton" time-tooltip="1" data-tooltip="Cerrar">☰</button>
 
         <div class="panel-izquierdo">
             <h1>LIVELULA</h1>
@@ -215,14 +215,14 @@
         </div>
 
         <div id="panelGestion" class="panel-derecho hidden">
-            <h3 class="titulo">DOCENTES</h3>
+            <h3 class="titulo">PROFESORES</h3>
             <input id="lupa" type="text" class="search-bar" placeholder="Buscar profesor...">
 
             <div class="lista-profesores" id="listado">
                 
             </div>
 
-            <button id="BTNProfRegistry" class="btn-agregar" onclick="togglexPanel(0,0)">+ REGISTRAR</button>
+            <button id="BTNProfRegistry" class="btn-agregar" onclick="togglexPanel(0,0)" time-tooltip="1" data-tooltip="Registrar un nuevo profesor">+ REGISTRAR</button>
         </div>
     </div>
 
