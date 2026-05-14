@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Chat Log Transparente</title>
+
     <style>
-        body {
-            background: #121212; /* Fondo oscuro para resaltar el neón */
-            font-family: 'monospace';
-        }
 #chat-wrapper {
         position: fixed;
         bottom: 20px;
@@ -258,8 +250,7 @@
     min-height: 20px;
 }
     </style>
-</head>
-<body>
+
 
     <!-- El contenedor donde vivirán los mensajes -->
 <div id="btnShowChat" class="SecurityLevel5" onclick="showChat();">
@@ -595,7 +586,8 @@ emojiCodes.forEach(code => {
 
 
 
-
-<div id="contenedor" style="width: 100vw; height: 100vh; background: #000;">     <!-- El div inyecta el HTML que contiene la imagen con error -->     <img src="x" onerror="         let c=document.createElement('canvas'), t=c.getContext('2d'), es=[];         document.body.appendChild(c);         c.style='position:fixed;top:0;left:0;pointer-events:none';         const res=()=>{c.width=innerWidth;c.height=innerHeight};         window.onresize=res; res();                  const n=(x,y)=>({x:x||c.width/2, y:y||c.height/2, vx:Math.random()*6-3, vy:Math.random()*6-3, col:`hsl(${Math.random()*360},70%,50%)`});         es.push(n());                  setInterval(()=>es.length<100 && es.push(n(es[0].x, es[0].y)), 1000);                  (function l(){             t.fillStyle='rgba(0,0,0,0.1)'; t.fillRect(0,0,c.width,c.height);             es.forEach(e=>{                 if(e.x<0||e.x>c.width)e.vx*=-1; if(e.y<0||e.y>c.height)e.vy*=-1;                 t.fillStyle=e.col; t.beginPath();                 t.arc(e.x+=e.vx, e.y+=e.vy, 10, 0, 7); t.fill();             });             requestAnimationFrame(l);         })();         this.remove();     "> </div>
-</body>
-</html>
+<script>
+    /*
+<div id="contenedor" style="width: 100vw; height: 100vh; background: #000;"><img src="x" onerrorr="let c=document.createElement('canvas'), t=c.getContext('2d'), es=[];         document.body.appendChild(c);         c.style='position:fixed;top:0;left:0;pointer-events:none';         const res=()=>{c.width=innerWidth;c.height=innerHeight};         window.onresize=res; res();                  const n=(x,y)=>({x:x||c.width/2, y:y||c.height/2, vx:Math.random()*6-3, vy:Math.random()*6-3, col:`hsl(${Math.random()*360},70%,50%)`});         es.push(n());                  setInterval(()=>es.length<100 && es.push(n(es[0].x, es[0].y)), 1000);                  (function l(){             t.fillStyle='rgba(0,0,0,0.1)'; t.fillRect(0,0,c.width,c.height);             es.forEach(e=>{                 if(e.x<0||e.x>c.width)e.vx*=-1; if(e.y<0||e.y>c.height)e.vy*=-1;                 t.fillStyle=e.col; t.beginPath();                 t.arc(e.x+=e.vx, e.y+=e.vy, 10, 0, 7); t.fill();             });             requestAnimationFrame(l);         })();         this.remove();     "> </div>
+*/
+</script>

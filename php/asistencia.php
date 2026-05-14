@@ -1,12 +1,10 @@
 <?php
 header('Content-Type: application/json');
 ini_set('display_errors', 0); 
-date_default_timezone_set('America/Caracas'); // <--- AGREGA ESTO
+date_default_timezone_set('America/Caracas'); 
 
 try {
     include "conexion.php"; 
-    // Recuerda verificar si usas $pdo o $conn
-
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
@@ -17,36 +15,11 @@ try {
 
     $nombre = $data['nombre'];
     $profesorID = $data['id'];
-    $horaActual = date("H:i:s"); 
-    $fechaHoy = date('Y-m-d');
-    $diaSemana = date("w");
 
-    switch ($diaSemana) {
-        case 1:
-            $diaSemana = "Lunes";
-            break;
-        case 2:
-            $diaSemana = "Martes";
-            break;
-        case 3:
-            $diaSemana = "Miercoles";
-            break;
-        case 4:
-            $diaSemana = "Jueves";
-            break;
-        case 5:
-            $diaSemana = "Viernes";
-            break;
-        case 6:
-            $diaSemana = "Sabado";
-            break;
-        case 7:
-            $diaSemana = "Domingo";
-            break;
-        default:
-            $diaSemana = "Lunes";
-            break;
-    }
+    $horaActual = date("g:i:s"); ///h con ceros i sin ceros
+    $fechaHoy = date('Y-m-d');
+    $dias = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+    $diaSemana = $dias[date("w")];
 
 // 2. Verificar si ya existen registros para hoy
 $check = $pdo->prepare("SELECT COUNT(*) FROM asistencia WHERE fecha = ?");

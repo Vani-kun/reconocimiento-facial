@@ -1,3 +1,4 @@
+<!--########################################ElAgregaEdita################################################3-->
 <style>
     :root {
         --accent: #00f2ff;
@@ -14,7 +15,7 @@
         z-index: 100;
         background: var(--card);
         border: 1px solid var(--border);
-        color: var(--accent);
+        color: var(--newprima);
         padding: 10px 20px;
         border-radius: 12px;
         cursor: pointer;
@@ -32,13 +33,13 @@
     /* --- PANEL LATERAL FIJO (DERECHA) --- */
     .soft-panel {
         position: fixed;
-        right: 20px; /* Separación del borde */
+        right: 50px; /* Separación del borde */
         top: 50%;
         transform: translateY(-50%) translateX(120%); /* Escondido a la derecha */
         
         width: 320px;
         padding: 35px;
-        background: var(--newpoligono);
+        background: var(--newpanel);
         backdrop-filter: blur(20px);
         border: 1px solid var(--border);
         
@@ -55,29 +56,36 @@
         transform: translateY(-50%) translateX(0);
     }
 
-    /* --- BIOMETRÍA --- */
-    .bio-header {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 25px;
+    .soft-panel2 {
+        position: fixed;
+        right: 390px; /* Separación del borde */
+        top: 50%;
+        transform: translateY(-50%) translateX(120%); /* Escondido a la derecha */
+
+        opacity: 0;
+        pointer-events: none;
+        padding: 20px 0;
+        width: 240px;
+        height:50%;
+        background: var(--newpanel);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        
+        /* Diseño de esquinas suave: la inferior derecha es la "diferente" */
+        border-radius: 40px 40px 4px 40px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
+        
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+        z-index: 1000;
+
+        overflow:hidden;
     }
 
-    .bio-slot {
-        width: 45px;
-        height: 45px;
-        background: var(--glass);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.55rem;
-        color: var(--newprima);
-    }    
-    .bio-slot.activoo {
-        background: var(--newprima);
-        color: var(--newletras);
+    /* Clase para mostrar el panel */
+    .soft-panel2.active {
+        transform: translateY(-50%) translateX(0);
+        opacity: 1;
+        pointer-events: all;
     }
 
     /* --- INPUTS --- */
@@ -119,10 +127,14 @@
         font-size: 0.8rem;
         font-weight: 600;
         transition: 0.2s;
-    }.btn:active { opacity: 0.8; }
-    .btn-cancel { background: transparent; color: var(--newletras); }
+    }
+    .btn:hover {
+        opacity:0.9;
+    }
+    .btn:active { opacity: 0.8; }
+    .btn-cancel { background: rgb(0,0,0,0.5); color: var(--newletrascontraste); }
     .btn-save { background: var(--newprima); color: #ffffff; }
-    .btn-save:hover {box-shadow 0px 0px 10px var(--newprima);}
+    .btn-save:hover { box-shadow: 0px 0px 10px var(--newprima);}
     
     /* --- BIOMETRÍA CON INTERACCIÓN --- */
     .bio-header {
@@ -155,11 +167,12 @@
         transition: all 0.3s ease; /* Transición suave para todos los estados */
     }
     .btn-bio:hover { opacity: 0.8; box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);}
+
     .bio-slot {
         width: 60px;
         height: 60px;
-        background: var(--glass);
-        border: 1px solid var(--border);
+        background: var(--newpanel);
+        border: 1px solid rgba(114, 114, 114, 0.5);;
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -203,6 +216,28 @@
             width: 100%;
             margin-bottom: 10px;
     }
+    #h2profesor{
+        color:var(--newletras);
+    }
+    .tag-button{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        }
+    .tag-button:hover{
+        cursor:pointer;
+        }
+    .add-tags-card{
+        width:100%;
+        text-align:start;
+        padding:0 25px;
+        user-select:none;
+        }
+    .add-tags-card:hover{
+        cursor:pointer;
+        background-color:white;
+        color:black;
+        }
 </style>
 
 <!--button id="btn-toggle" onclick="togglexPanel()">Nuevo Registro</button-->
@@ -218,19 +253,25 @@
             <button class="btn-bio" onclick="addScan()">+</button>
     </div>
 
-    <h2><span id="ttl-subpanel">Nuevo</span> Profesor</h2>
+    <h2 id="h2profesor"><span id="ttl-subpanel">Nuevo</span> Profesor</h2>
     
     <div class="input-wrap">
         <input  class="inputt" type="text" placeholder="Nombre completo" id="pro_nombre">
     </div>
 
-    <div class="input-wrap">
-        <input class="inputt" type="text" placeholder="Especialidad(es)" id="pro_tag">
+    <div class="input-wrap" style="display:grid;grid-template-columns: 10% 90%">
+        <div class="tag-button" onclick="TC_showpanel();"><i class="fa-solid fa-circle-plus"></i></div><input class="inputt" type="text" placeholder="Especialidad(es)" id="pro_tag">
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-cancel"  onclick="togglexPanel(-1,0)" time-tooltip="1" data-tooltip="Cerrar">     Cerrar</button>
-        <button class="btn btn-save"    onclick="validaSave()"       time-tooltip="1" data-tooltip="Confirmar">  Confirmar</button>
+        <button class="btn btn-cancel" onclick="togglexPanel(-1,0)">Cerrar</button>
+        <button class="btn btn-save" onclick="validaSave()">Confirmar</button>
+    </div>
+</div>
+
+<div id="sidePanel2" class="soft-panel2">
+    <div style="display:grid;grid-template-rows: repeat(11,1fr);overflow-y:scroll;gap:10px;width:100%;height:100%;">
+  
     </div>
 
 </div>
@@ -247,6 +288,7 @@
         });
     }
     function togglexPanel(edi,id) {enpanelprofesor=true;
+    document.getElementById('sidePanel2').classList.remove("active");
         if (edi==1){
             editar = 1;
             ///traer los datos del ´profesor para ediotarlos
@@ -413,5 +455,61 @@
             togglexPanel();
         }
     }
-    //togglexPanel();
+
+    const TC_Array = ["Calculo", "Lengua", "Informatica", "Musica"];
+
+function TC_refresh() {
+    const panel = document.getElementById("sidePanel2");
+    if (!panel) return; // Seguridad por si el panel no existe
+    
+    panel.textContent = "";
+
+    TC_Array.forEach((e) => {
+        const Element = document.createElement("div");
+        Element.classList.add("add-tags-card");
+        Element.textContent = e;
+
+        Element.addEventListener("click", () => {
+            TC_toggle(e);
+        });
+
+        panel.appendChild(Element);
+    });
+}
+
+function TC_toggle(_text) {
+    const Input = document.getElementById('pro_tag');
+    // 1. Obtenemos el valor y lo convertimos en array. 
+    // Filtramos espacios vacíos para evitar errores al inicio.
+    let tagsArray = Input.value.split(", ").filter(t => t !== "");
+
+    // 2. Buscamos el índice
+    const find = tagsArray.findIndex((e) => e.toLowerCase() === _text.toLowerCase());
+
+    if (find !== -1) {
+        // 3. Si existe, lo quitamos (splice)
+        tagsArray.splice(find, 1);
+    } else {
+        // 4. Si no existe, lo añadimos
+        tagsArray.push(_text.toLowerCase());
+    }
+
+    // 5. Devolvemos al input unido por comas
+    Input.value = tagsArray.join(", ");
+}
+
+function TC_showpanel(){
+
+    const panel = document.getElementById('sidePanel2');
+
+    if(panel.classList.contains("active")){
+        panel.classList.remove("active");
+        }else{
+        panel.classList.add("active");   
+        }
+    
+    }
+
+// Ejecución inicial
+TC_refresh();
 </script>

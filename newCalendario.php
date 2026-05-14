@@ -1,7 +1,7 @@
 <style>
     .calendario-container {
         width: 300px;
-        background: var(--newpoligono);
+        background: var(--newpanel);
         border-radius: 10px;
         padding: 0px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -43,6 +43,7 @@
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 5px;
+        color: var(--newletras);
     }
     .calendario-grid-month {
         display: grid;
@@ -214,11 +215,11 @@
 <div style="display:grid;justify-items:center;align-content:center;">
     <div style="display:grid;grid-template-columns: 40% 40%;margin-bottom:5px;margin-top:5px;width: 100%;justify-content:center;">
 
-        <div class="calendaroption-div" onclick="MyCalendar.move(0)">
+        <div class="calendaroption-div" onclick="MyCalendar.move(0)" >
             <div class="calendaroption-btn"><i class="fa-solid fa-angle-left"></i></div>
         </div>
 
-        <div class="calendaroption-div" onclick="MyCalendar.move(1)">
+        <div class="calendaroption-div" onclick="MyCalendar.move(1)" >
             <div class="calendaroption-btn"><i class="fa-solid fa-angle-right"></i></div>
         </div>
 

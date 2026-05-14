@@ -1,0 +1,234 @@
+/* SISTEMA M.A.R.S. - CSS GLOBAL DE ACCESO
+   Diseño: Institucional / Profesional
+*/
+
+:root {
+    --fondo-claro: #f8f9fa;      /* Gris muy claro de fondo */
+    --tarjeta-bg: #ffffff;       /* Blanco puro para el contenedor */
+    --azul-mars: #007bff;        /* Azul corporativo */
+    --azul-hover: #0056b3;       /* Azul oscuro para hover */
+    --verde-mars: #24b2f3;       /* Verde para acciones positivas */
+    --texto-principal: #2c3e50;  /* Gris oscuro para títulos */
+    --texto-secundario: #546e7a; /* Gris azulado para párrafos */
+    --borde: #dee2e6;            /* Color de bordes y separadores */
+    --sombra: rgba(0, 0, 0, 0.08);
+    --error: #d8ff4d;
+    
+}
+
+/* Configuración Base */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--fondo-claro);
+    color: var(--texto-principal);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- CABECERA (Logo e Info) --- */
+.header-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.header-logo img {
+    height: 65px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.header-info {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    z-index: 10;
+}
+
+.btn-info {
+    text-decoration: none;
+    color: var(--texto-secundario);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 18px;
+    border: 1.5px solid var(--borde);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-info:hover {
+    color: var(--azul-mars);
+    border-color: var(--azul-mars);
+    background-color: #f0f7ff;
+    transform: translateY(-2px);
+}
+
+.btn-info::before {
+    content: 'ⓘ';
+    font-weight: normal;
+}
+
+/* --- CONTENIDO CENTRAL --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.mars-card {
+    background: var(--tarjeta-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px var(--sombra);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    border: 1px solid var(--borde);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Textos de Bienvenida */
+.welcome-text {
+    font-size: 1.8rem;
+    color: var(--azul-mars);
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.instruction-text {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* --- FORMULARIOS E INPUTS --- */
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--texto-secundario);
+    margin-bottom: 6px;
+    margin-left: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--borde);
+    border-radius: 8px;
+    background-color: #fcfcfc;
+    color: var(--texto-principal);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--azul-mars);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+}
+
+/* --- BOTONES --- */
+.btn-mars {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-azul { background-color: var(--azul-mars); }
+.btn-azul:hover { 
+    background-color: var(--azul-hover); 
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 15px rgba(0,123,255,0.2); 
+}
+
+.btn-verde { background-color: var(--verde-mars); }
+.btn-verde:hover { 
+    background-color: #16bce6;
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 15px rgba(40,167,69,0.2); 
+}
+
+/* --- ENLACES Y MENSAJES --- */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--texto-secundario);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--azul-mars);
+    background: #f0f7ff;
+}
+
+.error-msg {
+    background-color: rgba(255, 77, 77, 0.1);
+    color: var(--error);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    display: block;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+/* --- FOOTER --- */
+footer {
+    padding: 25px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+    border-top: 1px solid var(--borde);
+    background: white;
+    line-height: 1.6;
+}

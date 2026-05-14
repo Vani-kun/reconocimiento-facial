@@ -13,7 +13,8 @@
     display:grid;
     grid-template-rows: 30% 70%; 
     transition: left 0.5s, opacity 0.5s;
-    }
+    background:var(--newpanel);
+}
 .hidden.regasis.fd{
     left: -29%;
     opacity: 0;
@@ -23,7 +24,7 @@
     left: 29%;   
     top: 0;
     width:37.67%;
-    height:50%;
+    height:40%;
     transition: top 0.5s, opacity 0.5s;
     display:flex;
     }
@@ -35,7 +36,7 @@
     left: 29%;
     top: 50%;
     width:70.9%;
-    height:50%;
+    height:70%;
     transition: top 0.5s, opacity 0.5s;
     display:flex;
     }
@@ -79,7 +80,7 @@
     top: 0;
     left: 0;
     transition: opacity 0.5s;
-    background-color: #00000088;
+    /*background-color: #00000088;*/
     backdrop-filter: blur(8px);
     }
 .hidden.regasis.main{
@@ -89,22 +90,21 @@
 
 .AsisTarjeta{
     display:grid;
-    grid-template-columns: 10% 50% 40%;
+    grid-template-columns: 10% 10% 50% 30%;
     height: 10%;
     width:100%;
     text-align: left;
-    padding: 2.5px 10px;
     margin-top: 10px;
-    background-color: #00000099;
+    background-color: rgb(0,0,0,0.3);
     border-radius: 0.5vh;
     align-items: center;
-    border: beige 0.2px solid;
+    border: beige 1px solid;
     }
     .AsisTarjeta:hover{
     opacity:0.3;
     cursor:pointer;
     }
-    .status0,.status1,.status2{margin-right:20px}
+    .status0,.status1,.status2{position:relative;}
     .status0{color: red; text-shadow: 0 0 10px red;}
     .status1{color: #ffae00;text-shadow: 0 0 10px #ffae00;}
     .status2{color: #00ff22;text-shadow: 0 0 10px #00ff22;}
@@ -122,6 +122,9 @@
     align-items:center;
     justify-content:center;
     text-align: center;
+    width:32px;
+    height:32px;
+    margin: 0px auto;
 }
 .statusbtncontainer:hover{
 
@@ -130,13 +133,14 @@
     }
 
     cursor:pointer;
-    }
+}
 
 .AsisTableHeader{
     display:flex;
     font-weight: bold;
     padding:0 10%;
     transition: box-shadow 0.2s;
+    align-items:center;
     }
 .AsisTableHeader:hover{
         cursor:pointer;
@@ -148,7 +152,7 @@
     .cabezaregistro{
         background:var(--newprima);
         border-top-left-radius:1vw; 
-        padding: 2.5px 10px;text-align: left;border-top-right-radius:1vw;display:grid;grid-template-columns: 10% 50% 40%;
+        text-align: left;border-top-right-radius:1vw;display:grid;grid-template-columns: 10% 10% 50% 30%;
         color:black;
     }
 
@@ -168,10 +172,9 @@
         gap: 30px;
         padding: 40px 20px;
         margin: 0 auto;
-    align-items: stretch;  /* Esto es lo que iguala las alturas (viene por defecto) */
-    gap: 20px;            /* Espacio entre paneles */
-
-            align-items: center;
+        align-items: stretch;  /* Esto es lo que iguala las alturas (viene por defecto) */
+        gap: 20px;            /* Espacio entre paneles */
+        align-items: center;
         justify-content: center;
     }
 
@@ -179,7 +182,7 @@
         display: flex;         /* Opcional: para organizar el contenido interno */
         flex: 1;
         flex-direction: column; /* Alinea el contenido de arriba a abajo */
-        background: var(--newpoligono);
+        background: var(--newpanel);
         border-radius: 15px;
         padding: 20px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -187,7 +190,10 @@
         color:var(--newletras);
         border-left:0px ;
         min-height:40vh;
-        min-width:300px;
+        /*max-height:40vh;es este */
+
+        min-width:280px;
+        /*max-width:280px;/*<-------- X Esto eliminarlo*/ 
     }
     /* Cuando la pantalla sea de 768px o más (Tablets/Laptops) */
 
@@ -198,11 +204,11 @@
         display:grid;
         width: 100%;
         height: 100%;         
-        overflow-y: auto;      
+        overflow-y: scroll;      
         overflow-x: hidden;   
     }
     .panelx-derecho {  display:block; width: 100%;height: auto;}
-    .panelx-izquierdo{ display:block; width: 100%;height: auto;margin-top:20px}
+    .panelx-izquierdo{ display:block; width: 100%;height: auto;margin-top:20px;display: grid;}
 }
     /* Círculo sobresaliendo */
     .circulo-avatar {
@@ -238,7 +244,12 @@
         margin-right: 5px;
     }
 
-    .stats { margin: 20px 0; line-height: 1.6;    text-align: left; }
+    .stats { 
+        margin: 10px auto; 
+        line-height: 1;    
+        font-weight:lighter;
+        text-align: center;
+    }
 
     .btn-sueldo {
         background: #28a745;
@@ -279,11 +290,12 @@
 
     textarea {
         resize: none;
-        height: 100px;
+        height: auto;
     }
     .btx{
         font-size: 10px;
-        padding:10px;
+        padding:3px;
+        margin-top: 0px;
     }
     .chart-container2{
         max-width: 300px;
@@ -505,7 +517,7 @@
     #toggle-panel.AA_panel{
         z-index: 6200;
         }
-    .AA_panel .btn-action,#BTNProfRegistry{
+    .AA_panel #BTNProfRegistry{
         display:none;
         }
     .AA_panel .profesor-card:hover{
@@ -513,11 +525,11 @@
         cursor:pointer;
         }
     #AsisCreateWrapper{
-        color:black;
+        color:var(--newletras);
         position:absolute;
         height:90%;
         width:40%;
-        background-color:white;
+        background:var(--newpanel);
         left:30%;
         top:5%;
         z-index:5000;
@@ -543,59 +555,148 @@
         opacity:0;
         pointer-events:none;
         }
-
+    .AsisTableHeader .fa-check{
+        opacity:0;
+        }
+        #AsisScrollMenu{
+            background:var(--newpanel);
+            padding: 20px;
+        }
+        #asisFilterInput{
+            bottom:0;width:100%;
+            color:var(--newletrascontraste);
+            font-weight:bold;
+            border: 2px solid var(--newprima);
+            margin:10px auto;
+        }
+        #asisFilterInput::placeholder {
+            color: var(--newprima); /* Fuccia */
+            opacity: 0.5;    /* Importante: Firefox aplica una opacidad por defecto */
+        }
+        #cont-barasis{
+            position: absolute;
+            top: 22.5%;
+            width: 100%;
+        }
+        .mini{
+            padding:0px;
+            width:100%;
+            margin-top: 0px;
+        }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div id="AsisMainDiv" class="hidden regasis main">
 <!--/////////////////////////////////////asistencias todas////////////////////////////////////////////////-->
     <div id="AsisFirstDiv" class="hidden regasis fd">
-        <div style="width:100%;height:100%;display:flex;">
+        <div style="width:100%;height:100%;display:flex;justify-content:center;align-items:end;">
+    <style>
+        .contenedor-grid {
+            display: grid;
+            /* Crea dos columnas de igual tamaño */
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 2px;
+            padding: 0 20px;
+            grid-template-rows: auto auto; 
+            align-content: end;
+        }/* Items de la parte superior (las dos columnas) */
+        .item-superior {
+            color: white;
+            padding: 5px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #727272;  /*Toque fuccia */
+        }/* Item de abajo que ocupa el 100% */
+        .item-inferior {
+            /* Esto le dice que empiece en la columna 1 y termine en la 3 (ocupa 2 columnas) */
+            grid-column: 1 / span 6;        
+            color: white;
+            padding:0px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+    @media (max-width: 1000px) {
+            .contenedor-grid {
+                grid-template-columns: repeat(4, 1fr); 
+            }
+            .item-inferior {
+                grid-column: 1 / span 4;        
+            }
+    }
+    </style>
 
-            <div class="AsisFilterMenu" style="width: 50%; right: 0; position:absolute; height: 8%; top:2%; display:grid;grid-template-columns: 1fr 1fr 1fr">
-                <div id="btnTogglestatus0" onclick="togglestatus(0)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de inasistencia">
-                    <strong id="strongstatus0" class="status0 statusbtnon"><i class="fa-solid fa-user-slash"></i></strong>
-                </div>
-                <div id="btnTogglestatus1" onclick="togglestatus(1)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de llegadas tarde">
-                    <strong id="strongstatus1" class="status1 statusbtnon"><i class="fa-regular fa-clock"></i></strong>
-                </div>
+    <div class="contenedor-grid">
+        <!-- Fila Superior -->
+        <div class="item-superior"></div>
+        <div class="item-superior">        
                 <div id="btnTogglestatus2" onclick="togglestatus(2)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de asistencias a tiempo">
                     <strong id="strongstatus2" class="status2 statusbtnon"><i class="fa-regular fa-circle-check"></i></strong>
                 </div>
-            </div>
-            <div style="position: absolute;top: 22.5%;height: 10%;width: 100%;padding:5% 5%;">
-
-                <input id="asisFilterInput" type="text" class="inputt" style="bottom:0;width:100%;background:var(--newprima);color:black;font-weight:bold;">
-
-            </div>
         </div>
-        <div class="export-menu-container">
-                    <!-- Botón principal (disparador) -->
-                    <div style="display:flex;gap:20px;">
+        <div class="item-superior">        
+                <div id="btnTogglestatus0" onclick="togglestatus(0)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de inasistencia">
+                    <strong id="strongstatus0" class="status0 statusbtnon"><i class="fa-solid fa-user-slash"></i></strong>
+                </div>
+         </div>
+        <div class="item-superior">        
+                <div id="btnTogglestatus1" onclick="togglestatus(1)" class="statusbtncontainer" style="align-content:center;justify-items:center;" time-tooltip="0.2" data-tooltip="Activar/Desactivar filtro de llegadas tarde">
+                    <strong id="strongstatus1" class="status1 statusbtnon"><i class="fa-regular fa-clock"></i></strong>
+                </div>
+        </div>
+        
+        <div class="item-superior"></div>
+        <div class="item-superior"></div>
+
+        <div class="item-superior">
                         <button class="export-toggle" onclick="toggleExportMenu()" time-tooltip="0.2" data-tooltip="Exportar">
                             <i class="fa-solid fa-download"></i>
                         </button>
-
+        </div>
+        <div class="item-superior">
                         <button class="export-toggle SecurityLevel3" onclick="toggleCreateAsisMenu()" time-tooltip="0.2" data-tooltip="Añadir un nuevo registro">
                             <i class="fa-solid fa-plus"></i>
                         </button>
-
+        </div>
+        <div class="item-superior">
                         <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Generar todas las inasistencias">
                             <i class="fa-solid fa-list-ul"></i>
                         </button>
-
-                        <div style="display:flex;gap:5px;"><!-- Cambiar estatus -->  
-                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a inasistencias">
+        </div>
+        <div class="item-superior">                            
+                            <button class="export-toggle SecurityLevel3" onclick="RA_UpdateStatusAll(0, 0)" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a inasistencias">
                                 <i class="fa-solid fa-user-slash"></i>
                             </button>
-
-                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias con retrasos">
+        </div>
+        <div class="item-superior">                            
+                            <button class="export-toggle SecurityLevel3" onclick="RA_UpdateStatusAll(2, 1)" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias con retrasos">
                                 <i class="fa-regular fa-clock"></i>
                             </button>
-
-                            <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias a tiempo">
+        </div>
+        <div class="item-superior">
+                            <button class="export-toggle SecurityLevel3" onclick="RA_UpdateStatusAll(2, 0)" time-tooltip="0.2" data-tooltip="Cambiar los registros seleccionados a asistencias a tiempo">
                                 <i class="fa-regular fa-circle-check"></i>
                             </button>
+        </div>
+
+        <!-- Fila Inferior (Ocupa todo) -->
+        <div class="item-inferior">
+                <input id="asisFilterInput" type="text" class="inputt" placeholder="filtrar">
+        </div>
+    </div>
+
+
+        </div>
+
+
+        <div class="export-menu-container">
+                    <!-- Botón principal (disparador) -->
+                    <div style="display:flex;gap:20px;">
+          
+                        <div style="display:flex;gap:5px;"><!-- Cambiar estatus -->  
+
+
+
                         </div>
                     </div>
 
@@ -608,13 +709,14 @@
                         </div>
                     </div>
                 </div>
-        <div style="width:100%;height:100%;padding:5% 5%;display:grid;grid-template-rows: 7% 93%;">
+        <div style="width:100%;height:100%;padding:0% 5% 5% 5%;display:grid;grid-template-rows: 7% 93%;">
+
+
             <div class="cabezaregistro">
-
-                <div id="tablesort0" class="AsisTableHeader" onclick="tablesort(0)" time-tooltip="2" data-tooltip="Ordenar por estatus">    <p>S</p>        <i class="fa-solid"></i></div>
-                <div id="tablesort1" class="AsisTableHeader" onclick="tablesort(1)" time-tooltip="2" data-tooltip="Ordenar por nombre">     <p>NOMBRE</p>   <i class="fa-solid"></i></div>
-                <div id="tablesort2" class="AsisTableHeader" onclick="tablesort(2)" time-tooltip="2" data-tooltip="Ordenar por fecha">      <p>FECHA</p>    <i class="fa-solid"></i></div>
-
+                <div id="tableselectall"    class="AsisTableHeader" onclick="RA_selectall();" style="justify-content:center;" time-tooltip="2" data-tooltip="Seleccionar todo">                        <i class="fa-solid fa-circle-check"></i>   </div>
+                <div id="tablesort0"        class="AsisTableHeader" onclick="tablesort(0);"                                   time-tooltip="2" data-tooltip="Ordenar por estatus">     <p>S</p>        <i class="fa-solid fa-check"></i>          </div>
+                <div id="tablesort1"        class="AsisTableHeader" onclick="tablesort(1);"                                   time-tooltip="2" data-tooltip="Ordenar por nombre">      <p>NOMBRE</p>   <i class="fa-solid fa-check"></i>          </div>
+                <div id="tablesort2"        class="AsisTableHeader" onclick="tablesort(2);"                                   time-tooltip="2" data-tooltip="Ordenar por fecha">       <p>FECHA</p>    <i class="fa-solid fa-check"></i>          </div>
             </div>
             <div id="AsisScrollMenu" style="overflow-y:scroll;">
 
@@ -623,40 +725,25 @@
     </div>
 <!--/////////////////////////////////////ESTADISTUCO////////////////////////////////////////////////-->
     <div id="AsisSecondDiv" class="hidden regasis sd">
-        <div style="width:100%;height:100%;">
-
-        <h3>Estadistico de Asistencias</h3>
+        <div style="width:100%;height:100%;margin-top: 20px;">
         <div class="chart-container2">
             <canvas id="grafico"></canvas>
         </div>
-        <button class="btx btn-futurista" onclick="cambia(0,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta">Torta</button>
-        <button class="btx btn-futurista" onclick="cambia(1,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra">Barra</button>
-        <button class="btx btn-futurista" onclick="cambia(2,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar">Área Polar</button>
-        <button class="btx btn-futurista" onclick="cambia(3,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea">linea</button>
-        <button class="btx btn-futurista" onclick="cambia(4,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar">Radar</button>
-        
-        <div style="margin-top: auto; font-size: 0.65rem; opacity: 0.4; text-align: right;">
-            LIVELULA_CORE // UNIT_01
+        <div style="display:flex;">
+            <button class="btx btn-futurista" onclick="cambia(0,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta">       Torta</button>
+            <button class="btx btn-futurista" onclick="cambia(1,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra">       Barra</button>
+            <button class="btx btn-futurista" onclick="cambia(2,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar">  Área Polar</button>
+            <button class="btx btn-futurista" onclick="cambia(3,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea">       linea</button>
+            <button class="btx btn-futurista" onclick="cambia(4,1)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar">       Radar</button>
         </div>
-
         </div>
     </div>
 <!--/////////////////////////////////////Panelwes de profe y asistenca////////////////////////////////////////////////-->
     <div id="AsisThirdDiv" class="hidden regasis td">
         <div style="width:100%;height:100%;">
                 <div class="contenedor-principal">
-                    <div style="display:grid;">
-                        <div class="profStadisticsDiv" style="width:100%;height:100%;padding:10% 10%;">
-                            <canvas id="profGrafico"></canvas>
-                        </div>
-                        <div style="display:flex;">
-                            <button class="btx btn-futurista" onclick="cambia(0,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta">Torta</button>
-                            <button class="btx btn-futurista" onclick="cambia(1,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra">Barra</button>
-                            <button class="btx btn-futurista" onclick="cambia(2,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar">Área Polar</button>
-                            <button class="btx btn-futurista" onclick="cambia(3,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea">linea</button>
-                            <button class="btx btn-futurista" onclick="cambia(4,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar">Radar</button>
-                        </div>
-                    </div>
+
+
                     <!-- Panel Izquierdo: Registro -->
                     <div class="panelx panelx-derecho">
                         <div>
@@ -680,9 +767,9 @@
                             <span class="status-text">Status:</span>
   
                             <div class="icons-group">
-                            <i id="ina" class="nosoy fa-solid fa-circle-xmark icon-status absent"   title="Inasistente" onclick="changeStatus(0)"   time-tooltip="0.2" data-tooltip="Cambiar el estado a inasistente"></i>
-                            <i id="ret" class="nosoy fa-solid fa-clock icon-status late"            title="Retraso" onclick="changeStatus(1)"       time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia con retraso"></i>
-                            <i id="asi" class="nosoy fa-solid fa-circle-check icon-status assist"   title="Asistió" onclick="changeStatus(2)"       time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia a tiempo"></i>
+                                <i id="ina" class="nosoy fa-solid fa-circle-xmark icon-status absent"   title="Inasistente" onclick="changeStatus(0)"   time-tooltip="0.2" data-tooltip="Cambiar el estado a inasistente"></i>
+                                <i id="ret" class="nosoy fa-solid fa-clock icon-status late"            title="Retraso"     onclick="changeStatus(1)"   time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia con retraso"></i>
+                                <i id="asi" class="nosoy fa-solid fa-circle-check icon-status assist"   title="Asistió"     onclick="changeStatus(2)"   time-tooltip="0.2" data-tooltip="Cambiar el estado a asistencia a tiempo"></i>
                             </div>
                         </div>
 
@@ -694,19 +781,35 @@
 
                                         <!-- Panel Derecho: Información -->
                     <div class="panelx panelx-izquierdo">
-                        <div class="circulo-avatar" id="regavatar"></div>
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;">
+                            <div class="stats" style="display: flex; gap: 20px; flex-wrap: wrap;justify-content: center;">
+                                <p style="margin: 0;"><strong>Récord de asistencia:</strong> <span id="regasis"></span></p>
+                                <p style="margin: 0;"><strong>Llegadas tarde:</strong> <span id="reglate"></span></p>
+                                <p style="margin: 0;"><strong>Inasistencias:</strong> <span id="regina"></span></p>
+                            </div>
+                            <div>
+                                <div class="circulo-avatar" id="regavatar"></div>
+                                <h2 class="nombre" id="regnombre"></h2>
+                                <div class="tags" id="regtags"></div>
+                            </div>
+                        </div>
                         
-                        <div class="contenido">
-                            <h2 class="nombre" id="regnombre"></h2>
-                            <div class="tags" id="regtags">
-                                
+                        
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;">
+                            <div class="profStadisticsDiv" style="width:100%;height:100%;padding:10px 10px;display:flex;justify-content:center;align-items:center;grid-column: span 2;">
+                                    <canvas id="profGrafico"></canvas>
+                                </div>
+                            <div style="display:flex;justify-content:center;align-items:center;grid-column: span 2;">
+                                <div style="display:block;width:50px;">
+                                    <button class="btx btn-futurista mini" onclick="cambia(0,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de torta"><i class="fa-solid fa-chart-pie"></i></button>
+                                    <button class="btx btn-futurista mini" onclick="cambia(1,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de barra"><i class="fa-solid fa-chart-simple"></i></button>
+                                    <button class="btx btn-futurista mini" onclick="cambia(2,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de área polar"><i class="fa-solid fa-chart-pie"></i></button>
+                                    <button class="btx btn-futurista mini" onclick="cambia(3,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de linea"><i class="fa-solid fa-chart-line"></i></button>
+                                    <button class="btx btn-futurista mini" onclick="cambia(4,0)" time-tooltip="1" data-tooltip="Alternar por un grafico de radar"><i class="fa-solid fa-rss"></i></button>
+                                </div>
                             </div>
-                            
-                            <div class="stats">
-                                <p><strong>Récord de asistencia:    </strong><span id="regasis">    </span></p>
-                                <p><strong>Llegadas tarde:          </strong><span id="reglate">    </span></p>
-                                <p><strong>Inasistencias:           </strong><span id="regina">     </span></p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -805,6 +908,7 @@ let status2 = true;
 let search = "";
 let tablesortdir = 0;
 let tablesortmode = 0;
+let RA_SelectList = [];
 
 let AsisID = -1;
 let asisActualProfId = -1;
@@ -824,11 +928,16 @@ function tablesort(mode){
     document.getElementById("tablesort1").querySelector("i").classList.remove("fa-angle-up","fa-angle-down");
     document.getElementById("tablesort2").querySelector("i").classList.remove("fa-angle-up","fa-angle-down");
     
+    document.getElementById("tablesort0").querySelector("i").classList.add("fa-check");
+    document.getElementById("tablesort1").querySelector("i").classList.add("fa-check");
+    document.getElementById("tablesort2").querySelector("i").classList.add("fa-check");
+
     document.getElementById("tablesort0").classList.remove("select");
     document.getElementById("tablesort1").classList.remove("select");
     document.getElementById("tablesort2").classList.remove("select");
 
     document.getElementById("tablesort"+tablesortmode).classList.add("select");
+    document.getElementById("tablesort"+tablesortmode).querySelector("i").classList.remove("fa-check");
     if(tablesortdir === 0){
         document.getElementById("tablesort"+tablesortmode).querySelector("i").classList.add("fa-angle-up"); 
         }else{
@@ -863,12 +972,49 @@ recargarListaAsis();
 
 }
 
+function RA_selectall(){
+
+    const Tarjetas = document.querySelectorAll(".AsisTarjeta");
+    var Uno = 0;
+
+    Tarjetas.forEach(e => {
+        
+        const index = RA_SelectList.indexOf(e.reg_id);
+
+            if (index === -1) {
+                RA_SelectList.push(e.reg_id);
+                e.querySelector("input").checked = true;
+                Uno = 1;
+            }
+
+    });
+
+    if(Uno === 0){
+        Tarjetas.forEach(e => {
+        
+            const index = RA_SelectList.indexOf(e.reg_id);
+
+                if (index != -1) {
+                    RA_SelectList.splice(index, 1);
+                    e.querySelector("input").checked = false;
+                }
+
+        });
+    }
+    //console.log("Ola",RA_SelectList);
+}
+
 function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = ""){
 
-    
-    const MyProfesor = datosProfesores.find(u => u.id == id);
-    
+    const inputdiv = document.createElement("div");
+    const input = document.createElement("input");
+    inputdiv.appendChild(input);
+    inputdiv.style = "width:100%;height:100%;display:flex;align-items:center;justify-center:center;padding: 2.5px 10px;";
+
+    input.type = "checkbox";
+
     const maindiv = document.createElement("div");
+    maindiv.reg_id = id;
     maindiv.classList.add("AsisTarjeta");
     const statusdiv = document.createElement("div");
     const namediv = document.createElement("div");
@@ -879,8 +1025,6 @@ function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = "")
     namediv.appendChild(strong);
 
     datediv.textContent = date;
-
-    
 
     var otherstatus = 0;
 
@@ -901,10 +1045,26 @@ function crearAsisTask(status,id,date,name,late,pid,entra,sale,description = "")
     }
 
     maindiv.addEventListener("click",()=>{
-       updateProfeinfo(otherstatus,id,date,pid,entra,sale,description);
-    });
-    
+        updateProfeinfo(otherstatus,id,date,pid,entra,sale,description);
+        });
 
+    inputdiv.addEventListener("click",(e)=>{
+        e.stopPropagation();
+
+        const index = RA_SelectList.indexOf(id);
+
+            if (index === -1) {
+                RA_SelectList.push(id);
+                input.checked = true;
+            } else {
+                RA_SelectList.splice(index, 1);
+                input.checked = false;
+            }
+
+            console.log("Ola",RA_SelectList);
+        });
+    
+    maindiv.appendChild(inputdiv);
     maindiv.appendChild(statusdiv);
     maindiv.appendChild(namediv);
     maindiv.appendChild(datediv);
@@ -1121,7 +1281,8 @@ async function cargarDatosAsis() {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#fff', padding: 20, font: { size: 10, family: 'monospace' } }
+                        labels: { color: '#fff', padding: 20, font: { size: 10, family: 'monospace' } },
+                        display: false
                     }
                 }
             }
@@ -1167,26 +1328,11 @@ async function cargarDatosAsis() {
         }
         _profestadistico.update();
     }
-//////esta se puede modificar es una coida de newContol.php la funcion del estadisctico
-/* async function cargarEstadistico() { 
-    try {
-        const res = await fetch('php/asistencia/new_asitentes.php');
-        const servidor = await res.json();
-        if (servidor.success) {
-            // Mapeamos: st1->Verde, st0->Rojo, st2->Amarillo
-            profestadistico.data.datasets[0].data = [servidor.st1,servidor.st2,servidor.st0];
-            profestadistico.update();
-            console.log("📊 Gráfico actualizado con éxito.");
-        }else{msj("error en estadistica de control",2);}
-    } catch (e) {console.error("Error cargando estadísticas:", e);}
-}cargarEstadistico();*/
-
 // Función para mostrar el menú de exportación
     function toggleExportMenu() {
         const menu = document.getElementById('exportMenu');
         menu.classList.toggle('show');
     }
-    
 // Funciones de expotacion Word/PDF/Excel
 
     function obtenerDatosExportables() {
@@ -1951,5 +2097,39 @@ AA_InputDate.value = e.date;
 AA_removecalendar();
 
 });
+
+async function RA_UpdateStatusAll(nuevoEstado, nuevaTardanza) {
+    if (RA_SelectList.length === 0) return msj("Selecciona al menos un registro",2);
+
+    const datos = {
+        ids: RA_SelectList,
+        status: nuevoEstado,
+        tardanza: nuevaTardanza
+    };
+
+    try {
+        const response = await fetch('php/asistencia/RA_MasiveUpdate.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.success) {
+            console.log("¡Éxito!", resultado.message);
+            
+            cargarDatosAsis();
+            AC_clean();
+            PC_clean();
+        } else {
+            console.error("Error en el servidor:", resultado.message);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error);
+    }
+}
 
 </script>

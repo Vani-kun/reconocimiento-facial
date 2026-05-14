@@ -28,10 +28,10 @@ body {
     }
 
 .drop-zone, .items-bank{
-    background: var(--newpoligono);/*#D1EAEC;*/
-    border-left: 0.3vw solid #484D60;  
-    border-right: 0.3vw solid #484D60;  
-    box-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.1); 
+    background: var(--newpanel);/*#D1EAEC;*/
+    border-left: 0.3vw solid var(--newfodo);  
+    border-right: 0.3vw solid var(--newfodo); 
+    box-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.4); 
     font-size: 1.5vw;
     }
 
@@ -68,7 +68,7 @@ body {
 .draggable-item:active { cursor: grabbing; }
 .draggable-item.dragging { opacity: 0.5; }
 
-label { display: block; margin-bottom: 0.5vh; color: #94a3b8; }
+label { display: block; margin-bottom: 0.5vh; color: var(--newletras); }
 
 .grid-form {
     display: grid;
@@ -277,7 +277,7 @@ label { display: block; margin-bottom: 0.5vh; color: #94a3b8; }
     }
 
     .ventanita{
-        background: var(--newpoligono); 
+        background: var(--newpanel); 
         color:var(--newletras);
         padding: 3vh; 
         border-radius: 2vw;

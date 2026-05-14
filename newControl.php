@@ -1,16 +1,14 @@
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--########################################ElControl################################################3-->
 <style>
-    :root {
-        --neon-green: #39ff14;
-        --bg-panel: rgba(5, 8, 15, 0.98);
-        --glass: rgba(255, 255, 255, 0.05);
-    }
+
+   
     body.theme-dark { 
         --newfondo: #1d1d1b;
         --newbarra: linear-gradient(to bottom, #000000 0%, #555555 100%);
         --newletras: #ffffff;
+        --newletrascontraste: #ff00f2;
         --newpoligono: linear-gradient(135deg, #4d4d4d 0%, #000000 100%);
+        --newpanel: linear-gradient(135deg, #4d4d4d 0%, #000000 100%);
         --newprima: rgb(255, 0, 0);
         --newsecu: #ff0055; 
         --newnucle:  #6d0024; 
@@ -19,9 +17,11 @@
         --newfondo: #1d1d1b;
         --newbarra: linear-gradient(to bottom, #382f25 0%, #000000 100%);
         --newletras: #ffffff;
+        --newletrascontraste: #3700ff;
         --newpoligono: linear-gradient(135deg, #382d18 0%, #181106 100%);
-        --newprima: rgb(255, 238, 0);
-        --newsecu: #ff7b00; 
+        --newpanel: linear-gradient(135deg, #382d18 0%, #181106 100%);
+        --newprima: rgb(255, 153, 0);
+        --newsecu: #ff5100; 
         --newnucle:  #3d1800; 
     }
     body.theme-livelula { 
@@ -33,7 +33,78 @@
         --newsecu: #591ca8;
         --newnucle:  #0011ff;            
     }
+    /*estos son los temas   copien uno y le ponen su nombre ejemplo*/  
+    /* ahora les voy adecir las q tinen q cambiar primero bro checa los mios el de abra y el de abraclr*/
+    body.theme-iujo { 
+        --newfondo: #9a9b9c;  /* Un blanco hueso muy suave para no cansar la vista y dar elegancia */
+        --newbarra: linear-gradient(180deg, #ffffff 50%, #b9b9b9 100%);   /* Degradado serio: del gris oscuro del logo hacia un tono más profundo */   
+        --newletras: #000000; /* Gris grafito oscuro para máxima legibilidad y sobriedad */
+        --newpoligono: linear-gradient(180deg, #cf2a2a 50%, #2c0c0c 100%);  /* Fondo secundario con un patrón sutil (Gris claro a blanco) */
+        --newpanel: radial-gradient(circle, #ece7e7 0%, rgb(179, 179, 179) 100%);
+        --newprima: #cf2a2a;  /* El Rojo Institucional del corazón para resaltar llamados a la acción */
+        --newsecu: #ff0037; /* Un gris plata metálico para elementos secundarios */
+        --newnucle: #858585; /* Un tono crema o arena suave para detalles terciarios que den calidez */
+    }
+    body.theme-emerald { 
+        --newfondo: #010d02; /* Negro profundo con matiz esmeralda  */
+        --newbarra: linear-gradient(90deg, #00ff88 0%, #005f32 100%); 
+        --newletras: #e0fff0; /* Blanco menta para máxima legibilidad */
+        --newpoligono: radial-gradient(circle, #003b1c 0%, #010d02 100%);
+        --newprima: #00ff88; /* Verde neón vibrante */
+        --newsecu: #008f5d; 
+        --newnucle: #80ffc6; 
+    }
+    body.theme-yovani { 
+        --newfondo: #999999;/*el fondo pricipal*/
+        --newbarra: linear-gradient(to bottom, #e5ff00 0%, #00a761 100%);/*la barra*/
+        --newletras: #ffffff;/*las letras de los textos*/
+        --newpoligono: linear-gradient(135deg, #e5ff00 0%, #00ff15 100%);/*y esto es el fondo cambien los dos  */
+        --newpanel: linear-gradient(circle, #ffffff 0%, #b4b4b4 100%);
+        --newprima: rgb(251, 255, 0);/*esta es el color q resalta las cosas cambienlo en los suyos*/
+        --newsecu: #1ca895;/*est es el color secunadario de resaltar*/
+        --newnucle:  #ffe600;            /*color de los nucleos o color terceario */
+    }
+    body.theme-anderson {
+        --newfondo: #d1d1d1;/*principal*/
+        --newbarra: linear-gradient(to bottom, #bdbdbd 0%, #d4d4d4 100%);/*la barra*/
+        --newletras: #000000;/*textos*/
+         --newletrascontraste: #000000;
+        --newpoligono: linear-gradient(135deg, #e31b23 0%, #490e10 100%);/*Cambio fondo mi primera chamba*/ 
+        --newprima: rgb(199, 10, 10); /*Cambio resaltador*/
+        --newsecu: #000000;/*Cambio resaltador 2*/
+        --newnucle:  #ffffff;/*otros colores*/
+    }
 
+    body.theme-adrian {  
+        --newfondo: #0b0e14;
+        --newbarra: linear-gradient(to bottom, #2a2f3a 0%, #0c0e12 100%);
+        --newletras: #e0d5b7;
+        --newpoligono: linear-gradient(135deg, #2f8af5 0%, #0b0e14 100%);
+        --newprima: #4da6ff;
+        --newsecu: #f0513b;
+        --newnucle: #161b24;
+    }
+    
+    body.theme-abrahan { 
+        --newfondo: #0f172a;
+        --newbarra: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%);
+        --newletras: #ffffff;
+        --newpoligono: linear-gradient(135deg, #582020 0%, #3f0416 100%);/*y esto es el fondo cambien los dos  */
+        --newprima: rgba(83, 8, 8, 0.79);/*esta es el color q resalta las cosas cambienlo en los suyos*/
+        --newsecu: #6366f1;
+        --newnucle:  #3f0416;            
+    }
+     body.theme-abra { 
+        --newfondo: #a9aaac;
+        --newbarra: linear-gradient(to bottom, #663f3f 0%, #2c0c0c 100%);
+        --newletras: #ffffff;
+        --newpoligono: linear-gradient(135deg, #582020 0%, #3f0416 100%);/*y esto es el fondo cambien los dos  */
+        --newprima: rgba(41, 40, 40, 0.79);/*esta es el color q resalta las cosas cambienlo en los suyos*/
+        --newsecu: #133357;
+        --newnucle:  #3f0416;            
+    }
+/* eso es la mitad del trabjp ya casi muchachones  explotasion     ya vengo salgo y vuelvo a netrar a ver si agarra el usua */
+/* hra signme ya el estilo esta listo aora nesestamo q se asine con un boton */
 
     /* Botón de Encendido Estilo Pulsante */
     .power-trigger {
@@ -53,7 +124,7 @@
     #panel-container {
         position: fixed;
         inset: 0;
-        background: var(--bg-panel);
+        background: var(--newpanel);
         backdrop-filter: blur(25px);
         display: grid;
         grid-template-columns: 320px 1fr 320px;
@@ -76,11 +147,17 @@
         display: flex; flex-direction: column;
         border-right: 1px solid rgba(255,255,255,0.1);
         background:var(--newfondo);
-        overflow-y:scroll;
+        /*overflow-y:scroll;*/
     }
 
-    .col-left { border-right: none; background: var(--newpoligono); }
-    .col-right { border-right: none; background: var(--newpoligono); }
+    .col-left { border-right: none; background: var(--newpanel); }
+    .col-right { border-right: none; background: var(--newpanel); }
+    .temascroll{
+        overflow-y: scroll;
+        display: block;
+        max-height: 40vh;
+    }
+
 
     h3 { 
         font-size: 0.85rem; text-transform: uppercase; 
@@ -102,19 +179,24 @@
 
     /* Gráfico y Botones */
     .chart-container {
-        background: var(--glass);
+        background: var(--newfondo);
         padding: 20px;
         border-radius: 20px;
         margin-bottom: 30px;
+        max-width:180px;
+            margin: 0px auto;
     }
-
+    #profDataChart{
+        /*max-width:100px;*/
+    }
     .btn-futurista {
         background: transparent; border: 1px solid var(--newprima);
-        color: #fff; padding: 14px; cursor: pointer;
+        color: var(--newletras ); padding: 14px; cursor: pointer;
         text-transform: uppercase; font-size: 0.75rem;
         letter-spacing: 2px; transition: 0.4s;
         margin-top: 10px;
         border-radius: 10px;
+        width:100%;
     }
 
     .btn-futurista:hover { 
@@ -139,7 +221,7 @@
 .panel-container {
     width: 100%;
     height: auto;
-    background: var(--bg-panel);
+    background: var(--newpanel);
     color: var(--text);
     border-radius: 12px;
     display: flex;
@@ -180,7 +262,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg-item);
+    background: var(--newpanel);
     padding: 0px;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -191,13 +273,12 @@
     margin: 0px auto;
 }
 .user-item:hover {
-    background: #353535;
+    background: var(--newsecu);
 }
 
 /* Formulario Central */
 .registration-box {
     display: none;
-    background: #222;
     padding: 20px;
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
@@ -223,9 +304,14 @@
     cursor: pointer;
     padding: 5px;marging:0px;
     border-radius: 4px;
-    background: #2a2a2a;
+    background:none;
+    color: var(--newletras);
 }
 .level-icon:hover {
+    background: var(--newprima);
+    color: var(--newletras);
+}
+.level-icon.actleve {
     background: var(--newprima);
     color: var(--newletras);
 }
@@ -250,9 +336,6 @@
     to { opacity: 1; transform: scale(1); }
 }
 </style>
-</head>
-<body>
-
 
 <div id="panel-container">
     <!-- IZQUIERDA: DIAGNÓSTICO Y PRECISIÓN -->
@@ -264,9 +347,9 @@
         <h2 style="margin:0">Gestión de Usuarios</h2>
     </div>
     <!-- Lista que hace scroll -->
-    <div class="user-list" id="userlista">
+    <div class="user-list SecurityLevel5" id="userlista">
         <div class="user-item">
-            <span>Admin_01</span>
+            <span>Error</span>
             <div class="botonera">
                 <button class="btn-action btnedi" ><i class="fa-solid fa-pen-to-square"></i></button>
                 <button class="btn-action btndel" ><i class="fa-solid fa-trash"></i></button>
@@ -289,11 +372,11 @@
             <div class="level-icon"><i class="fa-solid fa-crown"></i><br>Supremo</div>
         </div>
         
-        <button id="accion"     class="btn btn-save botoni" style="width:100%" onclick="guardarusuario()" time-tooltip="2" data-tooltip="Guardar">GUARDAR</button>
-        <button id="accion2"    class="btn btn-save botoni" style="width:100%" onclick="cancelausuario()" time-tooltip="2" data-tooltip="Cancelar">CANCELAR</button>
+        <button id="accion" class="btn btn-save botoni" style="width:100%" onclick="guardarusuario()">GUARDAR</button>
+        <button id="accion2" class="btn btn-save botoni" style="width:100%" onclick="cancelausuario()">CANCELAR</button>
     </div>
     <!-- Botón Agregar abajo -->
-    <button class="btn-main" onclick="togglePanelusers()">+</button>
+    <button class="btn-main" onclick="togglePanelusers()" id="botonmas">+</button>
 </div>
 
 
@@ -325,7 +408,7 @@
             </div>
             
 <!-- Interruptor de Encendido -->
-<div class="power-trigger" onclick="togglexxPanel()" time-tooltip="0.5" data-tooltip="Cerrar menu">
+<div class="power-trigger" onclick="togglexxPanel()" >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--newprima)" stroke-width="2.5">
         <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
 </div>
@@ -341,10 +424,22 @@
         </div>
 
         <h3>Interfaz de Usuario</h3>
-        <button class="btn-futurista" onclick="applyTheme('basic')">Tema Básico</button>
-        <button class="btn-futurista" onclick="applyTheme('dark')">Modo Oscuro</button>
-        <button class="btn-futurista" onclick="applyTheme('livelula')">Bio-Livelula</button>
-        <button class="btn-futurista" onclick="applyTheme('dark2')">Neo-Livelula-Ambar</button>
+        <div class="temascroll">
+            <button class="btn-futurista" onclick="applyTheme('anderson')">IUJO</button>
+            <button class="btn-futurista" onclick="applyTheme('basic')">Tema Básico</button>
+            <button class="btn-futurista" onclick="applyTheme('dark')">Modo Oscuro</button>
+            <button class="btn-futurista" onclick="applyTheme('livelula')">Bio-Livelula</button>
+            <button class="btn-futurista" onclick="applyTheme('dark2')">Neo-Livelula-Ambar</button>
+            <button class="btn-futurista" onclick="applyTheme('iujo')">Tema IUJO</button>
+            <button class="btn-futurista" onclick="applyTheme('emerald')">Cyber-Emerald</button>
+            <button class="btn-futurista" onclick="applyTheme('yovani')">radiacion</button>
+            <button class="btn-futurista" onclick="applyTheme('abrahan')">abram</button>
+            <!--button class="btn-futurista" onclick="applyTheme('adrian')">Auxilio me sobreexplotan laboralmente</button>
+            <button class="btn-futurista" onclick="applyTheme('abra')">abraclar</button-->
+            <!-- -->
+            <!--ahora copien y pegen esto cambiando el nombre de su tema regrese agarra otro ahi bro -->
+            <!--applyTheme('dark2') -->
+        </div>
         
         <div style="margin-top: auto; font-size: 0.65rem; opacity: 0.4; text-align: right;">
             LIVELULA_CORE // UNIT_01
@@ -419,7 +514,7 @@
                 labels: ['Asistentes', 'Inasistentes'],
                 datasets: [{
                     data: [18, 5], 
-                    backgroundColor: ['#39ff14', '#505050'],
+                    backgroundColor: ['#39ff14', '#f10028'],
                     hoverOffset: 10,
                     borderWidth: 0
                 }]
@@ -444,7 +539,7 @@ async function cargarDatosReales() {
             // Mapeamos: st1->Verde, st0->Rojo, st2->Amarillo
             profDataChart.data.datasets[0].data = [servidor.asis,servidor.st0 ];
             profDataChart.update();
-            console.log("📊 Gráfico actualizado con éxito.");
+            //console.log("📊 Gráfico actualizado con éxito."); esta bien bro 
         }else{msj("error en estadistica de control",2);}
     } catch (e) {console.error("Error cargando estadísticas:", e);}
 }cargarDatosReales();
@@ -467,19 +562,39 @@ async function guardacargaConfi(modo) {
             document.getElementById('rangobar').value = parseFloat(servidor.rango).toFixed(1);
             updatePrecision( parseFloat(servidor.rango).toFixed(1));
             }
-            console.log("servidor "+servidor.msg);
+            //console.log("servidor "+servidor.msg);
         }else{msj("error en consulta de configuracion",2);}
     } catch (e) {
         let info=(modo==1 ? "Guardando" : "Cargando");
         console.error("Error "+info+" configuraciones:", e);
     }
 }
-/*##########################usuarios */
-let editacion=0;
-let ide=0;
-
-function update(){
-    seleve=document.getElementById("seleve");
+/*##########################usuarios #############################################################*/
+let editacion=0;let ide=0;let level=1;
+const descripciones = {
+    1: "Nivel 1: Solo puedes ver el contenido de la página sin realizar cambios.",
+    2: "Nivel 2: Puedes crear y editar los profesores",
+    3: "Nivel 3: Tienes poder para moderar los horarios y crear las secciones.",
+    4: "Nivel 4: Gestión total de profesores y configuración del sitio.",
+    5: "Nivel 5: Acceso total a la base de datos y archivos del servidor además de crear y gestionar usuarios."
+};
+function updatesleven() {
+    const seleve = document.getElementById("seleve");
+    Array.from(seleve.children).forEach((ele, i) => {
+        if (i + 1 === level) {ele.classList.add("actleve");} else {ele.classList.remove("actleve");}
+    });
+}
+function inisleven() {
+    const seleve = document.getElementById("seleve");
+    Array.from(seleve.children).forEach((ele, i) => {
+        ele.addEventListener("click", () => {
+            level = i + 1; 
+            let msleve = descripciones[level] || "Selecciona un nivel.";
+            msj(msleve, 1);
+            updatesleven();
+        });
+    });
+    updatesleven();
 }
 function cancelausuario(){
     editacion=0;
@@ -492,13 +607,14 @@ function togglePanelusers() {
     p.style.display = (p.style.display === 'block') ? 'none' : 'block';
     document.getElementById("inpuU").value="";
     document.getElementById("inpuP").value="";
-    if(editacion==0){document.getElementById('accion').textContent="GUARDAR";}
-    
+    document.getElementById('accion').textContent="GUARDAR";
+    mas=document.getElementById("botonmas")
+    if(mas.textContent!="+"){mas.textContent="+"}else{mas.textContent="-"}
 }
 function listarUsuarios(usrs) {
     lista=document.getElementById("userlista");lista.innerHTML = ""
     usrs.forEach(ele => {
-        console.log(ele.usuario);
+        //console.log(ele.usuario);
 
         newiten=document.createElement("div");
         newuser=document.createElement("span");
@@ -524,24 +640,13 @@ function listarUsuarios(usrs) {
         newiten.appendChild(newuser);
         newiten.appendChild(newpanelbtn);
         lista.appendChild(newiten);
-       /*<div class="user-item">
-            <span>Admin_01</span>
-            <div class="botonera">
-                <button class="btn-action btnedi" ><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="btn-action btndel" ><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>*/
-
     });
 }
 function guardarusuario() {
     ///validar
     let inpuU = document.getElementById("inpuU").value.trim();
     let inpuP = document.getElementById("inpuP").value.trim();
-    if(inpuU === "" || inpuP === "") {
-        msj("Campos vacíos", 2);
-        return;
-    }
+    if(inpuU === "" || inpuP === "") {msj("Campos vacíos", 2);return;}
     if (editacion==0){
         if (userserver(1,0,inpuU,inpuP,5)){msj("Guardado con exito!", 0);}
     }else 
@@ -550,7 +655,8 @@ function guardarusuario() {
     }
     togglePanelusers(); 
 }
-async function userserver(tipo,id,usr,pass,lv) { 
+async function userserver(tipo,id,usr,pass,lv){ 
+    ///leeer///guardar/// traer para editar/// editar///eliminar
     try {
         const res = await fetch('php/control/usuarios.php',{
             method: 'POST',headers: { 'Content-Type': 'application/json' },
@@ -559,7 +665,7 @@ async function userserver(tipo,id,usr,pass,lv) {
                 id: id,
                 usr: usr,
                 pass: pass,
-                lv: lv
+                lv: level
             }),
         });
         const servidor = await res.json();
@@ -579,7 +685,9 @@ async function userserver(tipo,id,usr,pass,lv) {
                 const p = document.getElementById('regPanel');
                 if (p.style.display != 'block') {togglePanelusers();}
                 document.getElementById("inpuU").value=servidor.usuario.usuario;
-                document.getElementById("inpuP").value=servidor.usuario.password;      
+                document.getElementById("inpuP").value=servidor.usuario.password;  
+                level = parseInt(servidor.usuario.level) || 1;
+                updatesleven();
                 return true;
             }else
             if(tipo==3){
@@ -598,4 +706,6 @@ async function userserver(tipo,id,usr,pass,lv) {
 }
 
 userserver(0,0,"","",0);
+togglePanelusers();
+inisleven();
 </script>

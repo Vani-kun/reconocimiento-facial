@@ -1,3 +1,4 @@
+<!--########################################LaBarra################################################3-->
 <style>
     :root { --p: #00d4ff; --bg: #0a0f14; --h: 120px; --r: 160px; }
 
@@ -88,7 +89,7 @@
         }
     .user-form-menu{
         position: relative; z-index: 2200; width: 50%; height: auto;
-        background: var(--newpoligono);
+        background: var(--newpanel);
         border-radius: 2vw;
         padding: 20px 20px;
         color:var(--newletras);
@@ -101,36 +102,93 @@
             width:100%;
             transform: translateX(-14px);
         }
-.sombralogo{
-    filter:drop-shadow(0 0 5px var(--newprima))
-}
+    .sombralogo{
+       /* filter:drop-shadow(0 0 5px var(--newprima))*/
+    }
 </style>
 
+<style>
+        .contenedor-titulo {
+            text-align: right;
+            color: var(--newletras);
+            position: relative;
+            top: 70px;
+            right:10px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            line-height: 1;
+        }
+        h1 span{
+            font-size: 3rem;
+            margin: 0;
+            line-height: 1;
+            /* Animación de cambio de color suave para el título principal */
+            animation: cambioColor 6s infinite alternate;
+        }
+        .sub-livelula {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-weight: bold;
+            text-transform: lowercase;
+            letter-spacing: 2px;
+            color: var(--newletras);
+            margin-right:20px;
+            
+            /* Animación de estiramiento y deslizamiento sutil */
+            animation: slideStretch 4s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        /* Animación de cambio de color (Blanco -> Rojo -> Fuccia) */
+        @keyframes cambioColor {
+            0% { color: var(--newprima); }
+            100% { color: var(--newsecu); }
+        }
+
+        /* Animación de estiramiento (scale) y deslizamiento (translate) */
+        @keyframes slideStretch {
+            0%, 100% {
+                transform: translateX(0) scaleX(1);
+                color: var(--newletras);
+            }
+            50% {
+                transform: translateX(15px) scaleX(1.1);
+                color: rgb(0,0,0,0)
+            }
+        }
+    </style>
 <nav>
     <div class="nav-contenedor"></div>
     <img src="img/IUJO.gif" height="50" class="sombralogo">
     <button id="openUserBtn" class="nav-btn user-btn OnlyNoSecurityLevel SecurityHidden" onclick="openUserMenu(1)"><i class="fa-solid fa-circle-user"></i></button>
     <button id="openMenuBtn" class="nav-btn SecurityLevel1 SecurityHidden" onclick="toggle(1);MenuMove('main');"><i class="fa-solid fa-atom"></i></button>
 </nav>
-
+<div class="contenedor-titulo">
+        <h1>Sistema de <span>BioAsistencia</span> <br> para profesores</h1>
+        <span class="sub-livelula">livelula</span>
+</div>
 <div id="hexOverlay" onclick="toggle(0)">
     <div class="menu-wrapper" id="mw" onclick="event.stopPropagation()">
         <div class="menulink" dir="main">
-            <div                class="SecurityLevel1 hexagon core"         onclick="toggle(0)"                 time-tooltip="1" data-tooltip="Cerrar el menu">                     <i class="fa-solid fa-power-off"></i>       SALIR       </div>
-            <div id="ProfBtn"   class="SecurityLevel3 hexagon p1"           onclick="sowProfesores()"           time-tooltip="1" data-tooltip="Abrir la gestion de profesores">     <i class="fa-solid fa-user-tie"></i>        Prof        </div>
-            <div id="RegBtn"    class="SecurityLevel1 hexagon p2"           onclick="showAsisReg(1)"            time-tooltip="1" data-tooltip="Abrir el control de reporte">        <i class="fa-solid fa-address-card"></i>    Reg         </div>
-            <div id="HorBtn"    class="SecurityLevel2 hexagon p3"           onclick="MenuMove('horario')"       time-tooltip="1" data-tooltip="Moverse al menu de horarios">        <i class="fa-solid fa-calendar-day"></i>    Hor         </div>
-            <div id="CtrlBtn"   class="SecurityLevel3 hexagon p4"           onclick="showControl()"             time-tooltip="1" data-tooltip="Abrir las opciones de el sistema">   <i class="fa-solid fa-gear"></i>            Ctrl        </div>
-            <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5"    onclick="login_out();toggle(0)"     time-tooltip="1" data-tooltip="Cerrar sesion">                      <i class="fa-solid fa-lock"></i>            Cerrar Ses  </div>
+            <div class="SecurityLevel1 hexagon core" onclick="toggle(0)"> <i class="fa-solid fa-power-off"></i> SALIR </div>
+            <div id="ProfBtn" class="SecurityLevel5 hexagon p1" onclick="sowProfesores()"> <i class="fa-solid fa-user-tie"></i> Prof </div>
+            <div id="RegBtn" class="SecurityLevel3 hexagon p2" onclick="showAsisReg(1)"> <i class="fa-solid fa-address-card"></i> Reg </div>
+            <div id="HorBtn" class="SecurityLevel2 hexagon p3" onclick="MenuMove('horario')"> <i class="fa-solid fa-calendar-day"></i> Hor </div>
+            <div id="CtrlBtn" class="SecurityLevel5 hexagon p4" onclick="showControl()"> <i class="fa-solid fa-gear"></i> Ctrl </div>
+            <div id="LogOutBtn" class="SecurityLevel1 viewer hexagon p5" onclick="login_out();toggle(0)"> <i class="fa-solid fa-lock"></i> Cerrar Ses </div>
         </div>
         <div class="menulink" dir="horario">
-            <div                class="SecurityLevel1 hexagon core" onclick="MenuMove('main')"  time-tooltip="1" data-tooltip="Volver al menu anterior">            <i class="fa-solid fa-arrow-left"></i>      REGRESAR    </div>
-            <div id="HorBtn2"   class="SecurityLevel1 hexagon p3"   onclick="showHorarios(1)"   time-tooltip="1" data-tooltip="Ver los horarios">                   <i class="fa-solid fa-calendar-days"></i>   Hor         </div>
-            <div id="SecBtn"    class="SecurityLevel3 hexagon p2"   onclick="showSecciones()"   time-tooltip="1" data-tooltip="Abrir la gestion de secciones">      <i class="fa-solid fa-address-book"></i>    Sec         </div>
+            <div class="SecurityLevel1 hexagon core" onclick="MenuMove('main')"> <i class="fa-solid fa-arrow-left"></i> REGRESAR </div>
+            <div id="HorBtn2" class="SecurityLevel2 hexagon p3" onclick="showHorarios(1)"> <i class="fa-solid fa-calendar-days"></i> Hor </div>
+            <div id="SecBtn" class="SecurityLevel3 hexagon p2" onclick="showSecciones()"> <i class="fa-solid fa-address-book"></i> Sec </div>
         </div>
     </div>
 </div>
-
 <div id="securityOverlay" style="display:none;">
     <div class="user-menu-wrapper" id="mu" onmousedown="openUserMenu(0)">
         <div class="user-form-menu" onmousedown="event.stopPropagation()">
@@ -151,7 +209,7 @@
                         <label for="passverifyinput">Vuelve a ingresar la contraseña:</label><br>
                         <input type="password" id="passverifyinput" name="passverifyinput">
                     </div>
-                    <button id="usersubmitbutton" class="btn btn-agregar" time-tooltip="1" data-tooltip="Ingresar">Enviar</button>
+                    <button id="usersubmitbutton" class="btn btn-agregar">Enviar</button>
                 </form>
             </fieldset>
         </div>
@@ -165,40 +223,34 @@
     MenuDir = Array.from(document.querySelectorAll(".menulink"));
 
     function MenuMove(_Link){
-    MenuDir.forEach(element => {
-        if(element.getAttribute("dir") != _Link){
-            if(!element.classList.contains("oculto")){
-                element.classList.add("oculto");
-                }
+        MenuDir.forEach(element => {
+            if(element.getAttribute("dir") != _Link){
+                if(!element.classList.contains("oculto")){element.classList.add("oculto");}
             }else{
-            if(element.classList.contains("oculto")){
-                element.classList.remove("oculto");
-                }
+                if(element.classList.contains("oculto")){element.classList.remove("oculto");}
             }
         });
     }
-
     MenuMove("main");
 
     const o = document.getElementById('hexOverlay'), w = document.getElementById('mw');
     const u = document.getElementById("securityOverlay"), mu = document.getElementById("mu");
+
     function toggle(s) {
         if(s) { o.style.display = 'flex'; setTimeout(() => w.classList.add('expanded'), 10); }
         else { w.classList.remove('expanded'); setTimeout(() => o.style.display = 'none', 400); }
     }
-
     function sowProfesores(){
         enpanelprofesor=true;
-        showAsistencia(0);
+        window.showAsistencia?.(0);
         moveCamera("left");
         toggle(0);
         togglePanel();
-        
     }
     function showHorarios(_nmb){
         if(_nmb){
             enpanelprofesor=true;
-            showAsistencia(0);
+           window.showAsistencia?.(0);
             moveCamera("left");
             toggle(0);
             togglePanel();
@@ -228,14 +280,15 @@
         }
     }
     function showControl(){
-        enpanelprofesor=true;showAsistencia(0);
+        enpanelprofesor=true;
+        window.showAsistencia?.(0);
         moveCamera("hide");
         toggle(0);
         togglexxPanel();
     }
     function showSecciones(){
         enpanelprofesor=true;
-        showAsistencia(0);
+        window.showAsistencia?.(0);
         toggle(0);
         moveCamera("hide");
         document.getElementById("seccion-wraper").classList.remove("hidden");
@@ -251,7 +304,7 @@
             document.getElementById("AsisOnBtn").classList.remove("hidden");
             document.getElementById("AsisMainDiv").classList.remove("hidden");
             moveCamera("hide");
-            showAsistencia(0);
+            window.showAsistencia?.(0);
             toggle(0);
             enpanelprofesor=true;
             getonlydays();
@@ -289,10 +342,10 @@
     }
 
     document.getElementById("UserLoginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const username = document.getElementById("userinput").value;
-    const password = document.getElementById("passinput").value;
+        const username = document.getElementById("userinput").value;
+        const password = document.getElementById("passinput").value;
     
         if(Loginmode){
         const checkKeep = document.getElementById("keep-sesion").checked ? 1 : 0;
@@ -392,18 +445,26 @@
             const myuser = localStorage.getItem('user_id');
                 if(myuser){
                 switch (parseInt(myuser)) {
-                    case 7: //Aaron
-                            showAsisReg(1);
+                    case 7: //Aaron(puto xd)  te extrañamos bro  JAJAJJJAJAJ khé
+                            //showAsisReg(1);
+                            sowProfesores()
                     break;        
-                    case 8: //Yovani
-                           //| msj("iniciando servicio de alertas Livelula");
-                        //showAsisReg(3);
-                        showControl();
-                    break;//No se pq no esta funcionando ahroa esta parte
-                    case 4: //Adrian
-                        chat("QUe haces adrian?");
-                        showAsisReg(3); 
+                    case 8: //Yovani 
+                        //msj("iniciando servicio de alertas Livelula");
+                        showAsisReg(3);   
+                        //showControl();  siganme 
                     break;
+                    case 4: //Adrian          
+                        ///#####################vamos a newControl.php
+                    break;
+                    case 24: //Abrahan     
+                            showAsisReg(1);
+                            msj("iniciando sitemas abran",0);
+                    break;    
+                    case 23: //Anderson   listo? si    
+                            showAsisReg(1);
+                            msj("iniciando sistemas anderson",0);
+                    break;    
                     default:
                     break;
 

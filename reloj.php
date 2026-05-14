@@ -1,3 +1,4 @@
+<!--########################################ElReloj################################################3-->
 <style>
     #reloj-container {
         position: fixed;
@@ -114,7 +115,7 @@
         document.getElementById("date").textContent = ahora.toLocaleDateString('es-ES', options);
     }
         function mostrarInfo() {
-            alert("Somos Livelula una empresa emprededora de software");
+            msj("Somos Livelula una empresa emprededora de software",0);
         }
 
     // Ejecución inmediata y actualización cada segundo

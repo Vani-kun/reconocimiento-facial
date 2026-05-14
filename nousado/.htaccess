@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# 1. Quitar el .php de la URL
+# Esto permite que si escribes "dominio.com/login" abra "login.php"
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# 2. Enmascarar nombres (Alias)
+# Si quieres que acceso_admin.php se vea como /seguridad
+RewriteRule ^seguridad$ acceso_admin.php [NC,L]
+
+# 3. Evitar que vean tus carpetas
+# Si alguien intenta entrar a tu carpeta /css, el servidor le negará el acceso
+Options -Indexes
+
+

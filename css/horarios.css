@@ -140,9 +140,11 @@
     border-radius: 2vh;
     display:grid;
     grid-template-columns: 1fr;
-    gap: 1vw;
-    padding: 1vh 1vw;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 20px;
     overflow-y: scroll;
+    font-size:32px;
 
 }
 
@@ -225,10 +227,10 @@
     position: absolute;
     width: 90%;
     left: 5%;
-    background-color: #F9C127;
+    background-color: var(--newnucle);
     border: 0.125vw solid #000;
     padding: 0.1vw;
-    color: #000;
+    color: var(--newletrascontraste);
     font-size: 0.9vw;
     border-radius: 1vh;
     z-index: 10;

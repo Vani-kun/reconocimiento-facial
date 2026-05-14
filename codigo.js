@@ -28,6 +28,7 @@ async function cargarModelos(){
     faceapi.loadFaceLandmarkModel(url),
     faceapi.loadFaceRecognitionModel(url)
     // await faceapi.loadFaceExpressionModel(url); 
+    console.log("Modelos cargados");
 }
 async function cargarCatalogo() {
     const res = await fetch('php/leer.php');
@@ -35,7 +36,7 @@ async function cargarCatalogo() {
 
     if(respuesta.success){
         listaPro=respuesta.usuarios;
-        if (listaPro.length === 0) return console.log("Base de datos vacía");
+        if (listaPro.length === 0) {msj("Base de datos vacía",2);return}
 
             // Mapeamos para crear el FaceMatcher
             const labels = listaPro.map(u => {
@@ -43,7 +44,6 @@ async function cargarCatalogo() {
 
                 const arrayDescriptores = JSON.parse(u.descriptores);
                 if(Array.isArray(arrayDescriptores)){
-
                     const MiFaces = arrayDescriptores.map(e => {
                         // Convertimos cada cara guardada a Float32Array
                         if(typeof e === "object" && e !== null){
@@ -51,9 +51,7 @@ async function cargarCatalogo() {
                             }else{  
                             console.error(`Error con el usuario ${u.nombre} portador de la id ${u.id}: sus descriptores estan corruptos`);
                             }
-
                         }).filter(Boolean);
-
                     // Creamos la etiqueta. El primer parámetro es el NOMBRE/ID, 
                     // el segundo es el ARRAY de descriptores (múltiples caras)
                     return new faceapi.LabeledFaceDescriptors(u.id.toString(), MiFaces);
@@ -65,7 +63,7 @@ async function cargarCatalogo() {
             // Creamos el comparador global
             // labels contiene: {nombre, [cara1, cara2, cara3...]}
             faceMatcher = new faceapi.FaceMatcher(labels, 0.45); // Usamos 0.45 por seguridad
-            console.log("Catálogo y Array listos");
+            console.log("Catálogo cargado");
     }else{
         console.log("Error:",respuesta.error);
     }
@@ -79,7 +77,7 @@ const constraints = {
     }
     };
     navigator.mediaDevices.getUserMedia(constraints)
-    .then(stream => { video.srcObject = stream; camara=true; })
+    .then(stream => { video.srcObject = stream; camara=true;  console.log("Camara cargada");})
     .catch(err => console.error("Error al acceder a la cámara:", err));
 }
 
@@ -99,8 +97,9 @@ document.addEventListener('DOMContentLoaded',async () => {
     });
 
     ///
-    const savedTheme = localStorage.getItem('tema');
-    if (savedTheme) {applyTheme(savedTheme);} else {applyTheme('basic'); }
+    const savedTheme = localStorage.getItem('tema') || 'basic';
+    // Solo ejecuta applyTheme si existe (is defined)
+    (window.applyTheme?.(savedTheme))??console.log("modulo de control fallando");
     
 });
 

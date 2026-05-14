@@ -6,12 +6,6 @@
     <title>Futuristic Hex-Notifications</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --cssinfo: #00f2ff;
-            --csswarn: #f39c12;
-            --csserror: #ff0055;
-        }
-
         @keyframes pulse-icon {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.3); }
@@ -59,18 +53,18 @@
             -webkit-mask-composite: xor;
             mask-composite: exclude;
         }/*#00f2ff*/ 
-        .hex-modal.info::before {background:  var(--cssinfo);}
-        .hex-modal.warn::before {background:  var(--csswarn);}
-        .hex-modal.erro::before {background:  var(--csserror);}
+        .hex-modal.info::before {background:  var(--newinfo);}
+        .hex-modal.warn::before {background:  var(--newwarn);}
+        .hex-modal.erro::before {background:  var(--newerror);}
 
         i.info{
-            color:var(--cssinfo);filter: drop-shadow(0 0 10px var(--cssinfo));
+            color:var(--newinfo);filter: drop-shadow(0 0 10px var(--newinfo));
         }
         i.warn{
-            color:var(--csswarn);filter: drop-shadow(0 0 10px var(--csswarn));
+            color:var(--newwarn);filter: drop-shadow(0 0 10px var(--newwarn));
         }
         i.erro{
-            color:var(--csserror);filter: drop-shadow(0 0 10px var(--csserror));
+            color:var(--newerror);filter: drop-shadow(0 0 10px var(--newerror));
         }
         .hex-modal #main-icon {
             font-size: 4rem;
