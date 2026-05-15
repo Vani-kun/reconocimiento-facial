@@ -25,27 +25,10 @@ try {
 $check = $pdo->prepare("SELECT COUNT(*) FROM asistencia WHERE fecha = ?");
 $check->execute([$fechaHoy]);
 
-if ($check->fetchColumn() == 0) {
+if ($check->fetchColumn() == 0) {//Cambiar esto a otro archivo
     
-    // Preparamos el JSON de búsqueda para el día actual
-    $jsonBusqueda = json_encode(["Dia" => $diaSemana]);
-
-    // 3. Inserción Masiva Optimizada
-    // Usamos DISTINCT para que si un profesor tiene varias clases hoy, solo se cree un registro de asistencia
-    $sqlInitial = "INSERT INTO asistencia (profesorID, entrada, salida, fecha, estado, tardanza)
-                   SELECT DISTINCT profesor, '00:00:00', '00:00:00', ?, 0, 0
-                   FROM horario 
-                   WHERE JSON_CONTAINS(dias, ?) 
-                   AND profesor IS NOT NULL 
-                   AND profesor != ''";
+    include "asistencia/create_inasis.php";
     
-    try {
-        $stmtPopulate = $pdo->prepare($sqlInitial);
-        $stmtPopulate->execute([$fechaHoy, $jsonBusqueda]);
-
-    } catch (PDOException $e) {
-        error_log("Error en Lazy Cron: " . $e->getMessage());
-    }
 }
 
 $jsonBusqueda = json_encode(["Dia" => $diaSemana]);

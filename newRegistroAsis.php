@@ -659,7 +659,7 @@
                         </button>
         </div>
         <div class="item-superior">
-                        <button class="export-toggle SecurityLevel3" onclick="" time-tooltip="0.2" data-tooltip="Generar todas las inasistencias">
+                        <button class="export-toggle SecurityLevel3" onclick="RA_CreateInasis();" time-tooltip="0.2" data-tooltip="Generar todas las inasistencias">
                             <i class="fa-solid fa-list-ul"></i>
                         </button>
         </div>
@@ -1955,14 +1955,15 @@ function AA_changestatus(_nmb){
     AA_StatusRetardo.classList.remove("nosoy");        
     AA_StatusAsistencia.classList.remove("nosoy");   
 
+
 if(_nmb == 0){
 
     AA_StatusInactivo.classList.add("soy");
     AA_StatusRetardo.classList.add("nosoy");        
     AA_StatusAsistencia.classList.add("nosoy");
 
-    let AA_Status = 0;
-    let AA_Tardanza = 0;
+    AA_Status = 0;
+    AA_Tardanza = 0;
 
     }else if(_nmb == 1){
 
@@ -1970,8 +1971,8 @@ if(_nmb == 0){
     AA_StatusRetardo.classList.add("soy");        
     AA_StatusAsistencia.classList.add("nosoy");
 
-    let AA_Status = 2;
-    let AA_Tardanza = 1;
+    AA_Status = 2;
+    AA_Tardanza = 1;
 
     }else if(_nmb == 2){
 
@@ -1979,12 +1980,10 @@ if(_nmb == 0){
     AA_StatusRetardo.classList.add("nosoy");        
     AA_StatusAsistencia.classList.add("soy");
 
-    let AA_Status = 2;
-    let AA_Tardanza = 0;
+    AA_Status = 2;
+    AA_Tardanza = 0;
 
     }
-
-
 
 }
 
@@ -2132,4 +2131,28 @@ async function RA_UpdateStatusAll(nuevoEstado, nuevaTardanza) {
     }
 }
 
+async function RA_CreateInasis(){
+   try {
+        const response = await fetch('php/asistencia/RA_AllInasis.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.success) {
+            console.log("¡Éxito!", resultado.message);
+            
+            cargarDatosAsis();
+        } else {
+            console.error("Error en el servidor:", resultado.message);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error);
+    }
+
+}
 </script>
